@@ -22,7 +22,7 @@ define('APP_DEBUG',True);
 
 
 
-define('APP_PATH','./apps/');
+define('APP_PATH','./ThinkPHP/');
 // 引入ThinkPHP入口文件
 require './ThinkPHP/ThinkPHP.php';
 
