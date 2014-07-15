@@ -61,6 +61,8 @@ class User( DeclarativeBase, SysMixin ):
     password = Column( Unicode( 1000 ), nullable = False )
     last_login_time = Column( DateTime )
 
+
+
 class Group( DeclarativeBase, SysMixin ):
     __tablename__ = 'anbels_auth_group'
 
@@ -102,11 +104,59 @@ class Category( DeclarativeBase, SysMixin ):
     name = Column( Unicode( 1000 ) )
     desc = Column( Text )
 
-#===============================================================================
-# logic
-#===============================================================================
+
+class Question( DeclarativeBase, SysMixin ):
+    __tablename__ = 'anbels_master_question'
+
+    id = Column( Integer, autoincrement = True, primary_key = True )
+    category_id = Column( Integer, ForeignKey( 'anbels_master_category.id' ) )
+    content = Column( Text )
+    correct_answer = Column( Unicode( 10 ), )
+    answer01 = Column( Unicode( 10 ), )
+    answer01_content = Column( Text )
+    answer02 = Column( Unicode( 10 ), )
+    answer02_content = Column( Text )
+    answer03 = Column( Unicode( 10 ), )
+    answer03_content = Column( Text )
+    answer04 = Column( Unicode( 10 ), )
+    answer04_content = Column( Text )
+    answer05 = Column( Unicode( 10 ), )
+    answer05_content = Column( Text )
+    answer06 = Column( Unicode( 10 ), )
+    answer07_content = Column( Text )
+    answer08 = Column( Unicode( 10 ), )
+    answer08_content = Column( Text )
+    answer09 = Column( Unicode( 10 ), )
+    answer09_content = Column( Text )
+    answer10 = Column( Unicode( 10 ), )
+    answer10_content = Column( Text )
+
+
+class Courseware( DeclarativeBase, SysMixin ):
+    __tablename__ = 'anbels_master_courseware'
+
+    id = Column( Integer, autoincrement = True, primary_key = True )
+    name = Column( Unicode( 1000 ), nullable = False )
+    category_id = Column( Integer, ForeignKey( 'anbels_master_category.id' ) )
+    desc = Column( Text )
+    path = Column( Unicode( 5000 ) )
+    url = Column( Unicode( 5000 ) )
+
+
+
+class Game( DeclarativeBase, SysMixin ):
+    __tablename__ = 'anbels_master_game'
+
+    id = Column( Integer, autoincrement = True, primary_key = True )
+    name = Column( Unicode( 1000 ), nullable = False )
+    category_id = Column( Integer, ForeignKey( 'anbels_master_category.id' ) )
+    desc = Column( Text )
+    path = Column( Unicode( 5000 ) )
+    url = Column( Unicode( 5000 ) )
+
+
 class School( DeclarativeBase, SysMixin ):
-    __tablename__ = 'anbels_logic_school'
+    __tablename__ = 'anbels_master_school'
 
     id = Column( Integer, autoincrement = True, primary_key = True )
     name = Column( Unicode( 1000 ), nullable = False )
@@ -114,29 +164,43 @@ class School( DeclarativeBase, SysMixin ):
     desc = Column( Text )
 
 
-class_user_table = Table( 'anbels_logic_class_user', metadata,
-    Column( 'user_id', Integer, ForeignKey( 'anbels_auth_user.id',
-        onupdate = "CASCADE", ondelete = "CASCADE" ), primary_key = True ),
-    Column( 'class_id', Integer, ForeignKey( 'anbels_logic_class.id',
-        onupdate = "CASCADE", ondelete = "CASCADE" ), primary_key = True ),
-    Column( 'role', Unicode( 5 ), )  # T is teacher , S is sudent
- )
-
-
 class Class( DeclarativeBase, SysMixin ):
-    __tablename__ = 'anbels_logic_class'
+    __tablename__ = 'anbels_master_class'
 
     id = Column( Integer, autoincrement = True, primary_key = True )
-    school_id = Column( Integer, ForeignKey( 'anbels_logic_school.id' ) )
+    school_id = Column( Integer, ForeignKey( 'anbels_master_school.id' ) )
     grade = Column( Integer, default = 1 )
     name = Column( Unicode( 1000 ), nullable = False )
     desc = Column( Text )
 
 
+#===============================================================================
+# logic
+#===============================================================================
+
+
+class_user_table = Table( 'anbels_logic_class_user', metadata,
+    Column( 'user_id', Integer, ForeignKey( 'anbels_auth_user.id',
+        onupdate = "CASCADE", ondelete = "CASCADE" ), primary_key = True ),
+    Column( 'class_id', Integer, ForeignKey( 'anbels_master_class.id',
+        onupdate = "CASCADE", ondelete = "CASCADE" ), primary_key = True ),
+    Column( 'role', Unicode( 5 ), )  # T is teacher , S is sudent
+ )
+
+
+
 plan_courseware_table = Table( 'anbels_logic_pan_courseware', metadata,
     Column( 'plan_id', Integer, ForeignKey( 'anbels_logic_plan.id',
         onupdate = "CASCADE", ondelete = "CASCADE" ), primary_key = True ),
-    Column( 'courseware_id', Integer, ForeignKey( 'anbels_logic_courseware.id',
+    Column( 'courseware_id', Integer, ForeignKey( 'anbels_master_courseware.id',
+        onupdate = "CASCADE", ondelete = "CASCADE" ), primary_key = True ),
+ )
+
+
+plan_game_table = Table( 'anbels_logic_pan_game', metadata,
+    Column( 'plan_id', Integer, ForeignKey( 'anbels_logic_plan.id',
+        onupdate = "CASCADE", ondelete = "CASCADE" ), primary_key = True ),
+    Column( 'game_id', Integer, ForeignKey( 'anbels_master_game.id',
         onupdate = "CASCADE", ondelete = "CASCADE" ), primary_key = True ),
  )
 
@@ -147,24 +211,14 @@ class Plan( DeclarativeBase, SysMixin ):
 
     id = Column( Integer, autoincrement = True, primary_key = True )
     name = Column( Unicode( 1000 ), nullable = False )
-    school_id = Column( Integer, ForeignKey( 'anbels_logic_school.id' ) )
+    school_id = Column( Integer, ForeignKey( 'anbels_master_school.id' ) )
     grade = Column( Integer, default = 1 )
     category_id = Column( Integer, ForeignKey( 'anbels_master_category.id' ) )
-    coursewares = relation( 'Courseware', secondary = plan_courseware_table, backref = 'plans' )
+#     coursewares = relation( 'Courseware', secondary = plan_courseware_table, backref = 'plans' )
     desc = Column( Text )
 
 
 
-class Courseware( DeclarativeBase, SysMixin ):
-    __tablename__ = 'anbels_logic_courseware'
-
-    id = Column( Integer, autoincrement = True, primary_key = True )
-    name = Column( Unicode( 1000 ), nullable = False )
-    category_id = Column( Integer, ForeignKey( 'anbels_master_category.id' ) )
-    desc = Column( Text )
-    path = Column( Unicode( 5000 ) )
-    url = Column( Unicode( 5000 ) )
-    type = Column( Unicode( 10 ) )  # G is game
 
 
 
@@ -174,8 +228,9 @@ class StudyLog( DeclarativeBase, SysMixin ):
     id = Column( Integer, autoincrement = True, primary_key = True )
     user_id = Column( Integer, ForeignKey( 'anbels_auth_user.id' ) )
     user = relation( User )
-    courseware_id = Column( Integer, ForeignKey( 'anbels_logic_courseware.id' ) )
-    courseware = relation( Courseware )
+    type = Column( Unicode( 5 ), )  # G is game , C is courseware
+    refer_id = Column( Integer )
+    complete_time = Column( DateTime )
     score = Column( Float )
     remark = Column( Text )
 
