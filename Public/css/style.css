@@ -1,0 +1,111 @@
+@charset "utf-8";
+ul,li,dd,dt,dl {
+	margin:0; 
+	padding:0; 
+	list-style:none;
+}
+input{
+	border:#000000 1px solid;
+}
+body {
+	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	background-repeat: repeat-x;
+	background-image: url(/Public/images/main_bg.jpg);
+	background-color: #159ED5;
+	background-position: center 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+}
+
+.login_logo_b {
+	width: 912px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 148px;
+}
+.login_from_b {
+	width: 912px;
+	height: 271px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 28px;
+	background-image: url(/Public/images/index_07.jpg);
+}
+.login_from_b .div_left{
+	float:left;
+	width: 26px;
+	height: 271px;
+	background-image: url(/Public/images/index_06.jpg);
+}
+.login_from_b .div_center{
+	float: left;
+	width: 854px;
+	padding-top: 95px;
+}
+.login_from_b .div_center table{
+	margin-left: 210px;
+}
+.login_from_b .div_right{
+	float:right;
+	width: 32px;
+	height: 271px;
+	background-image: url(/Public/images/index_09.jpg);
+}
+.foot_company {
+	width: 912px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 28px;
+}
+.top_logo_b {
+	width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
+}
+.show_content_b {
+	width: 1000px;
+	height: 600px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color:#FFFFFF;
+}
+.main_menu_b {
+	width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+	height:28px;
+}
+.main_menu_b ul li {
+	float:left;
+	margin:0px 10px 10px 0px;
+	height:28px;
+}
+
+.edit_menu_b {
+	width: 1000px;
+	height:48px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color:#eaeaea;
+}
+.edit_menu_b ul li {
+	float:left;
+	margin:10px 0px 0px 20px;
+	height:38px;
+}
+.search_bar_b {
+	width: 1000px;
+	height: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #eaeaea;
+}

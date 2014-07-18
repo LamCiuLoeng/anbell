@@ -60,6 +60,7 @@ class User( DeclarativeBase, SysMixin ):
     name = Column( Unicode( 1000 ), nullable = False )
     password = Column( Unicode( 1000 ), nullable = False )
     last_login_time = Column( DateTime )
+    salt = Column( Text )
 
 
 
@@ -262,9 +263,9 @@ def init():
     metadata.create_all( engine )
     print "insert default value"
 
-    admin = User( name = '10000000', password = '100' )
-    teacher = User( name = '10000001', password = '101' )
-    student = User( name = '10000002', password = '102' )
+    admin = User( name = '10000000', password = 'dicJp9R3v8xE2' )
+    teacher = User( name = '10000001', password = 'dirm.l/sEXGj2' )
+    student = User( name = '10000002', password = 'diOP2PAYn8gE6' )
     DBSession.add_all( [ admin, teacher, student] )
 
     gAdmin = Group( name = 'ADMIN' , display_name = '超级管理员' )
