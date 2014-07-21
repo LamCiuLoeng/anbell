@@ -2,11 +2,11 @@
 return array(
     //'配置项'=>'配置值'
      'db_type'  => 'mysql',
-     'db_host'  => '113.105.167.196',
+     'db_host'  => 'sql111.byethost5.com',
      'db_port'  => '3306',
-     'db_name'  => 'my10383',
-     'db_user'  => 'my10383',
-     'db_pwd'  => '5tgbnhy6',
+     'db_name'  => 'b5_15118709_anbels',
+     'db_user'  => 'b5_15118709',
+     'db_pwd'  => 'ky2379ck',
      'DB_CHARSET'=> 'utf8',
      
 
