@@ -88,6 +88,8 @@ class Location( DeclarativeBase, SysMixin ):
 
     id = Column( Integer, autoincrement = True, primary_key = True )
     name = Column( Unicode( 1000 ) )
+    code = Column( Unicode( 1000 ) )
+    parent_code = Column( Unicode( 1000 ) )
     full_name = Column( Text )
     full_path_ids = Column( Text )
     parent_id = Column( Integer, default = None )
