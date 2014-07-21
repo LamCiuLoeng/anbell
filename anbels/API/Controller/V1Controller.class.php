@@ -29,7 +29,7 @@ class V1Controller extends Controller {
 		foreach(func_get_args() as $arg){
 			$tmp = I($arg,null);
 			if(!$tmp || is_null($tmp)){
-				 return array('flag' => FALSE);
+				 return array('flag' => FALSE ,'msg' => '没有提供必须的参数！');
 			}else{
 				$data[$arg] = $tmp;
 			}
@@ -74,7 +74,13 @@ class V1Controller extends Controller {
 	// +----------------------------------------------------------------------
 	private function get_plan_by_user(){
 		$params = $this->_required('user_id');
-		
+		$ClassUser = M('LogicClassUser');
+		$class_id = $ClassUser->where(array('user_id' => $params['user_id']))->getField('class_id');
+		if(!$class_id || is_null($class_id)){
+			$this->ajaxReturn(array('flag' => 1 , 'msg' => '班级记录不存在！'));
+		}else{
+			$this->_get_plan_detail($class_id);
+		}
 	}
 	
 	
@@ -83,8 +89,17 @@ class V1Controller extends Controller {
 	// +----------------------------------------------------------------------
 	private function get_plan_by_class(){
 		$params = $this->_required('class_id');
+		if(!$params['flag']){
+			$this->ajaxReturn(array('flag' => 1 , 'msg' => $params['msg']));
+		}
+		$this->_get_plan_detail($params['data']['class_id']);
+	}
+	
+
+	
+	private function _get_plan_detail($class_id){
 		$class = M('MasterClass');
-		$c = $class->where(array('id' => $params['data']['class_id']))->find();
+		$c = $class->where(array('id' => $class_id))->find();
 		if(!$c || is_null($c)){
 			$this->ajaxReturn(array('flag' => 1 , 'msg' => '记录不存在！'));
 		}else{
@@ -107,6 +122,7 @@ class V1Controller extends Controller {
 			}
 		}
 	}
+	
 	
 	// +----------------------------------------------------------------------
 	// | 记录游戏相关的数据

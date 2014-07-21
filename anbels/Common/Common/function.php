@@ -19,6 +19,10 @@ function login_check($name,$password){
 	if($dbpw != $hashpw){
 		return array("flag" => 4, "msg" => '密码错误！');
 	}
+	
+	//log the last login time for the user
+	$data = array('last_login_time' => date('Y-m-d H:i:s',time()));
+	$User-> where(array('id' => $user['id']))->setField($data);
 	return array("flag" => 0 , "user" => $user);	
 }
 
