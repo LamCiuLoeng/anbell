@@ -5,4 +5,7 @@ class IndexController extends BaseController {
     public function index(){
         $this->display();
 	}
+	public function master(){
+        $this->display();
+	}
 }
