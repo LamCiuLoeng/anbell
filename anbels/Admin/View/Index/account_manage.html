@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>安贝尔儿童安全乐园教学管理平台</title>
+<link href="__PUBLIC__/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<script src="__PUBLIC__/js/jquery-1.11.1.min.js"></script>
+<script src="__PUBLIC__/js/province_city_area.js"></script>
+<script language="JavaScript" type="text/javascript">
+//<![CDATA[
+	$(document).ready(function(){
+	    init();
+    });        
+//]]>
+</script>
+<body>
+<div class="top_logo_b">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="685"><img src="__PUBLIC__/images/master_03.jpg" width="685" height="130" alt=""/></td>
+      <td align="right" valign="bottom"><a href="../../Admin/Auth/logout">退出管理</a></td>
+    </tr>
+  </table>
+</div>
+<div class="main_menu_b">
+	<ul>
+    	<li><a href="../../Admin/Index/index.html"><img src="__PUBLIC__/images/master_07.jpg" width="92" height="28" alt=""/></a></li>
+        <li><a href="../../Admin/Index/account_manage.html"><img src="__PUBLIC__/images/master_09.jpg" width="92" height="28" alt=""/></a></li>
+        <li><img src="__PUBLIC__/images/master_11.jpg" width="92" height="28" alt=""/></li>
+        <li><img src="__PUBLIC__/images/master_13.jpg" width="92" height="28" alt=""/></li>
+        <li><img src="__PUBLIC__/images/master_15.jpg" width="92" height="28" alt=""/></li>
+        <li><a href="../../Admin/Index/master.html"><img src="__PUBLIC__/images/master_17.jpg" width="92" height="28" alt=""/></a></li>
+    </ul>
+</div>
+<div style="clear:both"></div>
+<div class="edit_menu_b">
+  <ul>
+    	<li><img src="__PUBLIC__/images/master_26.jpg" width="68" height="28" alt=""/></li>
+        <li><img src="__PUBLIC__/images/master_28.jpg" width="68" height="28" alt=""/></li>
+        <li><img src="__PUBLIC__/images/master_30.jpg" width="68" height="28" alt=""/></li>
+        <li><img src="__PUBLIC__/images/master_32.jpg" width="68" height="28" alt=""/></li>
+        <li><img src="__PUBLIC__/images/master_34.jpg" width="68" height="28" alt=""/></li>
+    </ul>
+</div>
+<div style="clear:both"></div>
+<div class="search_bar_b">
+<label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
+    <select id="select_province"></select>
+    <select id="select_city"></select>
+    <select id="select_area"></select>
+</div>
+
+<div class="show_content_b"><br>
+  <br>
+  <table width="800" border="1" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+      <td width="120" height="30" align="center" bgcolor="#9CFFDD"><strong>帐号名</strong></td>
+      <td width="120" align="center" bgcolor="#9CFFDD"><strong>姓名</strong></td>
+      <td width="120" align="center" bgcolor="#9CFFDD"><strong>性别</strong></td>
+      <td width="120" align="center" bgcolor="#9CFFDD"><strong>所在学校</strong></td>
+      <td width="120" align="center" bgcolor="#9CFFDD"><strong>用户类型</strong></td>
+      <td width="120" align="center" bgcolor="#9CFFDD"><strong>上次登录时间</strong></td>
+      <td align="center" bgcolor="#9CFFDD">&nbsp;</td>
+    </tr>
+    <tr>
+      <td height="25" align="center">10000006</td>
+      <td align="center">XXX</td>
+      <td align="center">女</td>
+      <td align="center">XX学校</td>
+      <td align="center">老师</td>
+      <td align="center">2014/7/14</td>
+      <td align="center"><input type="checkbox" name="checkbox" id="checkbox"></td>
+    </tr>
+    <tr>
+      <td height="25" align="center">10000007</td>
+      <td align="center">XXX</td>
+      <td align="center">男</td>
+      <td align="center">XX学校</td>
+      <td align="center">学生</td>
+      <td align="center">2014/7/14</td>
+      <td align="center"><input type="checkbox" name="checkbox2" id="checkbox2"></td>
+    </tr>
+    <tr>
+      <td height="25" align="center">10000008</td>
+      <td align="center">XX</td>
+      <td align="center">女</td>
+      <td align="center">XX学校</td>
+      <td align="center">学生</td>
+      <td align="center">2014/7/14</td>
+      <td align="center"><input type="checkbox" name="checkbox3" id="checkbox3"></td>
+    </tr>
+    <tr>
+      <td height="25" align="center">10000009</td>
+      <td align="center">XXX</td>
+      <td align="center">男</td>
+      <td align="center">XX学校</td>
+      <td align="center">学生</td>
+      <td align="center">2014/7/14</td>
+      <td align="center"><input type="checkbox" name="checkbox4" id="checkbox4"></td>
+    </tr>
+    <tr>
+      <td height="25" align="center">10000010</td>
+      <td align="center">XX</td>
+      <td align="center">男</td>
+      <td align="center">XX学校</td>
+      <td align="center">学生</td>
+      <td align="center">2014/7/14</td>
+      <td align="center"><input type="checkbox" name="checkbox5" id="checkbox5"></td>
+    </tr>
+    <tr>
+      <td height="25" align="center">10000011</td>
+      <td align="center">XX</td>
+      <td align="center">男</td>
+      <td align="center">XX学校</td>
+      <td align="center">学生</td>
+      <td align="center">2014/7/14</td>
+      <td align="center"><input type="checkbox" name="checkbox6" id="checkbox6"></td>
+    </tr>
+    <tr>
+      <td height="25" align="center">10000012</td>
+      <td align="center">XX</td>
+      <td align="center">女</td>
+      <td align="center">XX学校</td>
+      <td align="center">学生</td>
+      <td align="center">2014/7/14</td>
+      <td align="center"><input type="checkbox" name="checkbox7" id="checkbox7"></td>
+    </tr>
+  </table>
+  <br>
+  <br>
+</div>
+<div class="foot_company">&nbsp;<img src="__PUBLIC__/images/index_26.jpg" width="185" height="49" alt=""/></div>
+</body>
+</html>
