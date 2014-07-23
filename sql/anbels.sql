@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50529
 File Encoding         : 65001
 
-Date: 2014-07-21 19:24:12
+Date: 2014-07-23 19:32:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -34,9 +34,9 @@ CREATE TABLE `anbels_auth_group` (
 -- ----------------------------
 -- Records of anbels_auth_group
 -- ----------------------------
-INSERT INTO `anbels_auth_group` VALUES ('2014-07-18 16:20:34', '1', '2014-07-18 16:20:34', '1', '0', '1', 'ADMIN', '超级管理员');
-INSERT INTO `anbels_auth_group` VALUES ('2014-07-18 16:20:34', '1', '2014-07-18 16:20:34', '1', '0', '2', 'TEACHER', '老师');
-INSERT INTO `anbels_auth_group` VALUES ('2014-07-18 16:20:34', '1', '2014-07-18 16:20:34', '1', '0', '3', 'STUDENT', '学生');
+INSERT INTO `anbels_auth_group` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '1', 'ADMIN', '超级管理员');
+INSERT INTO `anbels_auth_group` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '2', 'TEACHER', '老师');
+INSERT INTO `anbels_auth_group` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '3', 'STUDENT', '学生');
 
 -- ----------------------------
 -- Table structure for `anbels_auth_group_permission`
@@ -85,8 +85,10 @@ CREATE TABLE `anbels_auth_user` (
   `update_by_id` int(11) DEFAULT NULL,
   `active` int(11) DEFAULT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `system_no` varchar(20) NOT NULL,
   `name` varchar(1000) NOT NULL,
   `password` varchar(1000) NOT NULL,
+  `gender` varchar(10) DEFAULT NULL,
   `last_login_time` datetime DEFAULT NULL,
   `salt` text,
   PRIMARY KEY (`id`)
@@ -95,9 +97,9 @@ CREATE TABLE `anbels_auth_user` (
 -- ----------------------------
 -- Records of anbels_auth_user
 -- ----------------------------
-INSERT INTO `anbels_auth_user` VALUES ('2014-07-18 16:20:34', '1', '2014-07-18 16:20:34', '1', '0', '1', '10000000', 'dicJp9R3v8xE2', null, null);
-INSERT INTO `anbels_auth_user` VALUES ('2014-07-18 16:20:34', '1', '2014-07-18 16:20:34', '1', '0', '2', '10000001', 'dirm.l/sEXGj2', null, null);
-INSERT INTO `anbels_auth_user` VALUES ('2014-07-18 16:20:34', '1', '2014-07-18 16:20:34', '1', '0', '3', '10000002', 'diOP2PAYn8gE6', null, null);
+INSERT INTO `anbels_auth_user` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '1', '10000000', '超级管理员', 'dicJp9R3v8xE2', '男', null, null);
+INSERT INTO `anbels_auth_user` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '2', '10000001', '老师甲', 'dirm.l/sEXGj2', '女', null, null);
+INSERT INTO `anbels_auth_user` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '3', '10000002', '学生甲', 'diOP2PAYn8gE6', '男', '2014-07-23 19:26:55', null);
 
 -- ----------------------------
 -- Table structure for `anbels_auth_user_group`
@@ -136,40 +138,65 @@ CREATE TABLE `anbels_logic_class_user` (
 -- ----------------------------
 -- Records of anbels_logic_class_user
 -- ----------------------------
+INSERT INTO `anbels_logic_class_user` VALUES ('3', '1', null);
 
 -- ----------------------------
 -- Table structure for `anbels_logic_pan_courseware`
 -- ----------------------------
 DROP TABLE IF EXISTS `anbels_logic_pan_courseware`;
 CREATE TABLE `anbels_logic_pan_courseware` (
-  `plan_id` int(11) NOT NULL,
-  `courseware_id` int(11) NOT NULL,
-  PRIMARY KEY (`plan_id`,`courseware_id`),
-  KEY `courseware_id` (`courseware_id`),
-  CONSTRAINT `anbels_logic_pan_courseware_ibfk_1` FOREIGN KEY (`plan_id`) REFERENCES `anbels_logic_plan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `anbels_logic_pan_courseware_ibfk_2` FOREIGN KEY (`courseware_id`) REFERENCES `anbels_master_courseware` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `create_time` datetime DEFAULT NULL,
+  `create_by_id` int(11) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `update_by_id` int(11) DEFAULT NULL,
+  `active` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `plan_id` int(11) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `obj_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `plan_id` (`plan_id`),
+  KEY `category_id` (`category_id`),
+  KEY `obj_id` (`obj_id`),
+  CONSTRAINT `anbels_logic_pan_courseware_ibfk_1` FOREIGN KEY (`plan_id`) REFERENCES `anbels_logic_plan` (`id`),
+  CONSTRAINT `anbels_logic_pan_courseware_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `anbels_master_category` (`id`),
+  CONSTRAINT `anbels_logic_pan_courseware_ibfk_3` FOREIGN KEY (`obj_id`) REFERENCES `anbels_master_courseware` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of anbels_logic_pan_courseware
 -- ----------------------------
+INSERT INTO `anbels_logic_pan_courseware` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '1', '1', '1', '1');
+INSERT INTO `anbels_logic_pan_courseware` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '2', '1', '2', '3');
 
 -- ----------------------------
 -- Table structure for `anbels_logic_pan_game`
 -- ----------------------------
 DROP TABLE IF EXISTS `anbels_logic_pan_game`;
 CREATE TABLE `anbels_logic_pan_game` (
-  `plan_id` int(11) NOT NULL,
-  `game_id` int(11) NOT NULL,
-  PRIMARY KEY (`plan_id`,`game_id`),
-  KEY `game_id` (`game_id`),
-  CONSTRAINT `anbels_logic_pan_game_ibfk_1` FOREIGN KEY (`plan_id`) REFERENCES `anbels_logic_plan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `anbels_logic_pan_game_ibfk_2` FOREIGN KEY (`game_id`) REFERENCES `anbels_master_game` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `create_time` datetime DEFAULT NULL,
+  `create_by_id` int(11) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `update_by_id` int(11) DEFAULT NULL,
+  `active` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `plan_id` int(11) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `obj_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `plan_id` (`plan_id`),
+  KEY `category_id` (`category_id`),
+  KEY `obj_id` (`obj_id`),
+  CONSTRAINT `anbels_logic_pan_game_ibfk_1` FOREIGN KEY (`plan_id`) REFERENCES `anbels_logic_plan` (`id`),
+  CONSTRAINT `anbels_logic_pan_game_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `anbels_master_category` (`id`),
+  CONSTRAINT `anbels_logic_pan_game_ibfk_3` FOREIGN KEY (`obj_id`) REFERENCES `anbels_master_game` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of anbels_logic_pan_game
 -- ----------------------------
+INSERT INTO `anbels_logic_pan_game` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '1', '1', '1', '1');
+INSERT INTO `anbels_logic_pan_game` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '2', '1', '2', '3');
 
 -- ----------------------------
 -- Table structure for `anbels_logic_plan`
@@ -185,18 +212,16 @@ CREATE TABLE `anbels_logic_plan` (
   `name` varchar(1000) NOT NULL,
   `school_id` int(11) DEFAULT NULL,
   `grade` int(11) DEFAULT NULL,
-  `category_id` int(11) DEFAULT NULL,
   `desc` text,
   PRIMARY KEY (`id`),
   KEY `school_id` (`school_id`),
-  KEY `category_id` (`category_id`),
-  CONSTRAINT `anbels_logic_plan_ibfk_1` FOREIGN KEY (`school_id`) REFERENCES `anbels_master_school` (`id`),
-  CONSTRAINT `anbels_logic_plan_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `anbels_master_category` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `anbels_logic_plan_ibfk_1` FOREIGN KEY (`school_id`) REFERENCES `anbels_master_school` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of anbels_logic_plan
 -- ----------------------------
+INSERT INTO `anbels_logic_plan` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '1', '罗湖小学一年级教堂计划', '1', '1', null);
 
 -- ----------------------------
 -- Table structure for `anbels_logic_study_log`
@@ -218,7 +243,7 @@ CREATE TABLE `anbels_logic_study_log` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `anbels_logic_study_log_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `anbels_auth_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of anbels_logic_study_log
@@ -238,13 +263,15 @@ CREATE TABLE `anbels_master_category` (
   `name` varchar(1000) DEFAULT NULL,
   `desc` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of anbels_master_category
 -- ----------------------------
-INSERT INTO `anbels_master_category` VALUES ('2014-07-18 16:20:34', '1', '2014-07-18 16:20:34', '1', '0', '1', '消防教育', null);
-INSERT INTO `anbels_master_category` VALUES ('2014-07-18 16:20:34', '1', '2014-07-18 16:20:34', '1', '0', '2', '安全教育', null);
+INSERT INTO `anbels_master_category` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '1', '消防教育', null);
+INSERT INTO `anbels_master_category` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '2', '安全教育', null);
+INSERT INTO `anbels_master_category` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '3', '政治常识', null);
+INSERT INTO `anbels_master_category` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '4', '社会背景', null);
 
 -- ----------------------------
 -- Table structure for `anbels_master_class`
@@ -264,11 +291,12 @@ CREATE TABLE `anbels_master_class` (
   PRIMARY KEY (`id`),
   KEY `school_id` (`school_id`),
   CONSTRAINT `anbels_master_class_ibfk_1` FOREIGN KEY (`school_id`) REFERENCES `anbels_master_school` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of anbels_master_class
 -- ----------------------------
+INSERT INTO `anbels_master_class` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '1', '1', '1', '一年级', null);
 
 -- ----------------------------
 -- Table structure for `anbels_master_courseware`
@@ -294,10 +322,10 @@ CREATE TABLE `anbels_master_courseware` (
 -- ----------------------------
 -- Records of anbels_master_courseware
 -- ----------------------------
-INSERT INTO `anbels_master_courseware` VALUES ('2014-07-18 16:20:34', '1', '2014-07-18 16:20:34', '1', '0', '1', '课件一', '1', null, null, null);
-INSERT INTO `anbels_master_courseware` VALUES ('2014-07-18 16:20:34', '1', '2014-07-18 16:20:34', '1', '0', '2', '课件二', '1', null, null, null);
-INSERT INTO `anbels_master_courseware` VALUES ('2014-07-18 16:20:34', '1', '2014-07-18 16:20:34', '1', '0', '3', '课件三', '2', null, null, null);
-INSERT INTO `anbels_master_courseware` VALUES ('2014-07-18 16:20:34', '1', '2014-07-18 16:20:34', '1', '0', '4', '课件四', '2', null, null, null);
+INSERT INTO `anbels_master_courseware` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '1', '课件一', '1', null, null, null);
+INSERT INTO `anbels_master_courseware` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '2', '课件二', '1', null, null, null);
+INSERT INTO `anbels_master_courseware` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '3', '课件三', '2', null, null, null);
+INSERT INTO `anbels_master_courseware` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '4', '课件四', '2', null, null, null);
 
 -- ----------------------------
 -- Table structure for `anbels_master_game`
@@ -318,11 +346,15 @@ CREATE TABLE `anbels_master_game` (
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`),
   CONSTRAINT `anbels_master_game_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `anbels_master_category` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of anbels_master_game
 -- ----------------------------
+INSERT INTO `anbels_master_game` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '1', '游戏一', '1', null, null, null);
+INSERT INTO `anbels_master_game` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '2', '游戏二', '1', null, null, null);
+INSERT INTO `anbels_master_game` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '3', '游戏三', '2', null, null, null);
+INSERT INTO `anbels_master_game` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '4', '游戏四', '2', null, null, null);
 
 -- ----------------------------
 -- Table structure for `anbels_master_location`
@@ -336,13 +368,13 @@ CREATE TABLE `anbels_master_location` (
   `active` int(11) DEFAULT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(1000) DEFAULT NULL,
+  `code` varchar(1000) DEFAULT NULL,
+  `parent_code` varchar(1000) DEFAULT NULL,
   `full_name` text,
   `full_path_ids` text,
   `parent_id` int(11) DEFAULT NULL,
-  `parent_code` varchar(20) DEFAULT NULL,
-  `code` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24404 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6093 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of anbels_master_location
@@ -6475,11 +6507,14 @@ CREATE TABLE `anbels_master_question` (
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`),
   CONSTRAINT `anbels_master_question_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `anbels_master_category` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of anbels_master_question
 -- ----------------------------
+INSERT INTO `anbels_master_question` VALUES (null, null, null, null, '0', '1', '1', 'aa', 'a', 'a', 'asdfasdf', 'b', 'asdfasdf', 'c', 'asdfasdfasdf', null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `anbels_master_question` VALUES (null, null, null, null, '0', '2', '1', 'asdfs', 'b', 'a', 'vvvv', 'b', '3344', 'c', 'sdf', null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `anbels_master_question` VALUES (null, null, null, null, '0', '3', '1', 'asdfasaa', 'c', 'a', 'berdf', 'b', 'asdfsfasfd', 'c', 'easdfsdf', 'd', '2333', null, null, null, null, null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `anbels_master_school`
@@ -6495,14 +6530,28 @@ CREATE TABLE `anbels_master_school` (
   `name` varchar(1000) NOT NULL,
   `location_id` int(11) DEFAULT NULL,
   `desc` text,
-  PRIMARY KEY (`id`),
-  KEY `location_id` (`location_id`),
-  CONSTRAINT `anbels_master_school_ibfk_1` FOREIGN KEY (`location_id`) REFERENCES `anbels_master_location` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of anbels_master_school
 -- ----------------------------
+INSERT INTO `anbels_master_school` VALUES ('2014-07-23 16:45:17', '1', '2014-07-23 16:45:17', '1', '0', '1', '罗湖小学', '4903', null);
+
+-- ----------------------------
+-- Table structure for `anbels_system_current_user`
+-- ----------------------------
+DROP TABLE IF EXISTS `anbels_system_current_user`;
+CREATE TABLE `anbels_system_current_user` (
+  `user_key` varchar(50) NOT NULL,
+  `time_stamp` datetime DEFAULT NULL,
+  PRIMARY KEY (`user_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of anbels_system_current_user
+-- ----------------------------
+
 
 -- ----------------------------
 -- Table structure for `anbels_system_data_dictionary`
