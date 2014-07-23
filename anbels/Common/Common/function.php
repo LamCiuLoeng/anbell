@@ -1,4 +1,11 @@
 <?php
+
+function p($array)
+{
+	dump($array,1,'<pre>',0);
+}
+
+
 function login_check($name,$password){
 	$m['name'] = $name;
 	if( !$m['name'] || is_null($m['name']) )
@@ -32,3 +39,6 @@ function generatekey()
 {
 		return uniqid('',TRUE);
 }
+
+
+?>
