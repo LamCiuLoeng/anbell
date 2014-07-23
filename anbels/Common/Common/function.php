@@ -10,7 +10,7 @@ define('MSG_NOT_ALLOW', '非法操作！');
 define('FLAG_NO_ACTION_TYPE',4);
 define('MSG_NO_ACTION_TYPE', '没有该操作类型！');
 define('FLAG_WRONG_PW', 5);
-define('MSG_WRONG_PW', '该记录不存在！');
+define('MSG_WRONG_PW', '错误的密码！');
 define('FLAG_WRONG_PARAMS', 6);
 define('MSG_WRONG_PARAMS', '参数错误！');
 
