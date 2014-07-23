@@ -9,13 +9,14 @@ class AuthController extends Controller {
     
     public function check()
     {
-		$name = I('name',NULL);
+		$system_no = I('system_no',NULL);
 		$pw = I('password',NULL);
-		$result = login_check($name,$pw);
+		$result = login_check($system_no,$pw);
 		if($result['flag'] != 0){
 			$this->error($result['msg'],U('login'));
 		}else{
 			session('login','YES');
+			session('user_id',$result['user']['id']);
             $this->redirect('Index/index',NULL,0);
 		}
 		

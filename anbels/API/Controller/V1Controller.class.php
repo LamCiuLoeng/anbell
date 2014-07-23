@@ -7,18 +7,20 @@ use Think\Controller;
 // +----------------------------------------------------------------------
 class V1Controller extends Controller {	
 	public function test(){
-		
+		echo KK;
 			
 	}
 
 	public function login(){
-		$name = I('name',null);
+		$system_no = I('system_no',null);
 		$pw = I('password',null);
-		$result = login_check($name,$pw);
-		if($result['flag'] != 0 ){
+		$result = login_check($system_no,$pw);
+		if($result['flag'] != FLAG_OK ){
 			$this->ajaxReturn($result);
 		}else{
-			$result['apikey'] = generatekey();
+			$result['user_key'] = generatekey();
+			$CurrentUser =  M('SystemCurrentUser');			
+			$CurrentUser->data(array('user_key' => $result['user_key'],'time_stamp' => mynow() ))->add();
 			$this->ajaxReturn($result);
 		}
 	}
@@ -29,7 +31,7 @@ class V1Controller extends Controller {
 		foreach(func_get_args() as $arg){
 			$tmp = I($arg,null);
 			if(!$tmp || is_null($tmp)){
-				 return array('flag' => FALSE ,'msg' => '没有提供必须的参数！');
+				 return array('flag' => FALSE ,'msg' => MSG_NOT_ALL_REQUIRED);
 			}else{
 				$data[$arg] = $tmp;
 			}
@@ -42,7 +44,16 @@ class V1Controller extends Controller {
 	// | check the api key before run the every api function
 	// +----------------------------------------------------------------------
 	public function _before_action(){
-		$key = I('apikey',null);
+		$m['user_key'] = I('user_key',null);
+		$CurrentUser = M('SystemCurrentUser');
+		$u = $CurrentUser->where($m)->find();
+		if(!u || is_null($u)){
+			 $this->ajaxReturn(array('flag' => FLAG_NOT_ALLOW , 'msg' => MSG_NOT_ALLOW)); 
+		}
+		else{
+			$update['time_stamp'] = mynow();
+			$CurrentUser->where($m)->save($update);
+		}
 	}
 		
 	
@@ -50,9 +61,13 @@ class V1Controller extends Controller {
 	{
 		$action = I('_q',NULL);
 		if(!$action || is_null($action)){
-			$this->ajaxReturn(array('flag' => -1 , 'msg' => '非法操作！'));
+			$this->ajaxReturn(array('flag' => FLAG_NOT_ALLOW , 'msg' => MSG_NOT_ALLOW));
 		}else{
+			if($action == 'test'){ $this->ajaxReturn(array('flag' => FLAG_OK , 'msg' => MSG_OK)); }
 			if($action == 'get_user_info'){ $this->get_user_info(); }
+			if($action == 'get_plan_by_user'){ $this->get_plan_by_user(); }
+			if($action == 'get_plan_by_class'){ $this->get_plan_by_class(); }
+			if($action == 'save_user_data'){ $this->save_user_data(); }
 		}
 	}
 	
@@ -64,7 +79,7 @@ class V1Controller extends Controller {
 	private function get_user_info(){
 		$params = $this->_required('user_id');
 		if(!$params['flag']){
-			$this->ajaxReturn(array('flag' => 0 ,'msg' => 'API参数不全！'));
+			$this->ajaxReturn(array('flag' =>  FLAG_NOT_ALL_REQUIRED,'msg' => MSG_NOT_ALL_REQUIRED));
 		}
 		
 	}
@@ -77,7 +92,7 @@ class V1Controller extends Controller {
 		$ClassUser = M('LogicClassUser');
 		$class_id = $ClassUser->where(array('user_id' => $params['user_id']))->getField('class_id');
 		if(!$class_id || is_null($class_id)){
-			$this->ajaxReturn(array('flag' => 1 , 'msg' => '班级记录不存在！'));
+			$this->ajaxReturn(array('flag' => FLAG_NOT_EXIST , 'msg' => MSG_NOT_EXIST));
 		}else{
 			$this->_get_plan_detail($class_id);
 		}
@@ -90,7 +105,7 @@ class V1Controller extends Controller {
 	private function get_plan_by_class(){
 		$params = $this->_required('class_id');
 		if(!$params['flag']){
-			$this->ajaxReturn(array('flag' => 1 , 'msg' => $params['msg']));
+			$this->ajaxReturn(array('flag' =>  FLAG_NOT_ALL_REQUIRED, 'msg' => MSG_NOT_ALL_REQUIRED));
 		}
 		$this->_get_plan_detail($params['data']['class_id']);
 	}
@@ -101,7 +116,7 @@ class V1Controller extends Controller {
 		$class = M('MasterClass');
 		$c = $class->where(array('id' => $class_id))->find();
 		if(!$c || is_null($c)){
-			$this->ajaxReturn(array('flag' => 1 , 'msg' => '记录不存在！'));
+			$this->ajaxReturn(array('flag' => FLAG_NOT_EXIST , 'msg' => MSG_NOT_EXIST));
 		}else{
 			$Plan = M('LogicPlan');
 			$pan = $Plan->where(array('school_id' => $c['school_id'],
@@ -109,7 +124,7 @@ class V1Controller extends Controller {
 									  'active' => 0,
 			))->find();
 			if(!$plan || is_null($plan)){
-				$this->ajaxReturn(array('flag' => 1 , 'msg' => '记录不存在！'));
+				$this->ajaxReturn(array('flag' => FLAG_NOT_EXIST , 'msg' => MSG_NOT_EXIST));
 			}else{
 				$pid = $plan['id'];
 				$Courseware = M('LogicPanCourseware');
@@ -118,25 +133,43 @@ class V1Controller extends Controller {
 				$Game = M('LogicPanGame');
 				$plan['game'] = $Game->where(array('plan_id'=> $pid ))->select();
 				
-				$this->ajaxReturn(array('flag' => 0 ,'data' => $plan ));
+				$this->ajaxReturn(array('flag' => FLAG_OK ,'data' => $plan ));
 			}
 		}
 	}
 	
 	
 	// +----------------------------------------------------------------------
-	// | 记录游戏相关的数据
+	// | 记录用户课件或者游戏相关的数据
 	// +----------------------------------------------------------------------
-	private function save_courseware_data(){
+	private function save_user_data(){
+		$params = $this->_required('user_id','data_type','obj_id');
+		if(!$params['flag']){
+			$this->ajaxReturn(array('flag' => FLAG_NOT_ALL_REQUIRED ,'msg' => MSG_NOT_ALL_REQUIRED));
+		}
 		
+		if($params['data_type'] == 'C'){  //课件的数据			
+			$LogicStudyLog = M('LogicStudyLog');
+			$dto = mydto();
+			$dto['user_id'] = $params['user_id'];
+			$dto['refer_id'] = $params['obj_id'];
+			$dto['type'] = 'C';
+			$dto['complete_time'] = mynow();
+			M('LogicStudyLog')->create($dto);
+			$this->ajaxReturn(array('flag' => FLAG_OK ,'msg' => MSG_OK));
+		}elseif($params['data_type'] == 'G'){  //游戏的数据
+			$LogicStudyLog = M('LogicStudyLog');
+			$dto = mydto();
+			$dto['user_id'] = $params['user_id'];
+			$dto['refer_id'] = $params['obj_id'];
+			$dto['type'] = 'G';
+			$dto['complete_time'] = mynow();
+			$dto['score'] = I('score',null);
+			M('LogicStudyLog')->create($dto);
+			$this->ajaxReturn(array('flag' => FLAG_OK ,'msg' => MSG_OK));
+		}else{
+			$this->ajaxReturn(array('flag' => FLAG_NO_ACTION_TYPE ,'msg' => MSG_NO_ACTION_TYPE));
+		}
 	}
-	
-	// +----------------------------------------------------------------------
-	// | 记录游戏相关的数据
-	// +----------------------------------------------------------------------
-	private function save_game_data(){
-		
-	}
-		
 }
     

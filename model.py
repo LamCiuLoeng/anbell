@@ -57,8 +57,10 @@ class User( DeclarativeBase, SysMixin ):
     __tablename__ = 'anbels_auth_user'
 
     id = Column( Integer, autoincrement = True, primary_key = True )
-    name = Column( Unicode( 1000 ), nullable = False )
+    system_no = Column( Unicode( 20 ), nullable = False )
+    name = Column( Unicode( 1000 ) , nullable = False )
     password = Column( Unicode( 1000 ), nullable = False )
+    gender = Column( Unicode( 10 ), )
     last_login_time = Column( DateTime )
     salt = Column( Text )
 
@@ -258,6 +260,14 @@ class DataDictionary( DeclarativeBase ):
 
 
 
+class CurrentUser( DeclarativeBase ):
+    __tablename__ = 'anbels_system_current_user'
+
+    user_key = Column( Unicode( 50 ), primary_key = True )
+    time_stamp = Column( DateTime, default = dt.now )
+
+
+
 def init():
     print "drop all tables"
     metadata.drop_all( engine, checkfirst = True )
@@ -265,9 +275,9 @@ def init():
     metadata.create_all( engine )
     print "insert default value"
 
-    admin = User( name = '10000000', password = 'dicJp9R3v8xE2' )
-    teacher = User( name = '10000001', password = 'dirm.l/sEXGj2' )
-    student = User( name = '10000002', password = 'diOP2PAYn8gE6' )
+    admin = User( system_no = '10000000', name = u'超级管理员' , gender = u'男', password = 'dicJp9R3v8xE2' )
+    teacher = User( system_no = '10000001', name = u'老师甲', gender = '女', password = 'dirm.l/sEXGj2' )
+    student = User( system_no = '10000002', name = u'学生甲', gender = u'男', password = 'diOP2PAYn8gE6' )
     DBSession.add_all( [ admin, teacher, student] )
 
     gAdmin = Group( name = 'ADMIN' , display_name = '超级管理员' )
