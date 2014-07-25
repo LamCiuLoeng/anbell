@@ -1,5 +1,14 @@
 $(document).ready(function(){
+	var i = 0;
+	$(".odd_tr").each(function(){
+		if(i%2==0){
+			$(this).addClass('even_tr');
+		}
+		i++;
+	});
+	
 	$.get(school_handle_URL, function(data){
+		
 		var htm = ''
 		for(var i=0;i<data.length;i++)	{
 			if(data[i].parent_id == null)

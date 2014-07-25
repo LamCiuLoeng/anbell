@@ -24,7 +24,7 @@ var school_handle_URL= "{:U('master/ssq_handle')}";
 <div class="main_menu_b">
 	<ul>
     	<li><a href="{:U('index/index')}"><img src="../../../../Public/images/master_07.jpg" width="92" height="28" alt=""/></a></li>
-        <li><a href="{:U('accountManagement/index')}"><img src="../../../../Public/images/master_09.jpg" width="92" height="28" alt=""/></a></li>
+        <li><a href="{:U('accountmanagement/index')}"><img src="../../../../Public/images/master_09.jpg" width="92" height="28" alt=""/></a></li>
         <li><img src="../../../../Public/images/master_11.jpg" width="92" height="28" alt=""/></li>
         <li><img src="../../../../Public/images/master_13.jpg" width="92" height="28" alt=""/></li>
         <li><img src="../../../../Public/images/master_15.jpg" width="92" height="28" alt=""/></li>
@@ -43,32 +43,35 @@ var school_handle_URL= "{:U('master/ssq_handle')}";
 </div>
 <div style="clear:both"></div>
 <div class="show_content_b"><br>
+<form action="{:U('master/school_add_handle')}" id="form1" name="form1" method="post" >
 <table width="500" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
-       <td width="130" height="50" align="right">省市区</td>
+       <td width="130" height="50" align="right">省市区：</td>
        <td width="20">&nbsp;</td>
        <td>
        <select id="select_province"></select>
        <select id="select_city"></select>
-       <select id="select_area"></select>
+       <select name="location" id="select_area"></select>
        </td>
     </tr>
     <tr>
-       <td height="50" align="right">学校名</td>
+       <td height="50" align="right">学校名：</td>
        <td>&nbsp;</td>
+       <td><input name="school_name" type="text" id="textfield" size="50"></td>
+    </tr>
+    <tr>
+       <td height="50" align="right">描述：</td>
        <td>&nbsp;</td>
+       <td><textarea name="description" cols="50" rows="7" id="textarea"></textarea></td>
     </tr>
     <tr>
        <td height="50" align="right">&nbsp;</td>
        <td>&nbsp;</td>
-       <td>&nbsp;</td>
-    </tr>
-    <tr>
-       <td height="50" align="right">&nbsp;</td>
-       <td>&nbsp;</td>
-       <td>&nbsp;</td>
+       <td><input type="submit" name="submit" id="submit" value="添加">
+       <input type="reset" name="reset" id="reset" value="重置"></td>
     </tr>
 </table>
+</form>
 
 </div>
 <div class="foot_company">&nbsp;<img src="../../../../Public/images/index_26.jpg" width="185" height="49" alt=""/></div>
