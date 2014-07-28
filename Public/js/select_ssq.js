@@ -1,12 +1,5 @@
 $(document).ready(function(){
-	var i = 0;
-	$(".odd_tr").each(function(){
-		if(i%2==0){
-			$(this).addClass('even_tr');
-		}
-		i++;
-	});
-	
+
 	$.get(school_handle_URL, function(data){
 		
 		var htm = ''
@@ -36,7 +29,7 @@ $(document).ready(function(){
 				htm+= ('<option value='+data[i].id+'>'+data[i].name+'</option>')
 			}
 		}
-		$('#select_area').html(htm)
+		$('#select_area').html(htm);
 		
 		//alert(data);
 		$('#select_province').change(function(){

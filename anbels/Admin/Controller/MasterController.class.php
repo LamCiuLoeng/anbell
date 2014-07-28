@@ -11,8 +11,9 @@ class MasterController extends BaseController {
 	
 	public function school_list(){
 		//echo qu('4904');die;
-		$this->assign('master_school',M('master_school')->select());
-        $this->assign('master_location',M('master_location')->select());
+		//$this->assign('master_location',M('master_location')->select());
+		$master_school=M('master_school')->where('active=0')->select();
+		$this->assign('master_school',$master_school);
 		$this->display();
 	}
 	
@@ -24,6 +25,7 @@ class MasterController extends BaseController {
 		$data['location_id'] = I('post.location');
 		$data['name'] = I('post.school_name');
 		$data['desc'] = I('post.description');
+		$data['active'] = 0;
 		$data['create_time'] = mynow();
 		$data['update_time'] = mynow();
 		//p($master_school->add($data));die;
@@ -31,6 +33,23 @@ class MasterController extends BaseController {
 			$this->success('添加成功！',U('master/school_list'));
 		} else {
 			$this->error('发布失败，请重试...');	
+		}
+	}
+	
+	public function school_list_delete_handle(){
+		$checkbox_array=I('post.checkbox');
+		//$aaaa=$_POST['checkbox'];
+		//p($dddd);
+		//die;
+		$master_school = M("master_school"); // 实例化User对象
+		$map['id']  = array('in',$checkbox_array);
+		$data['active'] = 1;
+		$data['update_time'] = mynow();
+		//p($master_school->where($map)->setField('active',1));
+		if($master_school->where($map)->setField($data)){
+			$this->success('删除成功！',U('master/school_list'));
+		} else {
+			$this->error('删除失败，请勾选需要删除的学校...');	
 		}
 	}
 	

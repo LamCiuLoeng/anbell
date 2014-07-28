@@ -6,6 +6,7 @@
 <link href="../../../../Public/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <script src="../../../../Public/js/jquery-1.11.1.min.js"></script>
+<script src="../../../../Public/js/trigger_event.js"></script>
 <script src="../../../../Public/js/select_ssq.js"></script>
 <script language="JavaScript" type="text/javascript">
 //<![CDATA[ 
@@ -27,7 +28,7 @@ var school_handle_URL= "{:U('master/ssq_handle')}";
         <li><a href="{:U('accountmanagement/index')}"><img src="../../../../Public/images/master_09.jpg" width="92" height="28" alt=""/></a></li>
         <li><img src="../../../../Public/images/master_11.jpg" width="92" height="28" alt=""/></li>
         <li><img src="../../../../Public/images/master_13.jpg" width="92" height="28" alt=""/></li>
-        <li><img src="../../../../Public/images/master_15.jpg" width="92" height="28" alt=""/></li>
+        <li><a href="{:U('questionmanagement/index')}"><img src="../../../../Public/images/master_15.jpg" width="92" height="28" alt=""/></a></li>
         <li><a href="{:U('master/index')}"><img src="../../../../Public/images/master_17.jpg" width="92" height="28" alt=""/></a></li>
     </ul>
 </div>
@@ -36,7 +37,7 @@ var school_handle_URL= "{:U('master/ssq_handle')}";
   <ul>
     	<li><a href="{:U('master/school_add')}"><img src="../../../../Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
         <li><img src="../../../../Public/images/master_28.jpg" width="68" height="28" alt=""/></li>
-        <li><img src="../../../../Public/images/master_30.jpg" width="68" height="28" alt=""/></li>
+        <li><a href="#" id="school_list_delete"><img src="../../../../Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
         <li><img src="../../../../Public/images/master_32.jpg" width="68" height="28" alt=""/></li>
         <li><img src="../../../../Public/images/master_34.jpg" width="68" height="28" alt=""/></li>
     </ul>
@@ -48,9 +49,9 @@ var school_handle_URL= "{:U('master/ssq_handle')}";
     <select id="select_city"></select>
     <select id="select_area"></select>
 </div>
-
 <div class="show_content_b">
 <br>
+<form action="{:U('master/school_list_delete_handle')}" id="form1" name="form1" method="post">
 <table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
     <thead>
         <tr>
@@ -58,8 +59,6 @@ var school_handle_URL= "{:U('master/ssq_handle')}";
             <td align="center"><strong>省份</strong></td>
             <td align="center"><strong>城市</strong></td>
             <td align="center"><strong>区</strong></td>
-            <td align="center">&nbsp;</td>
-            <td align="center">&nbsp;</td>
             <td align="center">&nbsp;</td>
         </tr>
     </thead>
@@ -69,13 +68,12 @@ var school_handle_URL= "{:U('master/ssq_handle')}";
             <td align="center">{$v.location_id|sheng}&nbsp;</td>	
          	<td align="center">{$v.location_id|shi}&nbsp;</td>
             <td align="center">{$v.location_id|qu}&nbsp;</td>
-            <td align="center">&nbsp;</td>
-            <td align="center">&nbsp;</td>
-            <td align="center"><input type="checkbox" name="checkbox" id="checkbox" value="{$v.id}">&nbsp;</td>
+            <td align="center"><input type="checkbox" name="checkbox[]" id="checkbox" value="{$v.id}">&nbsp;</td>
         </tr>
      </foreach>
 </table>
-  <br>
+</form>
+<br>
   <br>
 </div>
 <div class="foot_company">&nbsp;<img src="../../../../Public/images/index_26.jpg" width="185" height="49" alt=""/></div>

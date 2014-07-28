@@ -6,7 +6,8 @@
 <link href="../../../../Public/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <script src="../../../../Public/js/jquery-1.11.1.min.js"></script>
-<script src="../../../../Public/js/select_ssq.js"></script>
+<!--<script src="../../../../Public/js/trigger_event.js"></script>
+<script src="../../../../Public/js/select_ssq.js"></script>-->
 <script language="JavaScript" type="text/javascript">
 //<![CDATA[ 
 var school_handle_URL= "{:U('master/ssq_handle')}";
@@ -27,12 +28,12 @@ var school_handle_URL= "{:U('master/ssq_handle')}";
         <li><a href="{:U('accountmanagement/index')}"><img src="../../../../Public/images/master_09.jpg" width="92" height="28" alt=""/></a></li>
         <li><img src="../../../../Public/images/master_11.jpg" width="92" height="28" alt=""/></li>
         <li><img src="../../../../Public/images/master_13.jpg" width="92" height="28" alt=""/></li>
-        <li><img src="../../../../Public/images/master_15.jpg" width="92" height="28" alt=""/></li>
+        <li><a href="{:U('questionmanagement/index')}"><img src="../../../../Public/images/master_15.jpg" width="92" height="28" alt=""/></a></li>
         <li><a href="{:U('master/index')}"><img src="../../../../Public/images/master_17.jpg" width="92" height="28" alt=""/></a></li>
     </ul>
 </div>
 <div style="clear:both"></div>
-<div class="edit_menu_b">
+<div class="edit_menu_b" style="display:none">
   <ul>
     	<li><img src="../../../../Public/images/master_26.jpg" width="68" height="28" alt=""/></li>
         <li><img src="../../../../Public/images/master_28.jpg" width="68" height="28" alt=""/></li>
@@ -42,7 +43,7 @@ var school_handle_URL= "{:U('master/ssq_handle')}";
     </ul>
 </div>
 <div style="clear:both"></div>
-<div class="search_bar_b">
+<div class="search_bar_b" style="display:none">
 <label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
     <select id="select_province"></select>
     <select id="select_city"></select>

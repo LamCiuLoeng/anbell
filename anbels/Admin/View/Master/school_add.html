@@ -6,6 +6,7 @@
 <link href="../../../../Public/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <script src="../../../../Public/js/jquery-1.11.1.min.js"></script>
+<script src="../../../../Public/js/trigger_event.js"></script>
 <script src="../../../../Public/js/select_ssq.js"></script>
 <script language="JavaScript" type="text/javascript">
 //<![CDATA[ 
@@ -32,7 +33,7 @@ var school_handle_URL= "{:U('master/ssq_handle')}";
     </ul>
 </div>
 <div style="clear:both"></div>
-<div class="edit_menu_b">
+<div class="edit_menu_b" style="display:none">
   <ul>
     	<li><img src="../../../../Public/images/master_26.jpg" width="68" height="28" alt=""/></li>
         <li><img src="../../../../Public/images/master_28.jpg" width="68" height="28" alt=""/></li>
@@ -43,6 +44,7 @@ var school_handle_URL= "{:U('master/ssq_handle')}";
 </div>
 <div style="clear:both"></div>
 <div class="show_content_b"><br>
+<p style="text-align:center"><strong>学校添加</strong></p>
 <form action="{:U('master/school_add_handle')}" id="form1" name="form1" method="post" >
 <table width="500" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
@@ -55,20 +57,25 @@ var school_handle_URL= "{:U('master/ssq_handle')}";
        </td>
     </tr>
     <tr>
-       <td height="50" align="right">学校名：</td>
-       <td>&nbsp;</td>
-       <td><input name="school_name" type="text" id="textfield" size="50"></td>
+      <td height="50" align="right">学校名：</td>
+      <td>&nbsp;</td>
+      <td>
+        <input name="school_name" type="text" id="textfield" size="50">&nbsp;*
+        <input name="textfield" type="text" id="textfield2" size="50" style="display:none">
+        </td>
     </tr>
     <tr>
-       <td height="50" align="right">描述：</td>
-       <td>&nbsp;</td>
-       <td><textarea name="description" cols="50" rows="7" id="textarea"></textarea></td>
+      <td height="50" align="right">描述：</td>
+      <td>&nbsp;</td>
+      <td><textarea name="description" cols="50" rows="7" id="textarea"></textarea></td>
     </tr>
     <tr>
        <td height="50" align="right">&nbsp;</td>
        <td>&nbsp;</td>
-       <td><input type="submit" name="submit" id="submit" value="添加">
-       <input type="reset" name="reset" id="reset" value="重置"></td>
+       <td>
+           <span class="send_btn" id="school_add_send_btn">添加</span>
+           <span class="send_btn" id="reset_btn">重置</span> 
+       </td>
     </tr>
 </table>
 </form>
