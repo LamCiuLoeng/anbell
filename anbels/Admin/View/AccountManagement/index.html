@@ -68,13 +68,13 @@ var school_handle_URL= "{:U('master/ssq_handle')}";
     <foreach name="auth_user" item="v" >
       <tr class="odd_tr">
             <td align="center" class="first_td">{$v.system_no}&nbsp;</td>
-            <td align="center">{$v.name}&nbsp;</td>
+            <td align="center">{$v.user_name}&nbsp;</td>
             <td align="center">{$v.gender}&nbsp;</td>
-            <td align="center">&nbsp;</td>
-            <td align="center">&nbsp;</td>
+            <td align="center">{$v.school_name}&nbsp;</td>
+            <td align="center">{$v.class_name}&nbsp;</td>
             <td align="center">&nbsp;</td>
             <td align="center">{$v.last_login_time}&nbsp;</td>
-            <td align="center"><input type="checkbox" name="checkbox" id="checkbox">&nbsp;</td>
+            <td align="center"><input type="checkbox" name="checkbox" id="checkbox" value="{$v.id}">&nbsp;</td>
         </tr>
      </foreach>
 </table>
