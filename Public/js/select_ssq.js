@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-	$.get(school_handle_URL, function(data){
+	$.get(ssq_handle_URL, function(data){
 		
 		var htm = ''
 		for(var i=0;i<data.length;i++)	{
@@ -67,5 +67,21 @@ $(document).ready(function(){
 		})
 		
 	}); 
+	
+	$('#select_area').change(function(){
+		$.get(request_school_URL, function(data){
+			var location_id = $('#select_area').val()
+			var htm=''
+			for(var i=0;i<data.length;i++)
+			{
+				if(data[i].location_id == location_id)
+				{
+				htm+= ('<option value='+data[i].id+'>'+data[i].name+'</option>')
+				}
+			}
+			$('#select_school').html(htm)
+
+		})
+	})
 	
 });      

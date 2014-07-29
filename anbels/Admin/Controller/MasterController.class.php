@@ -26,26 +26,34 @@ class MasterController extends BaseController {
 		$data['name'] = I('post.school_name');
 		$data['desc'] = I('post.description');
 		$data['active'] = 0;
+		$data['create_by_id'] = session('user_id');
 		$data['create_time'] = mynow();
+		$data['update_by_id'] = session('user_id');
 		$data['update_time'] = mynow();
 		//p($master_school->add($data));die;
-		if($master_school->add($data)){
+		if($master_school->add($data))
+		{
 			$this->success('添加成功！',U('master/school_list'));
-		} else {
+		} 
+		else 
+		{
 			$this->error('发布失败，请重试...');	
 		}
 	}
 	
 	public function school_edit(){
-		if(I('post.checkbox')){
+		if(I('post.checkbox'))
+		{
 			$checkbox_array=I('post.checkbox');
 			$map['id'] = $checkbox_array[0];
 			//p($checkbox_array[0]);die;
 			$master_school=M('master_school')->where($map)->select();
 			$this->assign('master_school',$master_school);
 			$this->display();
-			} else {
-			$this->show('请选择所要修改的学校，重试...');	
+		} 
+		else 
+		{
+			$this->error('请选择所要修改的学校，重试...','',2);	
 		}
 	}
 	
@@ -55,10 +63,14 @@ class MasterController extends BaseController {
 		$data['location_id'] = I('post.location');
 		$data['name'] = I('post.school_name');
 		$data['desc'] = I('post.description');
+		$data['update_by_id'] = session('user_id');
 		$data['update_time'] = mynow();
-		if($master_school->where($map)->setField($data)){
+		if($master_school->where($map)->setField($data))
+		{
 			$this->success('修改成功！',U('master/school_list'));
-		} else {
+		} 
+		else 
+		{
 			$this->error('修改失败，请重试...');	
 		}
 	}
@@ -71,14 +83,106 @@ class MasterController extends BaseController {
 		$master_school = M("master_school"); // 实例化User对象
 		$map['id']  = array('in',$checkbox_array);
 		$data['active'] = 1;
+		$data['update_by_id'] = session('user_id');
 		$data['update_time'] = mynow();
 		//p($master_school->where($map)->setField('active',1));
-		if($master_school->where($map)->setField($data)){
+		if($master_school->where($map)->setField($data))
+		{
 			$this->success('删除成功！',U('master/school_list'));
-		} else {
+		} 
+		else
+		{
 			$this->error('删除失败，请勾选需要删除的学校...');	
 		}
 	}
+	
+	public function class_list(){
+		$master_class=M('master_class')->where('active=0')->select();
+		$this->assign('master_class',$master_class);
+		$this->display();
+	}
+	public function class_add(){
+        $this->display();
+	}
+	public function class_add_handle(){
+		$master_class = M("master_class"); // 实例化User对象
+		$data['school_id'] = I('post.school_name');
+		$data['name'] = I('post.class_name');
+		$data['grade'] = I('post.grade');
+		$data['desc'] = I('post.description');
+		$data['active'] = 0;
+		$data['create_by_id'] = session('user_id');
+		$data['create_time'] = mynow();
+		$data['update_by_id'] = session('user_id');
+		$data['update_time'] = mynow();
+		//p($master_school->add($data));die;
+		if($master_class->add($data))
+		{
+			$this->success('添加成功！',U('master/class_list'));
+		} 
+		else 
+		{
+			$this->error('发布失败，请重试...');	
+		}
+	}
+	
+	public function class_edit(){
+		if(I('post.checkbox'))
+		{
+			$checkbox_array=I('post.checkbox');
+			$map['id'] = $checkbox_array[0];
+			//p($checkbox_array[0]);die;
+			$master_class=M('master_class')->where($map)->select();
+			$this->assign('master_class',$master_class);
+			$this->display();
+		} 
+		else 
+		{
+			$this->error('请选择所要修改的学校，重试...','',2);	
+		}
+	}
+	
+	public function class_edit_handle(){
+		$master_class = M("master_class"); // 实例化User对象
+		$map['id'] = I('post.id');
+		$data['school_id'] = I('post.school_name');
+		$data['name'] = I('post.class_name');
+		$data['grade'] = I('post.grade');
+		$data['desc'] = I('post.description');
+		$data['update_by_id'] = session('user_id');
+		$data['update_time'] = mynow();
+		if($master_school->where($map)->setField($data))
+		{
+			$this->success('修改成功！',U('master/school_list'));
+		} 
+		else 
+		{
+			$this->error('修改失败，请重试...');	
+		}
+	}
+	
+	public function class_list_delete_handle(){
+		$checkbox_array=I('post.checkbox');
+		//$aaaa=$_POST['checkbox'];
+		//p($dddd);
+		//die;
+		$master_class = M("master_class"); // 实例化User对象
+		$map['id']  = array('in',$checkbox_array);
+		$data['active'] = 1;
+		$data['update_by_id'] = session('user_id');
+		$data['update_time'] = mynow();
+		//p($master_school->where($map)->setField('active',1));
+		if($master_class->where($map)->setField($data))
+		{
+			$this->success('删除成功！',U('master/class_list'));
+		} 
+		else
+		{
+			$this->error('删除失败，请勾选需要删除的学校...');	
+		}
+	}
+	
+	
 	
 	
 	public function ssq_handle(){
@@ -87,7 +191,11 @@ class MasterController extends BaseController {
 		$this->ajaxReturn($data);
 	}
 	
-	
+	public function request_school(){
+		$master_school = M("master_school"); // 实例化User对象
+		$data = $master_school->where('active=0')->select();
+		$this->ajaxReturn($data);
+	}
 	
 	
 	

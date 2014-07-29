@@ -1,7 +1,7 @@
 <?php
 namespace Admin\Controller;
 use Admin\Controller\BaseController;
-class AccountManagementController extends BaseController {
+class AccountmanagementController extends BaseController {
     public function index(){	
 		$User = M('AuthUser');
         $users = $User

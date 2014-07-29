@@ -10,7 +10,9 @@
 <script src="../../../../Public/js/select_ssq.js"></script>
 <script language="JavaScript" type="text/javascript">
 //<![CDATA[ 
-var school_handle_URL= "{:U('master/ssq_handle')}";
+var ssq_handle_URL= "{:U('master/ssq_handle')}";
+var school_edit_URL= "{:U('master/school_edit')}";
+var school_list_delete_URL= "{:U('master/school_list_delete_handle')}";
 //]]>
 </script>
 <body>
@@ -51,8 +53,9 @@ var school_handle_URL= "{:U('master/ssq_handle')}";
 </div>
 <div class="show_content_b">
 <br>
-<form action="{:U('master/school_edit')}" id="form2" name="form2" method="post" >
-<form action="{:U('master/school_list_delete_handle')}" id="form1" name="form1" method="post">
+<p style="text-align:center"><strong>学校列表</strong></p>
+<!--<form action="{:U('master/school_edit')}" id="form2" name="form2" method="post" >-->
+<form action="" id="form1" name="form1" method="post">
 <table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
     <thead>
         <tr>
@@ -60,6 +63,8 @@ var school_handle_URL= "{:U('master/ssq_handle')}";
             <td align="center"><strong>省份</strong></td>
             <td align="center"><strong>城市</strong></td>
             <td align="center"><strong>区</strong></td>
+            <td align="center">操作人</td>
+            <td align="center"><strong>更新时间</strong></td>
             <td align="center">&nbsp;</td>
         </tr>
     </thead>
@@ -69,12 +74,14 @@ var school_handle_URL= "{:U('master/ssq_handle')}";
             <td align="center">{$v.location_id|sheng}&nbsp;</td>	
          	<td align="center">{$v.location_id|shi}&nbsp;</td>
             <td align="center">{$v.location_id|qu}&nbsp;</td>
+            <td align="center">{$v.update_by_id|show_edit_user}&nbsp;</td>
+            <td align="center">{$v.update_time}&nbsp;</td>
             <td align="center"><input type="checkbox" name="checkbox[]" id="checkbox" value="{$v.id}">&nbsp;</td>
         </tr>
      </foreach>
 </table>
 </form>
-</form>
+<!--</form>-->
 <br>
   <br>
 </div>

@@ -11,6 +11,8 @@
 <script language="JavaScript" type="text/javascript">
 //<![CDATA[ 
 var ssq_handle_URL= "{:U('master/ssq_handle')}";
+var class_edit_URL= "{:U('master/class_edit')}";
+var class_list_delete_URL= "{:U('master/class_list_delete_handle')}";
 //]]>
 </script>
 <body>
@@ -35,9 +37,9 @@ var ssq_handle_URL= "{:U('master/ssq_handle')}";
 <div style="clear:both"></div>
 <div class="edit_menu_b">
   <ul>
-    	<li><img src="../../../../Public/images/master_26.jpg" width="68" height="28" alt=""/></li>
-        <li><img src="../../../../Public/images/master_28.jpg" width="68" height="28" alt=""/></li>
-        <li><img src="../../../../Public/images/master_30.jpg" width="68" height="28" alt=""/></li>
+    	<li><a href="{:U('master/class_add')}"><img src="../../../../Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
+        <li><a href="#" id="class_list_edit"><img src="../../../../Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
+        <li><a href="#" id="class_list_delete"><img src="../../../../Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
         <li><img src="../../../../Public/images/master_32.jpg" width="68" height="28" alt=""/></li>
         <li><img src="../../../../Public/images/master_34.jpg" width="68" height="28" alt=""/></li>
     </ul>
@@ -49,33 +51,36 @@ var ssq_handle_URL= "{:U('master/ssq_handle')}";
     <select id="select_city"></select>
     <select id="select_area"></select>
 </div>
-
-<div class="show_content_b"><br>
-  <table width="600" border="0" cellspacing="0" cellpadding="0">
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>题库管理<br>
-      <br></td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-  </table>
-  <br>
-  <br>
+<div class="show_content_b">
+<br>
+<p style="text-align:center"><strong>班级列表</strong></p>
+<!--<form action="{:U('master/school_edit')}" id="form2" name="form2" method="post" >-->
+<form action="" id="form1" name="form1" method="post">
+<table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
+    <thead>
+        <tr>
+            <td align="center" class="first_td"><strong>班级名</strong></td>
+            <td align="center"><strong>所在学校</strong></td>
+            <td align="center">年级</td>
+            <td align="center">操作人</td>
+            <td align="center"><strong>更新时间</strong></td>
+            <td align="center">&nbsp;</td>
+        </tr>
+    </thead>
+    <foreach name="master_class" item="v" >
+      <tr class="odd_tr">
+            <td align="center" class="first_td">{$v.name}&nbsp;</td>
+            <td align="center">{$v.school_id|xuexiao}&nbsp;</td>	
+         	<td align="center">{$v.grade}&nbsp;</td>
+         	<td align="center">{$v.update_by_id|show_edit_user}&nbsp;</td>
+            <td align="center">{$v.update_time}&nbsp;</td>
+            <td align="center"><input type="checkbox" name="checkbox[]" id="checkbox" value="{$v.id}">&nbsp;</td>
+        </tr>
+     </foreach>
+</table>
+</form>
+<!--</form>-->
+<br>
   <br>
 </div>
 <div class="foot_company">&nbsp;<img src="../../../../Public/images/index_26.jpg" width="185" height="49" alt=""/></div>

@@ -11,6 +11,7 @@
 <script language="JavaScript" type="text/javascript">
 //<![CDATA[ 
 var ssq_handle_URL= "{:U('master/ssq_handle')}";
+var request_school_URL= "{:U('master/request_school')}";
 //]]>
 </script>
 <body>
@@ -28,12 +29,12 @@ var ssq_handle_URL= "{:U('master/ssq_handle')}";
         <li><a href="{:U('accountmanagement/index')}"><img src="../../../../Public/images/master_09.jpg" width="92" height="28" alt=""/></a></li>
         <li><img src="../../../../Public/images/master_11.jpg" width="92" height="28" alt=""/></li>
         <li><img src="../../../../Public/images/master_13.jpg" width="92" height="28" alt=""/></li>
-        <li><a href="{:U('questionmanagement/index')}"><img src="../../../../Public/images/master_15.jpg" width="92" height="28" alt=""/></a></li>
+        <li><img src="../../../../Public/images/master_15.jpg" width="92" height="28" alt=""/></li>
         <li><a href="{:U('master/index')}"><img src="../../../../Public/images/master_17.jpg" width="92" height="28" alt=""/></a></li>
     </ul>
 </div>
 <div style="clear:both"></div>
-<div class="edit_menu_b">
+<div class="edit_menu_b" style="display:none">
   <ul>
     	<li><img src="../../../../Public/images/master_26.jpg" width="68" height="28" alt=""/></li>
         <li><img src="../../../../Public/images/master_28.jpg" width="68" height="28" alt=""/></li>
@@ -43,40 +44,64 @@ var ssq_handle_URL= "{:U('master/ssq_handle')}";
     </ul>
 </div>
 <div style="clear:both"></div>
-<div class="search_bar_b">
-<label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
-    <select id="select_province"></select>
-    <select id="select_city"></select>
-    <select id="select_area"></select>
-</div>
-
 <div class="show_content_b"><br>
-  <table width="600" border="0" cellspacing="0" cellpadding="0">
+<p style="text-align:center"><strong>班级修改</strong></p>
+<form action="{:U('master/school_edit_handle')}" id="form1" name="form1" method="post" >
+<table width="500" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>题库管理<br>
-      <br></td>
+      <td width="130" height="50" align="right">省市区：</td>
+      <td width="20">&nbsp;</td>
+      <td>
+        <select id="select_province"><option value="">省</option></select>
+        <select id="select_city"><option value="">市</option></select>
+        <select name="location" id="select_area"><option value="">区</option></select>
+        </td>
     </tr>
     <tr>
+      <td height="50" align="right">学校名：</td>
       <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td><select name="school_name" id="select_school">
+      <option value="{$master_class[0].school_id}">{$master_class[0].school_id|xuexiao}</option>
+      </select></td>
     </tr>
     <tr>
+      <td height="50" align="right">年级：</td>
       <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td><select name="grade" id="select_grade">
+      	<option value="{$master_class[0].grade}">{$master_class[0].grade}</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+      </select></td>
     </tr>
     <tr>
+      <td height="50" align="right">班级名：</td>
       <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td>
+        <input name="class_name" type="text" id="textfield" size="50" value="{$master_class[0].name}">&nbsp;*
+        <input name="id" type="text" id="textfield2" size="50" value="{$master_class[0].id}" style="display:none">
+        </td>
     </tr>
-  </table>
-  <br>
-  <br>
-  <br>
+    <tr>
+      <td height="50" align="right">描述：</td>
+      <td>&nbsp;</td>
+      <td><textarea name="description" cols="50" rows="7" id="textarea">{$master_class[0].desc}</textarea></td>
+    </tr>
+    <tr>
+       <td height="50" align="right">&nbsp;</td>
+       <td>&nbsp;</td>
+       <td>
+           <span class="send_btn" id="school_send_btn">提交</span>
+       </td>
+    </tr>
+</table>
+</form>
 </div>
 <div class="foot_company">&nbsp;<img src="../../../../Public/images/index_26.jpg" width="185" height="49" alt=""/></div>
 </body>
