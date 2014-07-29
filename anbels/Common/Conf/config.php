@@ -2,17 +2,17 @@
 return array(
     //'配置项'=>'配置值'
      'db_type'  => 'mysql',
-     'db_host'  => '113.105.167.196',
+     'db_host'  => 'localhost',
      'db_port'  => '3306',
-     'db_name'  => 'my10383',
-     'db_user'  => 'my10383',
-     'db_pwd'  => '5tgbnhy6',
+     'db_name'  => 'anbels_db',
+     'db_user'  => 'root',
+     'db_pwd'  => '',
      'DB_CHARSET'=> 'utf8',
      
      'DB_PREFIX' => 'anbels_',
 	 
 	 
-     'TMPL_TEMPLATE_SUFFIX' => '.html',
-	 'URL_HTML_SUFFIX' => '',
-	 'URL_MODEL'=> 1 ,
+     //'TMPL_TEMPLATE_SUFFIX' => '.html',
+//	 'URL_HTML_SUFFIX' => '',
+//	 'URL_MODEL'=> 1 ,
 );

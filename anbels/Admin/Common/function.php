@@ -23,6 +23,8 @@ $data_shi= $master_location->where('code='.$data_qu[parent_code])->find();
 $data_sheng= $master_location->where('code='.$data_shi[parent_code])->find();
 return $data_sheng[name];
 }
+
+
 ?>
 
 

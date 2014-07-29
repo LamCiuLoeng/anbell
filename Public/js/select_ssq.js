@@ -1,5 +1,7 @@
 $(document).ready(function(){
+
 	$.get(school_handle_URL, function(data){
+		
 		var htm = ''
 		for(var i=0;i<data.length;i++)	{
 			if(data[i].parent_id == null)
@@ -27,7 +29,7 @@ $(document).ready(function(){
 				htm+= ('<option value='+data[i].id+'>'+data[i].name+'</option>')
 			}
 		}
-		$('#select_area').html(htm)
+		$('#select_area').html(htm);
 		
 		//alert(data);
 		$('#select_province').change(function(){

@@ -6,6 +6,7 @@
 <link href="../../../../Public/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <script src="../../../../Public/js/jquery-1.11.1.min.js"></script>
+<script src="../../../../Public/js/trigger_event.js"></script>
 <script src="../../../../Public/js/select_ssq.js"></script>
 <script language="JavaScript" type="text/javascript">
 //<![CDATA[ 
@@ -24,10 +25,10 @@ var school_handle_URL= "{:U('master/ssq_handle')}";
 <div class="main_menu_b">
 	<ul>
     	<li><a href="{:U('index/index')}"><img src="../../../../Public/images/master_07.jpg" width="92" height="28" alt=""/></a></li>
-        <li><a href="{:U('accountManagement/index')}"><img src="../../../../Public/images/master_09.jpg" width="92" height="28" alt=""/></a></li>
+        <li><a href="{:U('AccountManagement/index')}"><img src="../../../../Public/images/master_09.jpg" width="92" height="28" alt=""/></a></li>
         <li><img src="../../../../Public/images/master_11.jpg" width="92" height="28" alt=""/></li>
         <li><img src="../../../../Public/images/master_13.jpg" width="92" height="28" alt=""/></li>
-        <li><img src="../../../../Public/images/master_15.jpg" width="92" height="28" alt=""/></li>
+        <li><a href="{:U('questionmanagement/index')}"><img src="../../../../Public/images/master_15.jpg" width="92" height="28" alt=""/></a></li>
         <li><a href="{:U('master/index')}"><img src="../../../../Public/images/master_17.jpg" width="92" height="28" alt=""/></a></li>
     </ul>
 </div>
@@ -57,19 +58,39 @@ var school_handle_URL= "{:U('master/ssq_handle')}";
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td align="right">欢迎超级管理员：</td>
+      <td align="right">欢迎：</td>
       <td>&nbsp;</td>
-      <td>10000001</td>
+      <td>{$user.name}</td>
     </tr>
     <tr>
+      <td align="right">&nbsp;</td>
       <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="right">用户名：</td>
+      <td>&nbsp;</td>
+      <td>{$user.system_no}</td>
+    </tr>
+    <tr>
+      <td align="right">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="right">性别：</td>
+      <td>&nbsp;</td>
+      <td>{$user.gender}</td>
+    </tr>
+    <tr>
+      <td align="right">&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
       <td align="right">上次登录时间：</td>
       <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td>{$user.last_login_time}</td>
     </tr>
     <tr>
       <td>&nbsp;</td>
