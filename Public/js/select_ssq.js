@@ -9,7 +9,7 @@ $(document).ready(function(){
 				htm+= ('<option value='+data[i].id+'>'+data[i].name+'</option>')
 			}
 		}
-		$('#select_province').html(htm)
+		$('#select_province').append(htm)
 		
 		var province_id = $('#select_province').val()
 		var htm = ''
@@ -19,7 +19,7 @@ $(document).ready(function(){
 				htm+= ('<option value='+data[i].id+'>'+data[i].name+'</option>')
 			}
 		}
-		$('#select_city').html(htm)
+		$('#select_city').append(htm)
 		
 		var city_id = $('#select_city').val()
 		var htm = ''
@@ -29,7 +29,7 @@ $(document).ready(function(){
 				htm+= ('<option value='+data[i].id+'>'+data[i].name+'</option>')
 			}
 		}
-		$('#select_area').html(htm);
+		$('#select_area').append(htm);
 		
 		//alert(data);
 		$('#select_province').change(function(){

@@ -30,6 +30,10 @@ $(document).ready(function(){
 		$('#form1')[0].reset();   
 	})
 	
+	$('#school_list_edit').click(function(){
+		$('#form2').submit();
+		
+	})
 	
 	$('#school_list_delete').click(function(){
 		$('#form1').submit();

@@ -28,55 +28,56 @@ var school_handle_URL= "{:U('master/ssq_handle')}";
         <li><a href="{:U('accountmanagement/index')}"><img src="../../../../Public/images/master_09.jpg" width="92" height="28" alt=""/></a></li>
         <li><img src="../../../../Public/images/master_11.jpg" width="92" height="28" alt=""/></li>
         <li><img src="../../../../Public/images/master_13.jpg" width="92" height="28" alt=""/></li>
-        <li><a href="{:U('questionmanagement/index')}"><img src="../../../../Public/images/master_15.jpg" width="92" height="28" alt=""/></a></li>
+        <li><img src="../../../../Public/images/master_15.jpg" width="92" height="28" alt=""/></li>
         <li><a href="{:U('master/index')}"><img src="../../../../Public/images/master_17.jpg" width="92" height="28" alt=""/></a></li>
     </ul>
 </div>
 <div style="clear:both"></div>
-<div class="edit_menu_b">
+<div class="edit_menu_b" style="display:none">
   <ul>
-    	<li><a href="{:U('master/school_add')}"><img src="../../../../Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
-        <li><a href="#" id="school_list_edit"><img src="../../../../Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
-        <li><a href="#" id="school_list_delete"><img src="../../../../Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
+    	<li><img src="../../../../Public/images/master_26.jpg" width="68" height="28" alt=""/></li>
+        <li><img src="../../../../Public/images/master_28.jpg" width="68" height="28" alt=""/></li>
+        <li><img src="../../../../Public/images/master_30.jpg" width="68" height="28" alt=""/></li>
         <li><img src="../../../../Public/images/master_32.jpg" width="68" height="28" alt=""/></li>
         <li><img src="../../../../Public/images/master_34.jpg" width="68" height="28" alt=""/></li>
     </ul>
 </div>
 <div style="clear:both"></div>
-<div class="search_bar_b">
-<label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
-    <select id="select_province"></select>
-    <select id="select_city"></select>
-    <select id="select_area"></select>
-</div>
-<div class="show_content_b">
-<br>
-<form action="{:U('master/school_edit')}" id="form2" name="form2" method="post" >
-<form action="{:U('master/school_list_delete_handle')}" id="form1" name="form1" method="post">
-<table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
-    <thead>
-        <tr>
-            <td align="center" class="first_td"><strong>学校名</strong></td>
-            <td align="center"><strong>省份</strong></td>
-            <td align="center"><strong>城市</strong></td>
-            <td align="center"><strong>区</strong></td>
-            <td align="center">&nbsp;</td>
-        </tr>
-    </thead>
-    <foreach name="master_school" item="v" >
-      <tr class="odd_tr">
-            <td align="center" class="first_td">{$v.name}&nbsp;</td>
-            <td align="center">{$v.location_id|sheng}&nbsp;</td>	
-         	<td align="center">{$v.location_id|shi}&nbsp;</td>
-            <td align="center">{$v.location_id|qu}&nbsp;</td>
-            <td align="center"><input type="checkbox" name="checkbox[]" id="checkbox" value="{$v.id}">&nbsp;</td>
-        </tr>
-     </foreach>
+<div class="show_content_b"><br>
+<p style="text-align:center"><strong>学校修改</strong></p>
+<form action="{:U('master/school_edit_handle')}" id="form1" name="form1" method="post" >
+<table width="500" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+       <td width="130" height="50" align="right">省市区：</td>
+       <td width="20">&nbsp;</td>
+       <td>
+       <select id="select_province"><option value="">{$master_school[0].location_id|sheng}</option></select>
+       <select id="select_city"><option value="">{$master_school[0].location_id|shi}</option></select>
+       <select name="location" id="select_area"><option value="{$master_school[0].location_id}">{$master_school[0].location_id|qu}</option></select>
+       </td>
+    </tr>
+    <tr>
+      <td height="50" align="right">学校名：</td>
+      <td>&nbsp;</td>
+      <td>
+        <input name="school_name" type="text" id="textfield" size="50" value="{$master_school[0].name}">&nbsp;*
+        <input name="id" type="text" id="textfield2" size="50" value="{$master_school[0].id}" style="display:none">
+        </td>
+    </tr>
+    <tr>
+      <td height="50" align="right">描述：</td>
+      <td>&nbsp;</td>
+      <td><textarea name="description" cols="50" rows="7" id="textarea">{$master_school[0].desc}</textarea></td>
+    </tr>
+    <tr>
+       <td height="50" align="right">&nbsp;</td>
+       <td>&nbsp;</td>
+       <td>
+           <span class="send_btn" id="school_add_send_btn">提交</span>
+       </td>
+    </tr>
 </table>
 </form>
-</form>
-<br>
-  <br>
 </div>
 <div class="foot_company">&nbsp;<img src="../../../../Public/images/index_26.jpg" width="185" height="49" alt=""/></div>
 </body>
