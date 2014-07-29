@@ -19,4 +19,30 @@ class AccountmanagementController extends BaseController {
 	}
 	
 	
+    
+    public function add()
+    {
+        $this->locations = gettoplocation();
+        $this->display();
+    }
+    
+    public function edit()
+    {
+        echo 'edit';
+    }
+    
+    public function del()
+    {
+        echo 'del';
+    }
+    
+    public function imp()
+    {
+        echo 'imp';
+    }
+    
+    public function exp()
+    {
+        echo 'exp';
+    }
 }

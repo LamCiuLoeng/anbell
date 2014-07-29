@@ -1,0 +1,50 @@
+<extend name="Public:base" />
+
+<block name="extJS">
+    
+</block>
+
+<block name="btnbar">
+    <div class="edit_menu_b">
+      <ul>
+            <li><a href="{:U('AccountManagement/add')}"><img src="../../../../Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
+        </ul>
+    </div>
+    <div style="clear:both"></div>
+</block>
+
+<block name="content">
+    <div class="show_content_b">
+        <form action="" method="">
+            <p>
+                地区    <select id="lev1" onchange="getlocationchildren(this,'#lev2')">
+                    <option value=""></option>
+                    <foreach name="locations" item="l" >    
+                        <option value="{$l.code}">{$l.name}</option>
+                    </foreach>
+
+                </select>
+                <select id="lev2" onchange="getlocationchildren(this,'#lev3')">
+                    
+                </select>
+                <select id="lev3" onchange="getlocationchildren(this,'#lev4','#school_id')">
+                    
+                </select>
+                
+                <select id="school_id"></select>
+
+
+            </p>
+            <p>姓名<input type="text" name="name" id="name"/></p>
+            <p>密码<input type="password" name="password" id="password"/></p>
+            <p>确认密码<input type="password" name="repassword" id="repassword"/></p>
+            <p>
+                <select name="gender">
+                    <option value="male">男</option>
+                    <option value="female">女</option>
+                </select>
+            </p>
+            <input type="submit" value="提交"/>
+        </form>
+    </div>
+</block>

@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>安贝尔儿童安全乐园教学管理平台</title>
+        <link href="__PUBLIC__/css/style.css" rel="stylesheet" type="text/css">
+        <script src="__PUBLIC__/js/jquery-1.11.1.min.js"></script>
+        <script src="__PUBLIC__/js/common.js"></script>
+        <block name="extCSS"></block>
+        <block name="extJS"></block>    
+    </head>
+    <body>
+        <div class="top_logo_b">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="685"><img src="__PUBLIC__/images/master_03.jpg" width="685" height="130" alt=""/></td>
+              <td align="right" valign="bottom"><a href="{:U('Auth/logout')}">退出管理</a></td>
+            </tr>
+          </table>
+        </div>
+        <include file="Public/menu" />
+        <block name="btnbar"></block>
+        <block name="searchbar">
+            <div class="search_bar_b">
+            <label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
+                <select id="select_province"></select>
+                <select id="select_city"></select>
+                <select id="select_area"></select>
+            </div>
+        </block>
+            
+
+        <block name="content"></block>
+                
+        <div class="foot_company">&nbsp;<img src="__PUBLIC__/images/index_26.jpg" width="185" height="49" alt=""/></div>
+    </body>
+</html>
