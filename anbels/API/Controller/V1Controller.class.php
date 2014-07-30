@@ -193,16 +193,17 @@ class V1Controller extends Controller {
 			$this->ajaxReturn(array('flag' => FLAG_NOT_ALL_REQUIRED ,'msg' => MSG_NOT_ALL_REQUIRED));
 		}		
 		$LogicStudyLog = M('LogicStudyLog');
-		if($params['data']['data_type'] == 'C'){  //课件的数据
+		if($params['data']['data_type'] == 'C' || $params['data']['data_type'] == 'P'){  //课件或者课程的数据
+		    $type = $params['data']['data_type'];
 			$condition = array('active' => 0 , 'user_id' => $params['data']['user_id'] , 
-							    'type' => 'C' , 'refer_id' => $params['data']['obj_id'] ,
+							    'type' => $type , 'refer_id' => $params['data']['obj_id'] ,
 							    );
 			$before = $LogicStudyLog->where($condition)->find();
 			if(!$before || is_null($before)){ //no play the game before
 				$dto = mydto();
 				$dto['user_id'] = $params['data']['user_id'];
 				$dto['refer_id'] = $params['data']['obj_id'];
-				$dto['type'] = 'C';
+				$dto['type'] = $type;
 				$dto['complete_time'] = mynow();
 				$LogicStudyLog->data($dto)->add();
 			}else{
@@ -210,6 +211,7 @@ class V1Controller extends Controller {
 				$LogicStudyLog->where($condition)->data($update)->save();
 			}
 			$this->ajaxReturn(array('flag' => FLAG_OK ,'msg' => MSG_OK));
+		
 		}elseif($params['data']['data_type'] == 'G'){  //游戏的数据
 			$condition = array('active' => 0 , 'user_id' => $params['data']['user_id'] , 
 							    'type' => 'G' , 'refer_id' => $params['data']['obj_id'] ,
@@ -238,7 +240,7 @@ class V1Controller extends Controller {
 
 	
 	// +----------------------------------------------------------------------
-	// | 随机猎取相关分类的问题
+	// | 随机获取相关分类的问题
 	// +----------------------------------------------------------------------
 	private function get_questions(){
 		$params = $this->_required('category_id');

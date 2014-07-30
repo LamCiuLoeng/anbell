@@ -75,4 +75,15 @@ function generatekey()
 }
 
 
+function gettoplocation(){
+    $Location = M('MasterLocation');
+    return $Location->where(array('active' => 0 , 'parent_code' => array('exp','is NULL')))->order('code')->select();
+}
+
+
+function getlocationchildren($id){
+    
+}
+
+
 ?>
