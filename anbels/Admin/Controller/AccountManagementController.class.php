@@ -1,7 +1,7 @@
 <?php
 namespace Admin\Controller;
 use Admin\Controller\BaseController;
-class AccountManagementController extends BaseController {
+class AccountmanagementController extends BaseController {
     public function index(){	
 		$User = M('AuthUser');
         $users = $User
@@ -19,4 +19,30 @@ class AccountManagementController extends BaseController {
 	}
 	
 	
+    
+    public function add()
+    {
+        $this->locations = gettoplocation();
+        $this->display();
+    }
+    
+    public function edit()
+    {
+        echo 'edit';
+    }
+    
+    public function del()
+    {
+        echo 'del';
+    }
+    
+    public function imp()
+    {
+        echo 'imp';
+    }
+    
+    public function exp()
+    {
+        echo 'exp';
+    }
 }

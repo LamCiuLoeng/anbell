@@ -11,8 +11,8 @@
 <script language="JavaScript" type="text/javascript">
 //<![CDATA[ 
 var ssq_handle_URL= "{:U('master/ssq_handle')}";
-var school_edit_URL= "{:U('master/school_edit')}";
-var school_list_delete_URL= "{:U('master/school_list_delete_handle')}";
+var class_edit_URL= "{:U('master/class_edit')}";
+var class_list_delete_URL= "{:U('master/class_list_delete_handle')}";
 //]]>
 </script>
 <body>
@@ -37,9 +37,9 @@ var school_list_delete_URL= "{:U('master/school_list_delete_handle')}";
 <div style="clear:both"></div>
 <div class="edit_menu_b">
   <ul>
-    	<li><a href="{:U('master/school_add')}"><img src="../../../../Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
-        <li><a href="#" id="school_list_edit"><img src="../../../../Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
-        <li><a href="#" id="school_list_delete"><img src="../../../../Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
+    	<li><a href="{:U('master/class_add')}"><img src="../../../../Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
+        <li><a href="#" id="class_list_edit"><img src="../../../../Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
+        <li><a href="#" id="class_list_delete"><img src="../../../../Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
         <li><img src="../../../../Public/images/master_32.jpg" width="68" height="28" alt=""/></li>
         <li><img src="../../../../Public/images/master_34.jpg" width="68" height="28" alt=""/></li>
     </ul>
@@ -53,27 +53,25 @@ var school_list_delete_URL= "{:U('master/school_list_delete_handle')}";
 </div>
 <div class="show_content_b">
 <br>
-<p style="text-align:center"><strong>学校列表</strong></p>
+<p style="text-align:center"><strong>班级列表</strong></p>
 <form action="" id="form1" name="form1" method="post">
 <table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
     <thead>
         <tr>
-            <td align="center" class="first_td"><strong>学校名</strong></td>
-            <td align="center"><strong>省份</strong></td>
-            <td align="center"><strong>城市</strong></td>
-            <td align="center"><strong>区</strong></td>
+            <td align="center" class="first_td"><strong>班级名</strong></td>
+            <td align="center"><strong>所在学校</strong></td>
+            <td align="center">年级</td>
             <td align="center">操作人</td>
             <td align="center"><strong>更新时间</strong></td>
             <td align="center">&nbsp;</td>
         </tr>
     </thead>
-    <foreach name="master_school" item="v" >
+    <foreach name="master_class" item="v" >
       <tr class="odd_tr">
             <td align="center" class="first_td">{$v.name}&nbsp;</td>
-            <td align="center">{$v.location_id|sheng}&nbsp;</td>	
-         	<td align="center">{$v.location_id|shi}&nbsp;</td>
-            <td align="center">{$v.location_id|qu}&nbsp;</td>
-            <td align="center">{$v.update_by_id|show_edit_user}&nbsp;</td>
+            <td align="center">{$v.school_id|xuexiao}&nbsp;</td>	
+         	<td align="center">{$v.grade}&nbsp;</td>
+         	<td align="center">{$v.update_by_id|show_edit_user}&nbsp;</td>
             <td align="center">{$v.update_time}&nbsp;</td>
             <td align="center"><input type="checkbox" name="checkbox[]" id="checkbox" value="{$v.id}">&nbsp;</td>
         </tr>
