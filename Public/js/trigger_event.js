@@ -1,6 +1,16 @@
 $(document).ready(function(){
 	$('.current').parent().addClass('div_page_content')
 	
+	$.get(request_category_URL, function(data){
+		var htm=''
+		for(var i=0;i<data.length;i++)
+		{
+			htm+= ('<option value='+data[i].id+'>'+data[i].name+'</option>')
+		}
+		$('#select_category').append(htm)
+
+	})
+	
 	var i = 0;
 	$(".odd_tr").each(function(){
 		if(i%2==0){
@@ -125,6 +135,18 @@ $(document).ready(function(){
 	
 	$('#class_list_delete').click(function(){
 		$('#form1').attr('action',class_list_delete_URL);
+		$('#form1').submit();
+		
+	})
+	
+	$('#question_list_edit').click(function(){
+		$('#form1').attr('action',question_edit_URL);
+		$('#form1').submit();
+		
+	})
+	
+	$('#question_list_delete').click(function(){
+		$('#form1').attr('action',question_list_delete_URL);
 		$('#form1').submit();
 		
 	})

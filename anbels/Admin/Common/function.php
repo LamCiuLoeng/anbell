@@ -31,6 +31,13 @@ $data = $master_school->where('id='.$school_id)->find();
 return $data[name];
 }
 
+function tikufenlei($category_id)
+{	
+$master_category = M("master_category"); // 实例化User对象
+$data = $master_category->where('id='.$category_id)->find();
+return $data[name];
+}
+
 function show_edit_user($user_id)
 {	
 $auth_user = M("auth_user"); // 实例化User对象

@@ -177,7 +177,8 @@ border:#999999 1px solid;
 .div_page_content{
 	width: 100%;
 	margin-top: 10px;
-	text-align:center;	
+	text-align: center;
+	padding-bottom: 10px;
 }
 .div_page_content .current{
 	padding: 5px;
