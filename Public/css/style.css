@@ -86,7 +86,6 @@ body {
 }
 .show_content_b {
 	width: 1000px;
-	height: 600px;
 	margin-left: auto;
 	margin-right: auto;
 	background-color:#FFFFFF;
@@ -169,4 +168,32 @@ border-left:0px #000000 solid;
 .autocomplete_input{
 background:#FFFFFF;
 border:#999999 1px solid;
+}
+.answerlist li span{
+	padding: 5px;
+	color: #FF0004;
+	font-weight: bold;
+}
+.div_page_content{
+	width: 100%;
+	margin-top: 10px;
+	text-align: center;
+	padding-bottom: 10px;
+}
+.div_page_content .current{
+	padding: 5px;
+	font-size: 18px;
+	font-weight: bold;
+}
+.div_page_content .num{
+	padding:5px;
+	font-size: 14px;
+}
+.div_page_content .prev{
+	padding:5px;
+	font-size: 14px;
+}
+.div_page_content .next{
+	padding:5px;
+	font-size: 14px;
 }

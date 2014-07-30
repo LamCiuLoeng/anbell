@@ -1,0 +1,65 @@
+<extend name="Public:base" />
+<block name="extCSS">
+    <link href="../../../../Public/css/style.css" rel="stylesheet" type="text/css">
+</block>
+<block name="extJS">
+    <script src="../../../../Public/js/trigger_event.js"></script>
+    <script src="../../../../Public/js/select_ssq.js"></script>
+</block>
+
+<block name="btnbar">
+<div class="edit_menu_b">
+  <ul>
+    	<li><a href="{:U('questionmanagement/question_add')}"><img src="../../../../Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
+        <li><a href="#" id="question_list_edit"><img src="../../../../Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
+        <li><img src="../../../../Public/images/master_30.jpg" width="68" height="28" alt=""/></li>
+        <li><img src="../../../../Public/images/master_32.jpg" width="68" height="28" alt=""/></li>
+        <li><img src="../../../../Public/images/master_34.jpg" width="68" height="28" alt=""/></li>
+    </ul>
+</div>
+<div style="clear:both"></div>
+</block>
+
+<block name="content">
+<div class="show_content_b">
+<br>
+<p style="text-align:center"><strong>题目列表</strong></p>
+<form action="" id="form1" name="form1" method="post">
+<table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
+    <thead>
+        <tr>
+          <td align="center" class="first_td">题库类型</td>
+            <td align="center"><strong>题目</strong></td>
+            <td align="center"><strong>正确答案</strong></td>
+            <td align="center">答案列表</td>
+            <td align="center">操作人</td>
+            <td align="center"><strong>更新时间</strong></td>
+            <td align="center">&nbsp;</td>
+        </tr>
+    </thead>
+    <foreach name="master_question" item="v" >
+      <tr class="odd_tr">
+        <td align="center" class="first_td">{$v.category_id|tikufenlei}&nbsp;</td>
+            <td align="center">{$v.content}&nbsp;</td>
+            <td align="center">{$v.correct_answer}&nbsp;</td>	
+         	<td align="center">
+            <ul class="answerlist">
+            		<if condition="($v.answer01 neq '' or $v.answer01_content neq '')"><li><span>{$v.answer01}</span>{$v.answer01_content}</li></if>
+                    <if condition="($v.answer02 neq '' or $v.answer02_content neq '')"><li><span>{$v.answer02}</span>{$v.answer02_content}</li></if>
+                    <if condition="($v.answer03 neq '' or $v.answer03_content neq '')"><li><span>{$v.answer03}</span>{$v.answer03_content}</li></if>
+                    <if condition="($v.answer04 neq '' or $v.answer04_content neq '')"><li><span>{$v.answer04}</span>{$v.answer04_content}</li></if>
+            </ul>
+            </td>
+         	<td align="center">{$v.update_by_id|show_edit_user}&nbsp;</td>
+            <td align="center">{$v.update_time}&nbsp;</td>
+            <td align="center"><input type="checkbox" name="checkbox[]" id="checkbox" value="{$v.id}">&nbsp;</td>
+        </tr>
+     </foreach>
+</table>
+</form>
+{$page}
+<br>
+<br>
+<div style="clear:both"></div>
+</div>
+</block>
