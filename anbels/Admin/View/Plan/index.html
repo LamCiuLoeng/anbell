@@ -1,0 +1,45 @@
+<extend name="Public:base" />
+
+<block name="extJS">
+    <script src="__PUBLIC__/js/select_ssq.js"></script>
+</block>
+
+<block name="btnbar">
+    <div class="edit_menu_b">
+      <ul>
+            <li><a href="{:U('Plan/add')}"><img src="__PUBLIC__ /images/master_26.jpg" width="68" height="28" alt=""/></a></li>
+            <li><a href="#" id="account_list_edit"><img src="__PUBLIC__/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
+            <li><a href="#" id="account_list_delete"><img src="__PUBLIC__/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
+        </ul>
+    </div>
+    <div style="clear:both"></div>
+</block>
+
+    
+<block name="content">
+    <div class="show_content_b">
+    <br>
+	<p style="text-align:center"><strong>教学计划列表</strong></p>
+    <form action="" id="form1" name="form1" method="post">
+    <table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
+        <thead>
+            <tr>
+                <td align="center" class="first_td"><strong>所在学校</strong></td>
+                <td align="center"><strong>年级</strong></td>
+                <td align="center"><strong>计划名称</strong></td>
+                <td align="center"><strong>操作</strong></td>
+            </tr>
+        </thead>
+        <foreach name="plans" item="p" >
+          <tr class="odd_tr">
+                <td align="center" class="first_td">&nbsp;{$p['school_name']}</td>
+                <td align="center">{$p.grade}&nbsp;</td>
+                <td align="center">{$p.name}&nbsp;</td>
+                <td align="center"><input type="checkbox" name="checkbox[]" id="checkbox" value="{$p.id}">&nbsp;</td>
+            </tr>
+         </foreach>
+    </table>
+    </form>
+    </div>
+    
+</block>
