@@ -19,9 +19,20 @@ class UtilController extends BaseController {
         ->field('anbels_master_school.id,anbels_master_school.name')
         ->select();
         
-        // dump($school);
-        
         $this->ajaxReturn(array('flag' => 0 ,'children' => $children  ,'school' => $school));
+    }
+    
+    
+    public function get_class_by_school()
+    {
+        $id = I('_c',null);
+        if(!$id || is_null($id)){
+            $this->ajaxReturn(array('flag' => 1 , 'msg' => 'No ID provided!'));
+        }
+        
+        $Class = M('MasterClass');
+        $cs = $Class->where(array('active' => 0 , 'school_id' => intval($id)))->select();
+        $this->ajaxReturn(array('flag' => 0 ,'data' => $cs));
     }
     
     

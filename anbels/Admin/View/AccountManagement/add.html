@@ -15,7 +15,7 @@
 
 <block name="content">
     <div class="show_content_b">
-        <form action="" method="">
+        <form action="{:U('AccountManagement/save_new')}" method="post">
             <p>
                 地区    <select id="lev1" onchange="getlocationchildren(this,'#lev2')">
                     <option value=""></option>
@@ -31,20 +31,27 @@
                     
                 </select>
                 
-                <select id="school_id"></select>
+                <select id="school_id" name="school_id" onchange="get_class_by_school(this,'#class_id')"></select>
 
-
+                <select id="class_id" name="class_id"></select>
             </p>
             <p>姓名<input type="text" name="name" id="name"/></p>
             <p>密码<input type="password" name="password" id="password"/></p>
             <p>确认密码<input type="password" name="repassword" id="repassword"/></p>
             <p>
-                <select name="gender">
-                    <option value="male">男</option>
-                    <option value="female">女</option>
+                性别<select name="gender">
+                    <option value="男">男</option>
+                    <option value="女">女</option>
                 </select>
             </p>
-            <input type="submit" value="提交"/>
+            <p>
+                账号角色<select name="role">
+                    <option value=""></option>
+                    <option value="S">学生</option>
+                    <option value="T">教师</option>
+                </select>
+            </p>
+            <input type="submit" value="提交"/>   
         </form>
     </div>
 </block>

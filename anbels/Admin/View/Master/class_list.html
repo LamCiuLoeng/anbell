@@ -1,40 +1,13 @@
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>安贝尔儿童安全乐园教学管理平台</title>
-<link href="../../../../Public/css/style.css" rel="stylesheet" type="text/css">
-</head>
-<script src="../../../../Public/js/jquery-1.11.1.min.js"></script>
-<script src="../../../../Public/js/trigger_event.js"></script>
-<script src="../../../../Public/js/select_ssq.js"></script>
-<script language="JavaScript" type="text/javascript">
-//<![CDATA[ 
-var ssq_handle_URL= "{:U('master/ssq_handle')}";
-var class_edit_URL= "{:U('master/class_edit')}";
-var class_list_delete_URL= "{:U('master/class_list_delete_handle')}";
-//]]>
-</script>
-<body>
-<div class="top_logo_b">
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-    <tr>
-      <td width="685"><img src="../../../../Public/images/master_03.jpg" width="685" height="130" alt=""/></td>
-      <td align="right" valign="bottom"><a href="{:U('Auth/logout')}">退出管理</a></td>
-    </tr>
-  </table>
-</div>
-<div class="main_menu_b">
-	<ul>
-    	<li><a href="{:U('index/index')}"><img src="../../../../Public/images/master_07.jpg" width="92" height="28" alt=""/></a></li>
-        <li><a href="{:U('AccountManagement/index')}"><img src="../../../../Public/images/master_09.jpg" width="92" height="28" alt=""/></a></li>
-        <li><img src="../../../../Public/images/master_11.jpg" width="92" height="28" alt=""/></li>
-        <li><img src="../../../../Public/images/master_13.jpg" width="92" height="28" alt=""/></li>
-        <li><a href="{:U('questionmanagement/index')}"><img src="../../../../Public/images/master_15.jpg" width="92" height="28" alt=""/></a></li>
-        <li><a href="{:U('master/index')}"><img src="../../../../Public/images/master_17.jpg" width="92" height="28" alt=""/></a></li>
-    </ul>
-</div>
-<div style="clear:both"></div>
+<extend name="Public:base" />
+<block name="extCSS">
+    <link href="../../../../Public/css/style.css" rel="stylesheet" type="text/css">
+</block>
+<block name="extJS">
+    <script src="../../../../Public/js/trigger_event.js"></script>
+    <script src="../../../../Public/js/select_ssq.js"></script>
+</block>
+
+<block name="btnbar">
 <div class="edit_menu_b">
   <ul>
     	<li><a href="{:U('master/class_add')}"><img src="../../../../Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
@@ -45,12 +18,16 @@ var class_list_delete_URL= "{:U('master/class_list_delete_handle')}";
     </ul>
 </div>
 <div style="clear:both"></div>
+</block>
+<block name="searchbar">
 <div class="search_bar_b">
 <label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
     <select id="select_province"></select>
     <select id="select_city"></select>
     <select id="select_area"></select>
 </div>
+</block>
+<block name="content">
 <div class="show_content_b">
 <br>
 <p style="text-align:center"><strong>班级列表</strong></p>
@@ -78,9 +55,8 @@ var class_list_delete_URL= "{:U('master/class_list_delete_handle')}";
      </foreach>
 </table>
 </form>
+{$page}
 <br>
   <br>
 </div>
-<div class="foot_company">&nbsp;<img src="../../../../Public/images/index_26.jpg" width="185" height="49" alt=""/></div>
-</body>
-</html>
+</block>

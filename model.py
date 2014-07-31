@@ -284,6 +284,16 @@ class DataDictionary( DeclarativeBase ):
     value = Column( Text )
 
 
+#===============================================================================
+# for assign the system no value
+#===============================================================================
+class SystemNo( DeclarativeBase ):
+    __tablename__ = 'anbels_system_no'
+
+    system_no = Column( Integer, autoincrement = True, primary_key = True )
+    active = Column( Integer, default = 0 )
+
+
 
 class CurrentUser( DeclarativeBase ):
     __tablename__ = 'anbels_system_current_user'
@@ -336,9 +346,16 @@ def init():
     # shool
     #===========================================================================
     school = School( name = u'罗湖小学', location_id = 4903 )
-    DBSession.add( school )
-    clz = Class( school = school, grade = 1, name = u'一年级' )
-    DBSession.add( clz )
+    school2 = School( name = u'红岭小学', location_id = 4903 )
+    school3 = School( name = u'螺岭小学', location_id = 4903 )
+    school3 = School( name = u'福田实验小学', location_id = 4904 )
+    school3 = School( name = u'新洲小学', location_id = 4904 )
+    DBSession.add_all( [school, school2, school3, ] )
+    clz = Class( school = school, grade = 1, name = u'一年级一班' )
+    clz2 = Class( school = school2, grade = 2, name = u'二年级二班' )
+    clz3 = Class( school = school3, grade = 3, name = u'三年级三班' )
+    clz4 = Class( school = school4, grade = 4, name = u'四年级四班' )
+    DBSession.add_all( [clz, clz2, clz3, clz4, ] )
     clz.users = [student, ]
 
     plan = Plan( name = u'罗湖小学一年级教堂计划', school = school, grade = 1 )

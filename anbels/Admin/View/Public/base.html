@@ -3,35 +3,41 @@
     <head>
         <meta charset="utf-8">
         <title>安贝尔儿童安全乐园教学管理平台</title>
-        <link href="__PUBLIC__/css/style.css" rel="stylesheet" type="text/css">
-        <script src="__PUBLIC__/js/jquery-1.11.1.min.js"></script>
-        <script src="__PUBLIC__/js/common.js"></script>
+        <link href="../../../../Public/css/style.css" rel="stylesheet" type="text/css">
         <block name="extCSS"></block>
+        <script src="../../../../Public/js/jquery-1.11.1.min.js"></script>
+        <script src="../../../../Public/js/common.js"></script>
+        <script language="JavaScript" type="text/javascript">
+		//<![CDATA[ 
+		var ssq_handle_URL= "{:U('master/ssq_handle')}";
+		var request_school_URL= "{:U('master/request_school')}";
+		var request_category_URL= "{:U('questionmanagement/request_category')}";
+		var school_edit_URL= "{:U('master/school_edit')}";
+		var school_list_delete_URL= "{:U('master/school_list_delete_handle')}";
+		var class_edit_URL= "{:U('master/class_edit')}";
+		var class_list_delete_URL= "{:U('master/class_list_delete_handle')}";
+		var question_edit_URL= "{:U('questionmanagement/question_edit')}";
+		var question_list_delete_URL= "{:U('questionmanagement/question_list_delete_handle')}";
+		//]]>
+		</script>
         <block name="extJS"></block>    
     </head>
     <body>
         <div class="top_logo_b">
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr>
-              <td width="685"><img src="__PUBLIC__/images/master_03.jpg" width="685" height="130" alt=""/></td>
+              <td width="685"><img src="../../../../Public/images/master_03.jpg" width="685" height="130" alt=""/></td>
               <td align="right" valign="bottom"><a href="{:U('Auth/logout')}">退出管理</a></td>
             </tr>
           </table>
         </div>
         <include file="Public/menu" />
         <block name="btnbar"></block>
-        <block name="searchbar">
-            <div class="search_bar_b">
-            <label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
-                <select id="select_province"></select>
-                <select id="select_city"></select>
-                <select id="select_area"></select>
-            </div>
-        </block>
+        <block name="searchbar"></block>
             
 
         <block name="content"></block>
                 
-        <div class="foot_company">&nbsp;<img src="__PUBLIC__/images/index_26.jpg" width="185" height="49" alt=""/></div>
+        <div class="foot_company">&nbsp;<img src="../../../../Public/images/index_26.jpg" width="185" height="49" alt=""/></div>
     </body>
 </html>
