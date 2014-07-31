@@ -19,7 +19,7 @@ $(document).ready(function(){
 		i++;
 	});
 	
-	$('#school_send_btn').click(function(){
+	$('#account_send_btn').click(function(){
 		var school_name=$('input[name=school_name]');
 		var select_location=$('select[name=location]');
 		
@@ -33,6 +33,13 @@ $(document).ready(function(){
 		school_name.focus();
 		return;
 		}
+		
+		$('#form1').submit();
+		
+	})
+	
+	$('#school_send_btn').click(function(){
+
 		
 		$('#form1').submit();
 		
@@ -113,6 +120,18 @@ $(document).ready(function(){
 	
 	$('#reset_btn').click(function(){
 		$('#form1')[0].reset();   
+	})
+	
+	$('#account_list_edit').click(function(){
+		$('#form1').attr('action',account_edit_URL);
+		$('#form1').submit();
+		
+	})
+	
+	$('#account_list_delete').click(function(){
+		$('#form1').attr('action',account_list_delete_URL);
+		$('#form1').submit();
+		
 	})
 	
 	$('#school_list_edit').click(function(){

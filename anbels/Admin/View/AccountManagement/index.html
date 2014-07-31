@@ -1,21 +1,18 @@
 <extend name="Public:base" />
-
+<block name="extCSS">
+    <link href="../../../../Public/css/style.css" rel="stylesheet" type="text/css">
+</block>
 <block name="extJS">
     <script src="../../../../Public/js/trigger_event.js"></script>
     <script src="../../../../Public/js/select_ssq.js"></script>
-    <script language="JavaScript" type="text/javascript">
-    //<![CDATA[ 
-    var ssq_handle_URL= "{:U('master/ssq_handle')}";
-    //]]>
-    </script>
 </block>
 
 <block name="btnbar">
     <div class="edit_menu_b">
       <ul>
             <li><a href="{:U('AccountManagement/add')}"><img src="../../../../Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
-            <li><a href="{:U('AccountManagement/edit')}"><img src="../../../../Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
-            <li><a href="{:U('AccountManagement/del')}"><img src="../../../../Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
+            <li><a href="#" id="account_list_edit"><img src="../../../../Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
+            <li><a href="#" id="account_list_delete"><img src="../../../../Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
             <li><a href="{:U('AccountManagement/imp')}"><img src="../../../../Public/images/master_32.jpg" width="68" height="28" alt=""/></a></li>
             <li><a href="{:U('AccountManagement/exp')}"><img src="../../../../Public/images/master_34.jpg" width="68" height="28" alt=""/></a></li>
         </ul>
@@ -26,6 +23,9 @@
     
 <block name="content">
     <div class="show_content_b">
+    <br>
+	<p style="text-align:center"><strong>账号列表</strong></p>
+    <form action="" id="form1" name="form1" method="post">
     <table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
         <thead>
             <tr>
@@ -46,12 +46,13 @@
                 <td align="center">{$v.gender}&nbsp;</td>
                 <td align="center">{$v.school_name}&nbsp;</td>
                 <td align="center">{$v.class_name}&nbsp;</td>
-                <td align="center">&nbsp;</td>
+                <td align="center">{$v.display_name}&nbsp;</td>
                 <td align="center">{$v.last_login_time}&nbsp;</td>
-                <td align="center"><input type="checkbox" name="checkbox" id="checkbox" value="{$v.id}">&nbsp;</td>
+                <td align="center"><input type="checkbox" name="checkbox[]" id="checkbox" value="{$v.id}">&nbsp;</td>
             </tr>
          </foreach>
     </table>
+    </form>
     </div>
     
 </block>

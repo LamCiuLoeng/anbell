@@ -100,7 +100,7 @@ class MasterController extends BaseController {
 		//p($master_school->where($map)->setField('active',1));
 		if($master_school->where($map)->setField($data))
 		{
-			$this->success('删除成功！',U('master/school_list'));
+			$this->success(count($checkbox_array).'条记录删除成功！',U('master/school_list'));
 		} 
 		else
 		{
@@ -200,7 +200,7 @@ class MasterController extends BaseController {
 		//p($master_school->where($map)->setField('active',1));
 		if($master_class->where($map)->setField($data))
 		{
-			$this->success('删除成功！',U('master/class_list'));
+			$this->success(count($checkbox_array).'条记录删除成功！',U('master/class_list'));
 		} 
 		else
 		{
