@@ -1,57 +1,84 @@
 <extend name="Public:base" />
-
-<block name="extJS">
-    
+<block name="extCSS">
+    <link href="../../../../Public/css/style.css" rel="stylesheet" type="text/css">
 </block>
-
-<block name="btnbar">
-    <div class="edit_menu_b">
-      <ul>
-            <li><a href="{:U('AccountManagement/add')}"><img src="../../../../Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
-        </ul>
-    </div>
-    <div style="clear:both"></div>
+<block name="extJS">
+    <script src="../../../../Public/js/trigger_event.js"></script>
+    <script src="../../../../Public/js/select_ssq.js"></script>
 </block>
 
 <block name="content">
-    <div class="show_content_b">
-        <form action="{:U('AccountManagement/save_new')}" method="post">
-            <p>
-                地区    <select id="lev1" onchange="getlocationchildren(this,'#lev2')">
-                    <option value=""></option>
-                    <foreach name="locations" item="l" >    
+    <div class="show_content_b"><br>
+		<p style="text-align:center"><strong>账号添加</strong></p>
+        <form action="{:U('AccountManagement/save_new')}" id="form1" name="form1" method="post">
+          <table width="650" border="0" align="center" cellpadding="0" cellspacing="0">
+              <tr>
+                  <td height="50" align="right">地区：</td>
+                  <td>&nbsp;</td>
+                  <td><select id="lev1" onchange="getlocationchildren(this,'#lev2')">
+                    <option value="">请选择</option>
+                      <foreach name="locations" item="l" >
                         <option value="{$l.code}">{$l.name}</option>
-                    </foreach>
-
-                </select>
-                <select id="lev2" onchange="getlocationchildren(this,'#lev3')">
+                      </foreach>
+                    </select>
                     
-                </select>
-                <select id="lev3" onchange="getlocationchildren(this,'#lev4','#school_id')">
-                    
-                </select>
-                
-                <select id="school_id" name="school_id" onchange="get_class_by_school(this,'#class_id')"></select>
-
-                <select id="class_id" name="class_id"></select>
-            </p>
-            <p>姓名<input type="text" name="name" id="name"/></p>
-            <p>密码<input type="password" name="password" id="password"/></p>
-            <p>确认密码<input type="password" name="repassword" id="repassword"/></p>
-            <p>
-                性别<select name="gender">
+                    <select id="lev2" onchange="getlocationchildren(this,'#lev3')">
+                    </select>
+                    <select id="lev3" onchange="getlocationchildren(this,'#lev4','#school_id')">
+                    </select>
+                    <select id="school_id" name="school_id" onchange="get_class_by_school(this,'#class_id')">
+                    </select>
+                    <select id="class_id" name="class_id">
+                </select></td>
+                  <td>&nbsp;</td>
+            </tr>
+                <tr>
+                  <td width="100" height="50" align="right">姓名：</td>
+                   <td width="10">&nbsp;</td>
+                   <td><input type="text" name="name" id="name"/></td>
+                   <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td height="50" align="right">密码：</td>
+                  <td>&nbsp;</td>
+                  <td><input type="password" name="password" id="password"/></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td height="50" align="right">确认密码：</td>
+                  <td>&nbsp;</td>
+                  <td><input type="password" name="repassword" id="repassword"/></td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td height="50" align="right">性别：</td>
+                  <td>&nbsp;</td>
+                  <td><select name="gender">
                     <option value="男">男</option>
                     <option value="女">女</option>
-                </select>
-            </p>
-            <p>
-                账号角色<select name="role">
+                  </select></td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td height="50" align="right">账号角色：</td>
+                  <td>&nbsp;</td>
+                  <td><select name="role">
                     <option value=""></option>
                     <option value="S">学生</option>
                     <option value="T">教师</option>
-                </select>
-            </p>
-            <input type="submit" value="提交"/>   
-        </form>
+                  </select></td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                   <td height="50" align="right">&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>
+                       <span class="send_btn" id="school_send_btn">添加</span>
+                       <span class="send_btn" id="reset_btn">重置</span> 
+                   </td>
+                   <td></td>
+                </tr>
+          </table>
+      </form>
     </div>
 </block>

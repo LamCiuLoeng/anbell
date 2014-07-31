@@ -1,20 +1,28 @@
 <?php
 namespace Admin\Controller;
 use Admin\Controller\BaseController;
-class AccountmanagementController extends BaseController {
+class AccountManagementController extends BaseController {
     public function index(){	
 		$User = M('AuthUser');
         $users = $User
-        ->join('left join anbels_logic_class_user  on  anbels_auth_user.id = anbels_logic_class_user.user_id')
-        ->join('left join anbels_master_class on anbels_logic_class_user.class_id = anbels_master_class.id')
+        ->join('left join anbels_logic_class_user  on  anbels_logic_class_user.user_id = anbels_auth_user.id')
+        ->join('left join anbels_master_class on anbels_master_class.id = anbels_logic_class_user.class_id')
         ->join('left join anbels_master_school on anbels_master_school.id = anbels_master_class.school_id')
+		
+		->join('left join anbels_auth_user_group on anbels_auth_user_group.user_id = anbels_auth_user.id')
+		->join('left join anbels_auth_group on anbels_auth_group.id = anbels_auth_user_group.group_id')
+		
         ->field('anbels_auth_user.id,anbels_auth_user.system_no,anbels_auth_user.name as user_name,
                  anbels_auth_user.gender,anbels_auth_user.last_login_time,
-                 anbels_master_school.name as school_name,anbels_master_class.name as class_name')
-        //->order('anbels_auth_user.system_no desc')
+                 anbels_master_school.name as school_name,anbels_master_class.name as class_name,
+				 anbels_auth_group.display_name')
+        ->order('anbels_auth_user.id desc')
+		->where('anbels_auth_user.active=0')
         ->select();
 
         $this->auth_user = $users;
+		//p($users);
+		//die;
         $this->display();
 	}
 	
@@ -38,8 +46,8 @@ class AccountmanagementController extends BaseController {
             $this->error("没有填写姓名！");
         }
         
-        if(!$m['password'] || is_null($m['password'])){
-            $this->error("没有填写密码！");
+       if(!$m['password'] || is_null($m['password'])){
+         	$this->error("没有填写密码！");
         }
         
         if($m['password'] != $m['repassword']){
@@ -48,18 +56,21 @@ class AccountmanagementController extends BaseController {
         
         try{
             $SystemNo = M("SystemNo");
-            $SystemNo->create(array('active'=>0));
-            $m['system_no'] =$SystemNo->add();
+           // $SystemNo->create(array('active'=>0));
+            $m['system_no'] =$SystemNo->add(array('active'=>0));
             $m['password'] = $hashpw = crypt($m['password'],"dingnigefei"); #encrypt the password to save into db
             $m['salt'] = "dingnigefei";  #salt
             $User = M('AuthUser');
             $User->create($m);
             $id = $User->add();
+			//p($id);
+			//die;
             
             $role = I('role',null);
             $Group = M('AuthGroup');
             $UserGroup = M('AuthUserGroup');
             
+
             if($role == 'S'){ //student
                 $g = $Group->where(array('active' => 0 ,'name' => 'STUDENT'))->find();
                 $UserGroup->data(array('user_id' => $id, 'group_id' => $g['id']))->add();
@@ -76,7 +87,7 @@ class AccountmanagementController extends BaseController {
                 $ClassUser->data(array('user_id' => $id,'class_id' => $class['id'],'role' => $role))->add();
             }
             
-            $this->success('成功添加账号！','index');
+            $this->success('成功添加账号！',U('AccountManagement/index'));
         }catch(Exception $e){
             dump($e);
             $this->error("系统出错，创建不成功！");
@@ -92,6 +103,25 @@ class AccountmanagementController extends BaseController {
     public function del()
     {
         echo 'del';
+		
+		$checkbox_array=I('post.checkbox');
+
+		$User = M("auth_user"); // 实例化User对象
+		$map['id']  = array('in',$checkbox_array);
+		//p($map);
+		//die;
+		$data['active'] = 1;
+		$data['update_by_id'] = session('user_id');
+		$data['update_time'] = mynow();
+		//p($master_school->where($map)->setField('active',1));
+		if($User->where($map)->setField($data))
+		{
+			$this->success(count($checkbox_array).'条记录删除成功！',U('AccountManagement/index'));
+		} 
+		else
+		{
+			$this->error('删除失败，请勾选需要删除的学校...');	
+		}
     }
     
     public function imp()
