@@ -1,16 +1,6 @@
 $(document).ready(function(){
 	$('.current').parent().addClass('div_page_content')
 	
-	$.get(request_category_URL, function(data){
-		var htm=''
-		for(var i=0;i<data.length;i++)
-		{
-			htm+= ('<option value='+data[i].id+'>'+data[i].name+'</option>')
-		}
-		$('#select_category').append(htm)
-
-	})
-	
 	var i = 0;
 	$(".odd_tr").each(function(){
 		if(i%2==0){
@@ -20,8 +10,15 @@ $(document).ready(function(){
 	});
 	
 	$('#account_send_btn').click(function(){
-		var school_name=$('input[name=school_name]');
+		
+		
+		$('#form1').submit();
+		
+	})
+	
+	$('#school_send_btn').click(function(){
 		var select_location=$('select[name=location]');
+		var school_name=$('input[name=school_name]');
 		
 		if(select_location.val()==null){
 		alert('地区不能为空！');
@@ -33,13 +30,6 @@ $(document).ready(function(){
 		school_name.focus();
 		return;
 		}
-		
-		$('#form1').submit();
-		
-	})
-	
-	$('#school_send_btn').click(function(){
-
 		
 		$('#form1').submit();
 		

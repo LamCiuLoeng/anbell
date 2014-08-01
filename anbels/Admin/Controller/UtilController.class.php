@@ -34,7 +34,33 @@ class UtilController extends BaseController {
         $cs = $Class->where(array('active' => 0 , 'school_id' => intval($id)))->select();
         $this->ajaxReturn(array('flag' => 0 ,'data' => $cs));
     }
+	
+	public function ssq_handle()
+	{
+		$master_location = M("master_location"); // 实例化User对象
+		$data = $master_location->select();
+		$this->ajaxReturn($data);
+	}
+	
+	public function request_school()
+	{
+		$master_school = M("master_school"); // 实例化User对象
+		$data = $master_school->join('left join anbels_master_location on anbels_master_location.id = anbels_master_school.location_id')
+		->where('anbels_master_school.active=0')
+		->field('anbels_master_school.id,anbels_master_school.name,
+				anbels_master_location.code')
+		->select();
+		$this->ajaxReturn($data);
+	}
+	
+	public function request_category(){
+		$master_category = M("master_category"); // 实例化User对象
+		$data = $master_category->where('active=0')->select();
+		$this->ajaxReturn($data);
+	}
     
     
 }
+
+	
     
