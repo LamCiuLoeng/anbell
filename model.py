@@ -345,12 +345,12 @@ def init():
     #===========================================================================
     # shool
     #===========================================================================
-    school = School( name = u'罗湖小学', location_id = 4903 )
-    school2 = School( name = u'红岭小学', location_id = 4903 )
-    school3 = School( name = u'螺岭小学', location_id = 4903 )
-    school3 = School( name = u'福田实验小学', location_id = 4904 )
-    school3 = School( name = u'新洲小学', location_id = 4904 )
-    DBSession.add_all( [school, school2, school3, ] )
+    school = School( name = u'罗湖小学', location_id = 2900 )
+    school2 = School( name = u'红岭小学', location_id = 380 )
+    school3 = School( name = u'螺岭小学', location_id = 380 )
+    school4 = School( name = u'福田实验小学', location_id = 380 )
+    school5 = School( name = u'新洲小学', location_id = 380 )
+    DBSession.add_all( [school, school2, school3, school4, school5, ] )
     clz = Class( school = school, grade = 1, name = u'一年级一班' )
     clz2 = Class( school = school2, grade = 2, name = u'二年级二班' )
     clz3 = Class( school = school3, grade = 3, name = u'三年级三班' )

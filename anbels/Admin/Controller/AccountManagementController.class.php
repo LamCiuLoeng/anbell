@@ -48,7 +48,7 @@ class AccountmanagementController extends BaseController {
         
         try{
             $SystemNo = M("SystemNo");
-            $SystemNo->create(array('active'=>0));
+            //$SystemNo->create(array('active'=>0));
             $m['system_no'] =$SystemNo->add();
             $m['password'] = $hashpw = crypt($m['password'],"dingnigefei"); #encrypt the password to save into db
             $m['salt'] = "dingnigefei";  #salt
