@@ -101,20 +101,19 @@ class Location( DeclarativeBase, SysMixin ):
     def __unicode__( self ): return self.full_name
 
 
-
-class Category( DeclarativeBase, SysMixin ):
-    __tablename__ = 'anbels_master_category'
-
-    id = Column( Integer, autoincrement = True, primary_key = True )
-    name = Column( Unicode( 1000 ) )
-    desc = Column( Text )
+#
+# class Category( DeclarativeBase, SysMixin ):
+#     __tablename__ = 'anbels_master_category'
+#
+#     id = Column( Integer, autoincrement = True, primary_key = True )
+#     name = Column( Unicode( 1000 ) )
+#     desc = Column( Text )
 
 
 class Question( DeclarativeBase, SysMixin ):
     __tablename__ = 'anbels_master_question'
 
     id = Column( Integer, autoincrement = True, primary_key = True )
-    category_id = Column( Integer, ForeignKey( 'anbels_master_category.id' ) )
     content = Column( Text )
     correct_answer = Column( Unicode( 10 ), )
     answer01 = Column( Unicode( 10 ), )
@@ -143,8 +142,8 @@ class Course( DeclarativeBase, SysMixin ):
 
     id = Column( Integer, autoincrement = True, primary_key = True )
     name = Column( Unicode( 1000 ), nullable = False )
-    category_id = Column( Integer, ForeignKey( 'anbels_master_category.id' ) )
-    category = relation( Category )
+#     category_id = Column( Integer, ForeignKey( 'anbels_master_category.id' ) )
+#     category = relation( Category )
     desc = Column( Text )
 
 
@@ -155,6 +154,7 @@ class Courseware( DeclarativeBase, SysMixin ):
     id = Column( Integer, autoincrement = True, primary_key = True )
     name = Column( Unicode( 1000 ), nullable = False )
     course_id = Column( Integer, ForeignKey( 'anbels_master_course.id' ) )
+    course = relation( Course )
     desc = Column( Text )
     path = Column( Unicode( 5000 ) )
     url = Column( Unicode( 5000 ) )
@@ -191,6 +191,8 @@ class_user_table = Table( 'anbels_logic_class_user', metadata,
  )
 
 
+
+
 class Class( DeclarativeBase, SysMixin ):
     __tablename__ = 'anbels_master_class'
 
@@ -218,12 +220,12 @@ class Class( DeclarativeBase, SysMixin ):
 #  )
 #
 #
-plan_course_table = Table( 'anbels_logic_plan_course', metadata,
-    Column( 'plan_id', Integer, ForeignKey( 'anbels_logic_plan.id',
-        onupdate = "CASCADE", ondelete = "CASCADE" ), primary_key = True ),
-    Column( 'course_id', Integer, ForeignKey( 'anbels_master_course.id',
-        onupdate = "CASCADE", ondelete = "CASCADE" ), primary_key = True ),
- )
+# plan_course_table = Table( 'anbels_logic_plan_course', metadata,
+#     Column( 'plan_id', Integer, ForeignKey( 'anbels_logic_plan.id',
+#         onupdate = "CASCADE", ondelete = "CASCADE" ), primary_key = True ),
+#     Column( 'course_id', Integer, ForeignKey( 'anbels_master_course.id',
+#         onupdate = "CASCADE", ondelete = "CASCADE" ), primary_key = True ),
+#  )
 
 
 
@@ -234,18 +236,31 @@ class Plan( DeclarativeBase, SysMixin ):
     name = Column( Unicode( 1000 ), nullable = False )
     school_id = Column( Integer, ForeignKey( 'anbels_master_school.id' ) )
     school = relation( School )
-    grade = Column( Integer, default = 1 )
+#     grade = Column( Integer, default = 1 )
     desc = Column( Text )
-    courses = relation( 'Course', secondary = plan_course_table, backref = 'plans' )
+#     courses = relation( 'Course', secondary = plan_course_table, backref = 'plans' )
 
 
 
 
+class PlanCourse( DeclarativeBase, SysMixin ):
+    __tablename__ = 'anbels_logic_plan_course'
+
+    id = Column( Integer, autoincrement = True, primary_key = True )
+    plan_id = Column( Integer, ForeignKey( 'anbels_logic_plan.id' ) )
+    plan = relation( Plan )
+    grade = Column( Integer, default = 1 )
+    course_id = Column( Integer, ForeignKey( 'anbels_master_course.id' ) )
+    course = relation( Course )
+    desc = Column( Text )
 
 
-
-
-
+course_question_table = Table( 'anbels_logic_course_question', metadata,
+    Column( 'course_id', Integer, ForeignKey( 'anbels_master_course.id',
+        onupdate = "CASCADE", ondelete = "CASCADE" ), primary_key = True ),
+    Column( 'qustion_id', Integer, ForeignKey( 'anbels_master_question.id',
+        onupdate = "CASCADE", ondelete = "CASCADE" ), primary_key = True ),
+ )
 
 
 
@@ -279,8 +294,9 @@ class StudyLog( DeclarativeBase, SysMixin ):
     id = Column( Integer, autoincrement = True, primary_key = True )
     user_id = Column( Integer, ForeignKey( 'anbels_auth_user.id' ) )
     user = relation( User )
-    type = Column( Unicode( 5 ), )  # G is game , C is courseware
+    type = Column( Unicode( 5 ), )  # G is game , C is courseware C is course
     refer_id = Column( Integer )
+    start_time = Column( DateTime )
     complete_time = Column( DateTime )
     score = Column( Float )
     remark = Column( Text )
@@ -344,24 +360,25 @@ def init():
     gStudent.users = [student, ]
     DBSession.add_all( [gAdmin, gTeacher, gStudent] )
 
-    c1 = Category( name = u'消防教育' )
-    c2 = Category( name = u'安全教育' )
-    c3 = Category( name = u'政治常识' )
-    c4 = Category( name = u'社会背景' )
-    DBSession.add_all( [c1, c2, c3, c4, ] )
-    DBSession.flush()
+    cr1 = Course( name = u'课程一', )
+    cr2 = Course( name = u'课程二' )
+    cr3 = Course( name = u'课程三' )
+    cr4 = Course( name = u'课程四' )
+    cr5 = Course( name = u'课程五' )
+    DBSession.add_all( [cr1, cr2, cr3, cr4, cr5, ] )
 
-    cw1 = Courseware( name = u'课件一', )
-    cw2 = Courseware( name = u'课件二', )
-    cw3 = Courseware( name = u'课件三', )
-    cw4 = Courseware( name = u'课件四', )
 
-    gm1 = Game( name = u'游戏一', )
-    gm2 = Game( name = u'游戏二', )
-    gm3 = Game( name = u'游戏三', )
-    gm4 = Game( name = u'游戏四', )
+    cw1 = Courseware( name = u'课件一', course = cr1 )
+    cw2 = Courseware( name = u'课件二', course = cr2 )
+    cw3 = Courseware( name = u'课件三', course = cr3 )
+    cw4 = Courseware( name = u'课件四', course = cr4 )
 
-    DBSession.add_all( [cw1, cw2, cw3, cw4, gm1, gm2, gm3, gm4, ] )
+    cw10 = Courseware( name = u'课件一十', course = cr1 )
+    cw20 = Courseware( name = u'课件二十', course = cr2 )
+    cw30 = Courseware( name = u'课件三十', course = cr3 )
+    cw40 = Courseware( name = u'课件四十', course = cr4 )
+
+    DBSession.add_all( [cw1, cw2, cw3, cw4, cw10, cw20, cw30, cw40, ] )
 
     #===========================================================================
     # shool
@@ -379,19 +396,14 @@ def init():
     DBSession.add_all( [clz, clz2, clz3, clz4, ] )
     clz.users = [student, ]
 
-    cr1 = Course( name = u'课程一', category = c1 )
-    cr2 = Course( name = u'课程二', category = c2 )
-    cr3 = Course( name = u'课程三', category = c3 )
-    cr4 = Course( name = u'课程四', category = c4 )
-    cr5 = Course( name = u'课程五', category = c1 )
-    DBSession.add_all( [cr1, cr2, cr3, cr4, cr5, ] )
 
-    plan1 = Plan( name = u'罗湖小学一年级教堂计划', school = school, grade = 1 )
-    plan1.courses = [cr1, cr2]
+    plan1 = Plan( name = u'罗湖小学教堂计划', school = school )
+    pc1 = PlanCourse( plan = plan1, grade = 1, course = cr1 )
 
-    plan2 = Plan( name = u'罗湖小学三年级教堂计划', school = school, grade = 3 )
-    plan2.courses = [cr3, cr4]
-    DBSession.add_all( [plan1, plan2, ] )
+    plan2 = Plan( name = u'红岭小学教堂计划', school = school2 )
+    pc2 = PlanCourse( plan = plan2, grade = 1, course = cr2 )
+
+    DBSession.add_all( [plan1, plan2, pc1, pc2 ] )
 
     DBSession.commit()
     print "Done"
