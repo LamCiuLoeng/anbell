@@ -237,8 +237,52 @@ class MasterController extends BaseController {
 	}
 	
 	public function course_add_handle(){
+		$m = mydto();
+		$m['name'] = I('name',null);
+		if(!$m['name'] || is_null($m['name'])){
+			$this->error("课程名称不能为空！");
+		}
+		
+		
+		$m['desc'] = I('desc',null);
+		$MasterCourse = M('MasterCourse');
+		$MasterCourse->create($m);
+		$cid = $MasterCourse->add();
+		
+		$config = array(    
+                    //'maxSize'    =>    3145728,    
+                    'rootPath'   =>    './Public/',
+                    'savePath'   =>    'Upload/',    
+                    'saveName'   =>    array('uniqid',''),    
+                    // 'exts'       =>    array('jpg', 'gif', 'png', 'jpeg'),    
+                    'autoSub'    =>    true,    
+                    'subName'    =>    array('date','Ymd','time'),
+                 );
+        $upload = new \Think\Upload($config);// 实例化上传类
+        if(!file_exists($upload->savePath)){
+            mkdir($upload->savePath);
+        }    
 
+        $info   =   $upload->upload();  
+        
+        if(!$info) {// 上传错误提示错误信息        
+            //$this->error('上传课件失败！',U('Master/course_list'));
+            $this->error($upload->getError());
+        }else{// 上传成功     			
+			$MasterCourseware = M('MasterCourseware');
+			foreach ($info as $file) {
+				$tmp = mydto();
+				$tmp['course_id'] = $cid;	
+				$tmp['path'] = $file['rootpath'].$file['savepath'].$file['savename'];
+				$tmp['name'] = $file['name'];
+				$tmp['url'] = '/Public/'.str_replace("\\", "/", $tmp['path']);
+				$MasterCourseware->create($tmp);
+				$MasterCourseware->add();
+			}
+        }
+		$this->success('成功添加课程！',U('Master/course_list'));				
 	}
+		
 	
 	public function course_edit(){
 
