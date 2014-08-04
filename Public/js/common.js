@@ -22,7 +22,7 @@ function getlocationchildren(obj,subid,school_id){
                 
             }else{
                 if(r.children){
-                    var html = '<option value=""></option>';
+                    var html = '<option value="">请选择</option>';
                     for(var i=0;i<r.children.length;i++){
                         html += '<option value="'+r.children[i]['code']+'">'+r.children[i]['name']+'</option>';
                     }
@@ -31,7 +31,7 @@ function getlocationchildren(obj,subid,school_id){
                     
                 
                 if(r.school){
-                    var html2 = '<option value=""></option>';
+                    var html2 = '<option value="">请选择</option>';
                     for(var j=0;j<r.school.length;j++){
                         html2 += '<option value="'+r.school[j]['id']+'">'+r.school[j]['name']+'</option>';
                     }
@@ -62,7 +62,7 @@ function get_class_by_school(obj,c) {
             if(r.flag != 0 ){
                 alert(r.msg);
             }else{
-                var html = '<option value=""></option>';
+                var html = '<option value="">请选择</option>';
                 for(var i=0;i<r.data.length;i++){
                     html += '<option value="'+r.data[i]['id']+'">'+r.data[i]['name']+'</option>';
                 }

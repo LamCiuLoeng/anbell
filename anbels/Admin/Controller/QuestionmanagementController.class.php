@@ -98,6 +98,24 @@ class QuestionmanagementController extends BaseController {
 		}
 	}
 	
+	public function question_list_delete_handle(){
+		$checkbox_array=I('post.checkbox');
+		$master_question = M("master_question"); // 实例化User对象
+		$map['id']  = array('in',$checkbox_array);
+		$data['active'] = 1;
+		$data['update_by_id'] = session('user_id');
+		$data['update_time'] = mynow();
+		//p($master_school->where($map)->setField('active',1));
+		if($master_question->where($map)->setField($data))
+		{
+			$this->success(count($checkbox_array).'条记录删除成功！',U('questionmanagement/index'));
+		} 
+		else
+		{
+			$this->error('删除失败，请勾选需要删除的学校...');	
+		}
+	}
+	
 	
 	
 	public function request_category(){

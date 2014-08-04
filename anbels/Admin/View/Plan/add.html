@@ -1,0 +1,109 @@
+<extend name="Public:base" />
+
+<block name="extJS">
+    <script src="__PUBLIC__/js/trigger_event.js"></script>
+    <script src="__PUBLIC__/js/select_ssq.js"></script>
+</block>
+
+<block name="content">
+    <div class="show_content_b"><br>
+		<p style="text-align:center"><strong>教堂计划添加</strong></p>
+        <form action="{:U('Plan/save_new')}" id="form1" name="form1" method="post">
+          <table width="650" border="0" align="center" cellpadding="0" cellspacing="0">
+              <tr>
+                  <td height="50" align="right">地区：</td>
+                  <td>&nbsp;</td>
+                  <td><select id="lev1" onchange="getlocationchildren(this,'#lev2')">
+                    <option value="">请选择</option>
+                      <foreach name="locations" item="l" >
+                        <option value="{$l.code}">{$l.name}</option>
+                      </foreach>
+                    </select>
+                    
+                    <select id="lev2" onchange="getlocationchildren(this,'#lev3')">
+                    </select>
+                    <select id="lev3" onchange="getlocationchildren(this,'#lev4','#school_id')">
+                    </select>
+                    <select id="school_id" name="school_id" onchange="get_class_by_school(this,'#class_id')">
+                    </select>
+                    <select id="class_id" name="class_id">
+                </select></td>
+                  <td>&nbsp;</td>
+            </tr>
+                <tr>
+                  <td width="100" height="50" align="right">教学计划名称：</td>
+                   <td width="10">&nbsp;</td>
+                   <td><input type="text" name="name" id="name"/></td>
+                   <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td height="50" align="right">教学计划适用年级：</td>
+                  <td>&nbsp;</td>
+                  <td>
+                      <select name="grade">
+                          <option value=""></option>
+                          <for start="1" end="10" name="i">
+                              <option value="{$i}">{$i}</option>
+                          </for>
+                      </select>
+                  </td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td height="50" align="right">教学计划描述：</td>
+                  <td>&nbsp;</td>
+                  <td><textarea name="desc"></textarea></td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td height="50" align="right">教学计划的课程：</td>
+                  <td>&nbsp;</td>
+                  <td>
+                      <select name="course[]">
+                          <option value=""></option>
+                          <foreach name="courses" item="c" >    
+                              <option value="{$c.id}">{$c.name}</option>
+                          </foreach>
+                      </select>
+                  </td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td height="50" align="right">教学计划的课程：</td>
+                  <td>&nbsp;</td>
+                  <td>
+                      <select name="course[]">
+                          <option value=""></option>
+                          <foreach name="courses" item="c" >    
+                              <option value="{$c.id}">{$c.name}</option>
+                          </foreach>
+                      </select>
+                  </td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td height="50" align="right">教学计划的课程：</td>
+                  <td>&nbsp;</td>
+                  <td>
+                      <select name="course[]">
+                          <option value=""></option>
+                          <foreach name="courses" item="c" >    
+                              <option value="{$c.id}">{$c.name}</option>
+                          </foreach>
+                      </select>
+                  </td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                   <td height="50" align="right">&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>
+                       <span class="send_btn" id="school_send_btn">添加</span>
+                       <span class="send_btn" id="reset_btn">重置</span> 
+                   </td>
+                   <td></td>
+                </tr>
+          </table>
+      </form>
+    </div>
+</block>
