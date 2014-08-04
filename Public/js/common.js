@@ -2,6 +2,34 @@ $(document).ready(function(){
 	if($('.show_content_b').height()<500){
 		$('.show_content_b').height(500)
 	}
+	
+	$('#select_area').change(function(){
+		$.get(request_school_URL, function(data){
+			var location_code = $('#select_area').val()
+			var htm=''
+			for(var i=0;i<data.length;i++)
+			{
+				if(data[i].code == location_code)
+				{
+				htm+= ('<option value='+data[i].id+'>'+data[i].name+'</option>')
+				}
+			}
+			$('#select_school').html(htm)
+
+		})
+	})
+	if($('#select_category').val() != null){
+		$.get(request_category_URL, function(data){
+			var htm=''
+			for(var i=0;i<data.length;i++)
+			{
+				htm+= ('<option value='+data[i].id+'>'+data[i].name+'</option>')
+			}
+			$('#select_category').append(htm)
+	
+		})
+	}
+	
 });  
 
 
@@ -71,6 +99,9 @@ function get_class_by_school(obj,c) {
         });
     }
 }
+
+
+
 
 
 

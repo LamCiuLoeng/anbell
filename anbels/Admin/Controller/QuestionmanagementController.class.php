@@ -29,6 +29,7 @@ class QuestionmanagementController extends BaseController {
 	}
 
 	public function question_add_handle(){
+		
 		$master_question = M("master_question"); // 实例化User对象
 		$data['category_id'] = I('post.category');
 		$data['content'] = I('post.question_name');
@@ -46,15 +47,17 @@ class QuestionmanagementController extends BaseController {
 		$data['create_time'] = mynow();
 		$data['update_by_id'] = session('user_id');
 		$data['update_time'] = mynow();
-		//p($master_question->add($data));die;
+		
 		if($master_question->add($data))
 		{
-			$this->success('添加成功！',U('questionmanagement/index'));
+			$this->success('题库添加成功！',U('questionmanagement/index'));
 		} 
 		else 
 		{
-			$this->error('发布失败，请重试...');	
+			$this->error('题库添加失败，请重试...');	
 		}
+		 
+		
 	}
 	
 	public function question_edit(){
@@ -116,13 +119,6 @@ class QuestionmanagementController extends BaseController {
 		}
 	}
 	
-	
-	
-	public function request_category(){
-		$master_category = M("master_category"); // 实例化User对象
-		$data = $master_category->where('active=0')->select();
-		$this->ajaxReturn($data);
-	}
-	
+
 	
 }

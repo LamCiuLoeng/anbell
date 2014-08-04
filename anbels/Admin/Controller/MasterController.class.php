@@ -34,7 +34,8 @@ class MasterController extends BaseController {
 	}
 	public function school_add_handle(){
 		$master_school = M("master_school"); // 实例化User对象
-		$data['location_id'] = I('post.location');
+		$location_id=M('master_location')->where('code='.I('post.location'))->find();
+		$data['location_id'] = $location_id['id'];
 		$data['name'] = I('post.school_name');
 		$data['desc'] = I('post.description');
 		$data['active'] = 0;
@@ -45,11 +46,11 @@ class MasterController extends BaseController {
 		//p($master_school->add($data));die;
 		if($master_school->add($data))
 		{
-			$this->success('添加成功！',U('master/school_list'));
+			$this->success('学校添加成功！',U('master/school_list'));
 		} 
 		else 
 		{
-			$this->error('发布失败，请重试...');	
+			$this->error('学校添加失败，请重试...');	
 		}
 	}
 	
@@ -72,18 +73,20 @@ class MasterController extends BaseController {
 	public function school_edit_handle(){
 		$master_school = M("master_school"); // 实例化User对象
 		$map['id'] = I('post.id');
-		$data['location_id'] = I('post.location');
+		$location_id=M('master_location')->where('code='.I('post.location'))->find();
+		$data['location_id'] = $location_id['id'];
+		//$data['location_id'] = I('post.location');
 		$data['name'] = I('post.school_name');
 		$data['desc'] = I('post.description');
 		$data['update_by_id'] = session('user_id');
 		$data['update_time'] = mynow();
 		if($master_school->where($map)->setField($data))
 		{
-			$this->success('修改成功！',U('master/school_list'));
+			$this->success('学校修改成功！',U('master/school_list'));
 		} 
 		else 
 		{
-			$this->error('修改失败，请重试...');	
+			$this->error('学校修改失败，请重试...');	
 		}
 	}
 	
@@ -144,11 +147,11 @@ class MasterController extends BaseController {
 		//p($master_school->add($data));die;
 		if($master_class->add($data))
 		{
-			$this->success('添加成功！',U('master/class_list'));
+			$this->success('班级添加成功！',U('master/class_list'));
 		} 
 		else 
 		{
-			$this->error('发布失败，请重试...');	
+			$this->error('班级添加失败，请重试...');	
 		}
 	}
 	
@@ -164,7 +167,7 @@ class MasterController extends BaseController {
 		} 
 		else 
 		{
-			$this->error('请选择所要修改的学校，重试...','',2);	
+			$this->error('请选择所要修改的班级，重试...','',2);	
 		}
 	}
 	
@@ -179,11 +182,11 @@ class MasterController extends BaseController {
 		$data['update_time'] = mynow();
 		if($master_school->where($map)->setField($data))
 		{
-			$this->success('修改成功！',U('master/school_list'));
+			$this->success('班级修改成功！',U('master/school_list'));
 		} 
 		else 
 		{
-			$this->error('修改失败，请重试...');	
+			$this->error('班级修改失败，请重试...');	
 		}
 	}
 	
@@ -204,24 +207,14 @@ class MasterController extends BaseController {
 		} 
 		else
 		{
-			$this->error('删除失败，请勾选需要删除的学校...');	
+			$this->error('删除失败，请勾选需要删除的班级...');	
 		}
 	}
 	
 	
 	
 	
-	public function ssq_handle(){
-		$master_location = M("master_location"); // 实例化User对象
-		$data = $master_location->select();
-		$this->ajaxReturn($data);
-	}
-	
-	public function request_school(){
-		$master_school = M("master_school"); // 实例化User对象
-		$data = $master_school->where('active=0')->select();
-		$this->ajaxReturn($data);
-	}
+
 	
 	
 	

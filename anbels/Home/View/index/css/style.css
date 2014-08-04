@@ -1,0 +1,24 @@
+@charset "utf-8";
+body {
+	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	color: #ffffff;
+	background-repeat: repeat-x;
+	background-image: url(../images/main_bg.jpg);
+	background-color: #159ED5;
+	background-position: center 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+}
+.flash_content{
+	width:950px;
+	margin:5px auto 0px auto;
+	text-align:center;
+	border:#FFFFFF solid 8px;
+}
