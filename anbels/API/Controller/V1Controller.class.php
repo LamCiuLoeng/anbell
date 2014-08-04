@@ -85,9 +85,9 @@ class V1Controller extends Controller {
 				//if($action == 'get_plan_by_user'){ $this->get_plan_by_user(); }
                 if($action == 'get_course_by_plan'){ $this->get_course_by_plan(); }
                 if($action == 'get_course_by_user'){ $this->get_course_by_user(); }
-				//if($action == 'get_plan_by_class'){ $this->get_plan_by_class(); }
 				if($action == 'get_questions'){ $this->get_questions(); }
 				if($action == 'save_user_data'){ $this->save_user_data(); }
+				if($action == 'get_study_log'){ $this->get_study_log(); }
 			}catch(Exception $e){
 				$this->ajaxReturn(array('flag' => FLAG_UNKNOWN_ERROR, 'msg' => MSG_UNKNOWN_ERROR));
 			}
@@ -322,6 +322,21 @@ class V1Controller extends Controller {
                     $dto['refer_id'] = $params['data']['obj_id'];
                     $dto['type'] = $type;
                     $dto['start_time'] = mynow();
+                    if($params['data']['data_type'] == 'C'){
+                        $Q = M('MasterCourseware');
+                        $q = $Q->where(array('id'=>intval($params['data']['obj_id'])))->find();
+                        if($q){
+                            $dto['refer_name'] = $q['name'];
+                        }
+                    }elseif($params['data']['data_type'] == 'P'){
+                        $Q = M('MasterCourse');
+                        $q = $Q->where(array('id'=>intval($params['data']['obj_id'])))->find();
+                        if($q){
+                            $dto['refer_name'] = $q['name'];
+                        }
+                    }else{
+                        $dto['refer_name'] = '游戏';
+                    }
                     $LogicStudyLog->data($dto)->add();
                 }else{
                     $update['start_time'] = mynow();
@@ -331,7 +346,7 @@ class V1Controller extends Controller {
                 }
                 $this->ajaxReturn(array('flag' => FLAG_OK ,'msg' => MSG_OK));
             }else{
-                if($before){ //play the game before
+                if($before){ //get the record before
                     $update['complete_time'] = mynow();
                     $update['score'] = I('score',null);
                     $LogicStudyLog->where($condition)->data($update)->save();
@@ -353,37 +368,11 @@ class V1Controller extends Controller {
 			$this->ajaxReturn(array('flag' => FLAG_NOT_ALL_REQUIRED ,'msg' => MSG_NOT_ALL_REQUIRED));
 		}
 		$total = I('total',"5");
-		$Q = M('LogicCourseQuestion');
+		$Q = M('MasterQuestion');
         $q = $Q 
-           -> join('anbels_master_question on anbels_master_question.id = anbels_logic_course_question.qustion_id')
-           ->where(array('anbels_logic_course_question.course_id' => intval($params['data']['course_id']),))
+           ->where(array('active' => 0 ,'course_id' => intval($params['data']['course_id']),))
            ->order('RAND()')->limit(intval($total))
-           ->field('anbels_master_question.id as id,
-                    anbels_master_question.content as content,
-                    anbels_master_question.correct_answer as correct_answer,
-                    anbels_master_question.answer01 as answer01,
-                    anbels_master_question.answer01_content as answer01_content,
-                    anbels_master_question.answer02 as answer02,
-                    anbels_master_question.answer02_content as answer02_content,
-                    anbels_master_question.answer03 as answer03,
-                    anbels_master_question.answer03_content as answer03_content,
-                    anbels_master_question.answer04 as answer04,
-                    anbels_master_question.answer04_content as answer04_content,
-                    anbels_master_question.answer05 as answer05,
-                    anbels_master_question.answer05_content as answer05_content,
-                    anbels_master_question.answer06 as answer06,
-                    anbels_master_question.answer06_content as answer06_content,
-                    anbels_master_question.answer07 as answer07,
-                    anbels_master_question.answer07_content as answer07_content,
-                    anbels_master_question.answer08 as answer08,
-                    anbels_master_question.answer08_content as answer08_content,
-                    anbels_master_question.answer09 as answer09,
-                    anbels_master_question.answer09_content as answer09_content,
-                    anbels_master_question.answer10 as answer10,
-                    anbels_master_question.answer10_content as answer10_content
-                    ')
            ->select();
-    
 		if(!$q || is_null($q)){
 			$this->ajaxReturn(array('flag' => FLAG_NOT_EXIST , 'msg' => MSG_NOT_EXIST));
 		}else{
@@ -396,6 +385,23 @@ class V1Controller extends Controller {
 			$this->ajaxReturn(array('flag' => FLAG_OK, 'data' => $q));
 		}
 	}
-
+    
+    
+    
+    // +----------------------------------------------------------------------
+    // | 获取用户的学习记录
+    // +----------------------------------------------------------------------
+    private function get_study_log()
+    {
+        $params = $this->_required('user_id');
+        if(!$params['flag']){
+            $this->ajaxReturn(array('flag' => FLAG_NOT_ALL_REQUIRED ,'msg' => MSG_NOT_ALL_REQUIRED));
+        }
+        
+        $LogicStudyLog = M('LogicStudyLog');
+        $ls = $LogicStudyLog->where(array('active' => 0 ,'user_id' => intval($params['data']['user_id'])))
+        ->order("create_time")->select();
+        $this->ajaxReturn(array('flag' => FLAG_OK, 'data' => $ls));
+    }
 }
     
