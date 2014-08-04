@@ -31,10 +31,10 @@ $data = $master_school->where('id='.$school_id)->find();
 return $data[name];
 }
 
-function tikufenlei($category_id)
+function kecheng($course_id)
 {	
-$master_category = M("master_category"); // 实例化User对象
-$data = $master_category->where('id='.$category_id)->find();
+$master_course = M("master_course"); // 实例化User对象
+$data = $master_course->where('id='.$course_id)->find();
 return $data[name];
 }
 

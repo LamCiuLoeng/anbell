@@ -9,25 +9,21 @@
 
 <block name="content">
 <div class="show_content_b"><br>
-<p style="text-align:center"><strong>学校添加</strong></p>
-<form action="{:U('master/school_add_handle')}" id="form1" name="form1" method="post" >
+<p style="text-align:center"><strong>课程添加</strong></p>
+<form action="{:U('master/school_add_handle')}" method="post" enctype="multipart/form-data" name="form1" id="form1" >
 <table width="500" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
-       <td width="130" height="50" align="right">省市区：</td>
-       <td width="20">&nbsp;</td>
-       <td>
-       <select id="select_province"><option value="预设值">请选择</option></select>
-       <select id="select_city"><option value="预设值">请选择</option></select>
-       <select name="location" id="select_area"><option value="预设值">请选择</option></select>
-       </td>
-    </tr>
-    <tr>
-      <td height="50" align="right">学校名：</td>
-      <td>&nbsp;</td>
+      <td width="130" height="50" align="right">课程名：</td>
+      <td width="20">&nbsp;</td>
       <td>
         <input name="school_name" type="text" id="textfield" size="50">&nbsp;*
         <input name="textfield" type="text" id="textfield2" size="50" style="display:none">
         </td>
+    </tr>
+    <tr>
+      <td height="50" align="right">课件：</td>
+      <td>&nbsp;</td>
+      <td><input type="file" name="fileField" id="fileField"></td>
     </tr>
     <tr>
       <td height="50" align="right">描述：</td>

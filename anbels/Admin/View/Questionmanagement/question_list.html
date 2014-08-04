@@ -19,7 +19,14 @@
 </div>
 <div style="clear:both"></div>
 </block>
-
+<block name="searchbar">
+<div class="search_bar_b">
+<label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
+<select name="course" id="select_course">
+<option value="">请选择</option>
+</select>
+</div>
+</block>
 <block name="content">
 <div class="show_content_b">
 <br>
@@ -28,7 +35,7 @@
 <table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
     <thead>
         <tr>
-          <td align="center" class="first_td">题库类型</td>
+          <td align="center" class="first_td">所属课程</td>
             <td align="center"><strong>题目</strong></td>
             <td align="center"><strong>正确答案</strong></td>
             <td align="center">答案列表</td>
@@ -39,7 +46,7 @@
     </thead>
     <foreach name="master_question" item="v" >
       <tr class="odd_tr">
-        <td align="center" class="first_td">{$v.category_id|tikufenlei}&nbsp;</td>
+        <td align="center" class="first_td">{$v.course_id|kecheng}&nbsp;</td>
             <td align="center">{$v.content}&nbsp;</td>
             <td align="center">{$v.correct_answer}&nbsp;</td>	
          	<td align="center">

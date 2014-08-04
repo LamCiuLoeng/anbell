@@ -3,6 +3,16 @@ $(document).ready(function(){
 		$('.show_content_b').height(500)
 	}
 	
+	$('.current').parent().addClass('div_page_content')
+	
+	var i = 0;
+	$(".odd_tr").each(function(){
+		if(i%2==0){
+			$(this).addClass('even_tr');
+		}
+		i++;
+	});
+	
 	$('#select_area').change(function(){
 		$.get(request_school_URL, function(data){
 			var location_code = $('#select_area').val()
@@ -18,14 +28,14 @@ $(document).ready(function(){
 
 		})
 	})
-	if($('#select_category').val() != null){
-		$.get(request_category_URL, function(data){
+	if($('#select_course').val() != null){
+		$.get(request_course_URL, function(data){
 			var htm=''
 			for(var i=0;i<data.length;i++)
 			{
 				htm+= ('<option value='+data[i].id+'>'+data[i].name+'</option>')
 			}
-			$('#select_category').append(htm)
+			$('#select_course').append(htm)
 	
 		})
 	}
