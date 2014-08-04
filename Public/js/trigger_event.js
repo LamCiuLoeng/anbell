@@ -1,16 +1,6 @@
 $(document).ready(function(){
-	$('.current').parent().addClass('div_page_content')
-	
-	var i = 0;
-	$(".odd_tr").each(function(){
-		if(i%2==0){
-			$(this).addClass('even_tr');
-		}
-		i++;
-	});
-	
+
 	$('#account_send_btn').click(function(){
-		
 		
 		$('#form1').submit();
 		
@@ -20,7 +10,7 @@ $(document).ready(function(){
 		var select_location=$('select[name=location]');
 		var school_name=$('input[name=school_name]');
 		
-		if(select_location.val()==null){
+		if(select_location.val()==null || select_location.val()=='预设值'){
 		alert('地区不能为空！');
 		return;
 		}
@@ -40,7 +30,7 @@ $(document).ready(function(){
 		var select_location=$('select[name=location]');
 		var select_school=$('select[name=school_name]');
 		
-		if(select_location.val()==null){
+		if(select_location.val()==null || select_location.val()=='预设值'){
 		alert('地区不能为空！');
 		return;
 		}

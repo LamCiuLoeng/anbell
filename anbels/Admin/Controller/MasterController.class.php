@@ -212,6 +212,63 @@ class MasterController extends BaseController {
 	}
 	
 	
+	public function course_list(){
+		if(!isset($_GET['p']))
+			{
+				$_GET['p'] = 1;
+			}
+			
+		$master_course = M('master_course')->where('active=0')->order('create_time')->page($_GET['p'].',7')->select(); // 实例化User对象
+		// 进行分页数据查询 注意page方法的参数的前面部分是当前的页数使用 $_GET[p]获取
+		$this->assign('master_course',$master_course);// 赋值数据集
+		$count = M('master_course')->where('active=0')->count();// 查询满足要求的总记录数
+		$Page = new \Think\Page($count,7);// 实例化分页类 传入总记录数和每页显示的记录数
+		$show = $Page->show();// 分页显示输出
+		$this->assign('page',$show);// 赋值分页输出
+		$this->display();
+		die();
+		$master_course=M('master_course')->where('active=0')->select();
+		$this->assign('master_course',$master_course);
+		$this->display();
+	}
+	
+	public function course_add(){
+        $this->display();
+	}
+	
+	public function course_add_handle(){
+
+	}
+	
+	public function course_edit(){
+
+	}
+	
+	public function course_edit_handle(){
+
+	}
+	
+	public function course_list_delete_handle(){
+		$checkbox_array=I('post.checkbox');
+		//$aaaa=$_POST['checkbox'];
+		//p($dddd);
+		//die;
+		$master_course = M("master_course"); // 实例化User对象
+		$map['id']  = array('in',$checkbox_array);
+		$data['active'] = 1;
+		$data['update_by_id'] = session('user_id');
+		$data['update_time'] = mynow();
+		//p($master_school->where($map)->setField('active',1));
+		if($master_course->where($map)->setField($data))
+		{
+			$this->success(count($checkbox_array).'条记录删除成功！',U('master/course_list'));
+		} 
+		else
+		{
+			$this->error('删除失败，请勾选需要删除的课程...');	
+		}
+	}
+	
 	
 	
 

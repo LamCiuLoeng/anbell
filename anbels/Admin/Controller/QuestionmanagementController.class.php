@@ -31,7 +31,7 @@ class QuestionmanagementController extends BaseController {
 	public function question_add_handle(){
 		
 		$master_question = M("master_question"); // 实例化User对象
-		$data['category_id'] = I('post.category');
+		$data['course_id'] = I('post.course');
 		$data['content'] = I('post.question_name');
 		$data['correct_answer'] = I('post.correct_answer');
 		$data['answer01'] = I('post.answer01');
@@ -78,7 +78,7 @@ class QuestionmanagementController extends BaseController {
 	public function question_edit_handle(){
 		$master_question = M("master_question"); // 实例化User对象
 		$map['id'] = I('post.id');
-		$data['category_id'] = I('post.category');
+		$data['course_id'] = I('post.course');
 		$data['content'] = I('post.question_name');
 		$data['correct_answer'] = I('post.correct_answer');
 		$data['answer01'] = I('post.answer01');

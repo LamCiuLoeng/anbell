@@ -53,9 +53,9 @@ class UtilController extends BaseController {
 		$this->ajaxReturn($data);
 	}
 	
-	public function request_category(){
-		$master_category = M("master_category"); // 实例化User对象
-		$data = $master_category->where('active=0')->select();
+	public function request_course(){
+		$master_course = M("master_course"); // 实例化User对象
+		$data = $master_course->where('active=0')->select();
 		$this->ajaxReturn($data);
 	}
     
