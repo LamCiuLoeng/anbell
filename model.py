@@ -76,11 +76,14 @@ class Group( DeclarativeBase, SysMixin ):
 
 
 class Permission( DeclarativeBase, SysMixin ):
-    __tablename__ = 'anbels_auth_permission'
+    __tablename__ = 'anbels_auth_rule'
 
     id = Column( Integer, autoincrement = True, primary_key = True )
     name = Column( Unicode( 1000 ), nullable = False )
-
+    title = Column( Unicode( 1000 ) )
+    type = Column( Integer, default = 1 )
+    status = Column( Integer, default = 1 )
+    condition = Column( Unicode( 1000 ) )
 
 #===============================================================================
 # master
