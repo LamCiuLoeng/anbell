@@ -10,11 +10,19 @@
 <block name="btnbar">
 <div class="edit_menu_b">
   <ul>
+      <if condition="has_all_rules('class_add')">
     	<li><a href="{:U('master/class_add')}"><img src="../../../../Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
+      </if>
+      <if condition="has_all_rules('class_edit')">
         <li><a href="#" id="class_list_edit"><img src="../../../../Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
+      </if>
+      <if condition="has_all_rules('class_del')">
         <li><a href="#" id="class_list_delete"><img src="../../../../Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
-        <li><img src="../../../../Public/images/master_32.jpg" width="68" height="28" alt=""/></li>
+      </if>
+      <if condition="has_all_rules('class_add')">      
         <li><img src="../../../../Public/images/master_34.jpg" width="68" height="28" alt=""/></li>
+      </if>
+        <li><img src="../../../../Public/images/master_32.jpg" width="68" height="28" alt=""/></li>
     </ul>
 </div>
 <div style="clear:both"></div>

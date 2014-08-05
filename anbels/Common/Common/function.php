@@ -88,11 +88,28 @@ function getlocationchildren($id){
 }
 
 
-function authcheck($rule,$uid,$relation='or',$t,$f='没有权限'){
+function authcheck($rule,$uid,$relation='or'){
+    
     $auth=new Auth();	
 	$type = C('AUTH_CONFIG.AUTH_TYPE');
-    return $auth->check($rule,$uid,$type,'url',$relation)?$t:$f;
+    return $auth->check($rule,$uid,$type,'url',$relation);
  }
 
 
+function has_all_rules($rule,$uid){
+    return authcheck($rule,session('user_id'),'and');
+}
+
+
+function has_any_rules(){
+    return authcheck($rule,session('user_id'),'or');
+}
+
+function in_all_groups(){
+    
+}
+
+function in_any_groups(){
+    
+}
 ?>

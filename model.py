@@ -38,15 +38,8 @@ class SysMixin( object ):
 #===============================================================================
 # auth
 #===============================================================================
-group_permission_table = Table( 'anbels_auth_group_permission', metadata,
-    Column( 'group_id', Integer, ForeignKey( 'anbels_auth_group.id',
-        onupdate = "CASCADE", ondelete = "CASCADE" ), primary_key = True ),
-    Column( 'permission_id', Integer, ForeignKey( 'anbels_auth_permission.id',
-        onupdate = "CASCADE", ondelete = "CASCADE" ), primary_key = True )
- )
-
-user_group_table = Table( 'anbels_auth_user_group', metadata,
-    Column( 'user_id', Integer, ForeignKey( 'anbels_auth_user.id',
+user_group_table = Table( 'anbels_auth_group_access', metadata,
+    Column( 'uid', Integer, ForeignKey( 'anbels_auth_user.id',
         onupdate = "CASCADE", ondelete = "CASCADE" ), primary_key = True ),
     Column( 'group_id', Integer, ForeignKey( 'anbels_auth_group.id',
         onupdate = "CASCADE", ondelete = "CASCADE" ), primary_key = True )
@@ -70,12 +63,14 @@ class Group( DeclarativeBase, SysMixin ):
     __tablename__ = 'anbels_auth_group'
 
     id = Column( Integer, autoincrement = True, primary_key = True )
-    name = Column( Unicode( 1000 ), nullable = False )
+    title = Column( Unicode( 1000 ), nullable = False )
     display_name = Column( Unicode( 1000 ) )
+    status = Column( Integer, default = 1 )
+    rules = Column( Unicode( 1000 ) )
     users = relation( 'User', secondary = user_group_table, backref = 'groups' )
 
 
-class Permission( DeclarativeBase, SysMixin ):
+class Rule( DeclarativeBase, SysMixin ):
     __tablename__ = 'anbels_auth_rule'
 
     id = Column( Integer, autoincrement = True, primary_key = True )
@@ -291,13 +286,52 @@ def init():
     admin = User( system_no = '10000000', name = u'超级管理员' , gender = u'男', password = 'dicJp9R3v8xE2' )
     teacher = User( system_no = '10000001', name = u'老师甲', gender = '女', password = 'dirm.l/sEXGj2' )
     student = User( system_no = '10000002', name = u'学生甲', gender = u'男', password = 'diOP2PAYn8gE6' )
-    DBSession.add_all( [ admin, teacher, student] )
 
-    gAdmin = Group( name = 'ADMIN' , display_name = '超级管理员' )
+    rule01 = Rule( name = 'account_view', title = '账号管理', )
+    rule02 = Rule( name = 'account_add', title = '账号增加', )
+    rule03 = Rule( name = 'account_edit', title = '账号修改', )
+    rule04 = Rule( name = 'account_del', title = '账号删除', )
+    rule05 = Rule( name = 'account_exp', title = '账号导出', )
+    rule06 = Rule( name = 'plan_view', title = '教学计划管理', )
+    rule07 = Rule( name = 'plan_add', title = '教学计划增加', )
+    rule08 = Rule( name = 'plan_edit', title = '教学计划修改', )
+    rule09 = Rule( name = 'plan_del', title = '教学计划删除', )
+    rule10 = Rule( name = 'question_view', title = '题库管理', )
+    rule11 = Rule( name = 'question_add', title = '题库增加', )
+    rule12 = Rule( name = 'question_edit', title = '题库修改', )
+    rule13 = Rule( name = 'question_del', title = '题库删除', )
+    rule14 = Rule( name = 'system_view', title = '系统管理', )
+    rule15 = Rule( name = 'school_view', title = '学校管理', )
+    rule16 = Rule( name = 'school_add', title = '学校添加', )
+    rule17 = Rule( name = 'school_edit', title = '学校修改', )
+    rule18 = Rule( name = 'school_del', title = '学校删除', )
+    rule19 = Rule( name = 'class_view', title = '班级管理', )
+    rule20 = Rule( name = 'class_add', title = '班级增加', )
+    rule21 = Rule( name = 'class_edit', title = '班级修改', )
+    rule22 = Rule( name = 'class_del', title = '班级删除', )
+    rule23 = Rule( name = 'course_view', title = '课程管理', )
+    rule24 = Rule( name = 'course_add', title = '课程增加', )
+    rule25 = Rule( name = 'course_edit', title = '课程修改', )
+    rule26 = Rule( name = 'course_del', title = '课程删除', )
+
+
+    DBSession.add_all( [ admin, teacher, student,
+                        rule01, rule02, rule03, rule04, rule05, rule06, rule07, rule08, rule09,
+                        rule10, rule11, rule12, rule13, rule14, rule15, rule16, rule17, rule18, rule19,
+                        rule20, rule21, rule22, rule23, rule24, rule25, rule26,
+                        ] )
+    DBSession.flush()
+    gAdmin = Group( title = 'ADMIN' , display_name = '超级管理员' )
     gAdmin.users = [admin, ]
-    gTeacher = Group( name = 'TEACHER' , display_name = '老师' )
+    gAdmin.rules = ",".join( map( str, [rule01.id, rule02.id, rule03.id, rule04.id, rule05.id, rule06.id, rule07.id, rule08.id, rule09.id,
+                             rule10.id, rule11.id, rule12.id, rule13.id, rule14.id, rule15.id, rule16.id, rule17.id, rule18.id, rule19.id,
+                             rule20.id, rule21.id, rule22.id, rule23.id, rule24.id, rule25.id, rule26.id, ] ) )
+    gTeacher = Group( title = 'TEACHER' , display_name = '老师' )
     gTeacher.users = [teacher, ]
-    gStudent = Group( name = 'STUDENT' , display_name = '学生' )
+    gTeacher.rules = ",".join( map( str, [rule01.id, rule02.id, rule03.id, rule04.id, rule05.id, rule06.id,
+                               ] ) )
+
+    gStudent = Group( title = 'STUDENT' , display_name = '学生' )
     gStudent.users = [student, ]
     DBSession.add_all( [gAdmin, gTeacher, gStudent] )
 

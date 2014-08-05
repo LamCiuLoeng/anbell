@@ -7,9 +7,15 @@
 <block name="btnbar">
     <div class="edit_menu_b">
       <ul>
+          <if condition="has_all_rules('plan_add')">
             <li><a href="{:U('Plan/add')}"><img src="__PUBLIC__/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
+          </if>
+          <if condition="has_all_rules('plan_edit')">
             <li><a href="#" id="account_list_edit"><img src="__PUBLIC__/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
+          </if>
+          <if condition="has_all_rules('plan_del')">
             <li><a href="#" id="account_list_delete"><img src="__PUBLIC__/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
+          </if>
         </ul>
     </div>
     <div style="clear:both"></div>

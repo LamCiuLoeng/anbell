@@ -1,11 +1,19 @@
 <div class="main_menu_b">
     <ul>
         <li><a href="{:U('index/index')}"><img src="../../../../Public/images/master_07.jpg" width="92" height="28" alt=""/></a></li>
-        <li><a href="{:U('AccountManagement/index')}"><img src="../../../../Public/images/master_09.jpg" width="92" height="28" alt=""/></a></li>
-        <li><a href="{:U('Plan/index')}"><img src="../../../../Public/images/master_11.jpg" width="92" height="28" alt=""/></a></li>
+        <if condition="has_all_rules('account_view')">
+            <li><a href="{:U('AccountManagement/index')}"><img src="../../../../Public/images/master_09.jpg" width="92" height="28" alt=""/></a></li>
+        </if>
+        <if condition="has_all_rules('plan_view')">
+            <li><a href="{:U('Plan/index')}"><img src="../../../../Public/images/master_11.jpg" width="92" height="28" alt=""/></a></li>
+        </if>
         <li><img src="../../../../Public/images/master_13.jpg" width="92" height="28" alt=""/></li>
-        <li><a href="{:U('questionmanagement/index')}"><img src="../../../../Public/images/master_15.jpg" width="92" height="28" alt=""/></a></li>
-        <li><a href="{:U('master/index')}"><img src="../../../../Public/images/master_17.jpg" width="92" height="28" alt=""/></a></li>
+        <if condition="has_all_rules('question_view')">
+            <li><a href="{:U('questionmanagement/index')}"><img src="../../../../Public/images/master_15.jpg" width="92" height="28" alt=""/></a></li>
+        </if>
+        <if condition="has_all_rules('system_view')">
+            <li><a href="{:U('master/index')}"><img src="../../../../Public/images/master_17.jpg" width="92" height="28" alt=""/></a></li>
+        </if>
     </ul>
 </div>
 <div style="clear:both"></div>
