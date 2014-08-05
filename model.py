@@ -94,7 +94,7 @@ class Location( DeclarativeBase, SysMixin ):
     parent_code = Column( Unicode( 1000 ) )
     full_name = Column( Text )
     full_path_ids = Column( Text )
-    parent_id = Column( Integer, default = None )
+#     parent_id = Column( Integer, default = None )
 
     def __str__( self ): return self.full_name
     def __repr__( self ): return self.full_name
@@ -383,19 +383,12 @@ def init():
     #===========================================================================
     # shool
     #===========================================================================
-<<<<<<< HEAD
+
     school = School( name = u'罗湖小学', location_id = 2900 )
     school2 = School( name = u'红岭小学', location_id = 380 )
     school3 = School( name = u'螺岭小学', location_id = 380 )
     school4 = School( name = u'福田实验小学', location_id = 380 )
     school5 = School( name = u'新洲小学', location_id = 380 )
-=======
-    school = School( name = u'罗湖小学', location_id = 4903 )
-    school2 = School( name = u'红岭小学', location_id = 4903 )
-    school3 = School( name = u'螺岭小学', location_id = 4903 )
-    school4 = School( name = u'福田实验小学', location_id = 4904 )
-    school5 = School( name = u'新洲小学', location_id = 4904 )
->>>>>>> c34575895b333bdc14442de5834b7e8166db4309
     DBSession.add_all( [school, school2, school3, school4, school5, ] )
     clz = Class( school = school, grade = 1, name = u'一年级一班' )
     clz2 = Class( school = school2, grade = 2, name = u'二年级二班' )
