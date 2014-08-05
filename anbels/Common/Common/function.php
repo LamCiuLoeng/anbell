@@ -1,4 +1,6 @@
 <?php
+use Think\Auth;
+
 define('FLAG_OK', 0);
 define('MSG_OK', '操作成功。');
 define('FLAG_NOT_EXIST', 1);
@@ -84,6 +86,13 @@ function gettoplocation(){
 function getlocationchildren($id){
     
 }
+
+
+function authcheck($rule,$uid,$relation='or',$t,$f='没有权限'){
+    $auth=new Auth();	
+	$type = C('AUTH_CONFIG.AUTH_TYPE');
+    return $auth->check($rule,$uid,$type,'url',$relation)?$t:$f;
+ }
 
 
 ?>

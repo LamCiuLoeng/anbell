@@ -1,6 +1,8 @@
 <?php
 namespace Admin\Controller;
 use Admin\Controller\BaseController;
+
+
 class IndexController extends BaseController {
     public function index(){
 		//echo 'hello';
@@ -13,5 +15,8 @@ class IndexController extends BaseController {
         $this->display();
 	}
 	
-	
+	public function test()
+	{
+		echo authcheck('aabb',1,'or','yes','no');
+	}
 }

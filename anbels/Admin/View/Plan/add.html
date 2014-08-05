@@ -6,8 +6,25 @@
 	<script language="JavaScript" type="text/javascript">
     //<![CDATA[
 		$(document).ready(function(){
-            
+        
         });
+        
+        var opts = Array();
+        opts.push('<option value=""></option>');
+        <foreach name="courses" item="c" >    
+          opts.push('<option value="{$c.id}">{$c.name}</option>');
+        </foreach>
+        
+        
+        function addcr(i){
+        	var html = '<tr><td><select name="course_'+i+'[]">'+opts+'</select></td><td><input type="button" value="删除" onclick="delcr(this)"/></td></tr>';
+        	$("#table_" + i).append(html);
+        }
+        
+        function delcr(obj){
+        	var t = $(obj)
+        	$(t.parents("tr")[0]).remove();
+        }
         
 		function toSubmit(){
 			$("form").submit();
@@ -56,15 +73,25 @@
                 </tr>
                 <for start="1" end="10">
 	                <tr>
-	                  <td height="50" align="right">{$i}年级的课程：</td>
+	                  <td height="50" align="right" valign="top">{$i}年级的课程：</td>
 	                  <td>&nbsp;</td>
-	                  <td>
-	                      <select name="course_{$i}[]">
-	                          <option value=""></option>
-	                          <foreach name="courses" item="c" >    
-	                              <option value="{$c.id}">{$c.name}</option>
-	                          </foreach>
-	                      </select>
+	                  <td valign="top">
+	                      <table id="table_{$i}">
+	                      	<tr>
+	                      		<td>
+			                      <select name="course_{$i}[]">
+			                          <option value=""></option>
+			                          <foreach name="courses" item="c" >    
+			                              <option value="{$c.id}">{$c.name}</option>
+			                          </foreach>
+			                      </select>
+	                      		</td>
+	                      	    <td>
+	                      	    	<input type="button" value="增加" onclick="addcr({$i})"/>
+	                      	    </td>
+	                      	</tr>
+	                      	
+	                      </table>
 	                  </td>
 	                  <td>&nbsp;</td>
 	                </tr>
