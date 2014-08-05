@@ -134,6 +134,20 @@ def test():
         assert 'correct_answer' in  qs['data'][0]
 
     print '---pass get_questions g'
+
+    param4 = {
+             '_q' : 'get_study_log',
+             'user_id' : user['user']['id'],
+             'user_key' : user_key,
+             }
+    qs = get_result( action_url, param4 )
+    assert qs['flag'] == 0
+    assert 'data' in qs
+    assert type( qs['data'] ) == list
+    if( len( qs['data'] ) > 0 ):
+        assert qs['data'][0]['id']
+    print '---pass get_study_log g'
+
     print 'finished'
 
 if __name__ == "__main__":

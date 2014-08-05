@@ -23,13 +23,15 @@ class PlanController extends BaseController {
     {
         $Course = M("MasterCourse");
         $this->courses = $Course->where(array('active' => 0 ))->order('name')->select();
+		$this->locations = gettoplocation();		
         $this->display();
     }
+		
     
     public function save_new()
     {
         $m = mydto();
-        $m['class_id'] = I('class_id',null);
+        $m['school_id'] = I('school_id',null);
         $m['name'] = I('name',null);
         $m['desc'] = I('desc',null);
         
