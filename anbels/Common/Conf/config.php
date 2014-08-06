@@ -4,7 +4,7 @@ return array(
      'db_type'  => 'mysql',
      'db_host'  => 'localhost',
      'db_port'  => '3306',
-     'db_name'  => 'anbels',
+     'db_name'  => 'anbels_db_06',
      'db_user'  => 'root',
      'db_pwd'  => '',
      'DB_CHARSET'=> 'utf8',

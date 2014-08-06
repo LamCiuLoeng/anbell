@@ -9,8 +9,8 @@ class AccountManagementController extends BaseController {
         ->join('left join anbels_master_class on anbels_master_class.id = anbels_logic_class_user.class_id')
         ->join('left join anbels_master_school on anbels_master_school.id = anbels_master_class.school_id')
 		
-		->join('left join anbels_auth_user_group on anbels_auth_user_group.user_id = anbels_auth_user.id')
-		->join('left join anbels_auth_group on anbels_auth_group.id = anbels_auth_user_group.group_id')
+		->join('left join anbels_auth_group_access on anbels_auth_group_access.uid = anbels_auth_user.id')
+		->join('left join anbels_auth_group on anbels_auth_group.id = anbels_auth_group_access.group_id')
 		
         ->field('anbels_auth_user.id,anbels_auth_user.system_no,anbels_auth_user.name as user_name,
                  anbels_auth_user.gender,anbels_auth_user.last_login_time,
@@ -106,11 +106,11 @@ class AccountManagementController extends BaseController {
 			//p($checkbox_array[0]);die;
 			$auth_user=M('auth_user')
 			->join('left join anbels_logic_class_user  on  anbels_logic_class_user.user_id = anbels_auth_user.id')
-        	->join('left join anbels_master_class on anbels_master_class.id = anbels_logic_class_user.class_id')
+			->join('left join anbels_master_class on anbels_master_class.id = anbels_logic_class_user.class_id')
 			->join('left join anbels_master_school on anbels_master_school.id = anbels_master_class.school_id')
 			
-			->join('left join anbels_auth_user_group on anbels_auth_user_group.user_id = anbels_auth_user.id')
-			->join('left join anbels_auth_group on anbels_auth_group.id = anbels_auth_user_group.group_id')
+			->join('left join anbels_auth_group_access on anbels_auth_group_access.uid = anbels_auth_user.id')
+			->join('left join anbels_auth_group on anbels_auth_group.id = anbels_auth_group_access.group_id')
 			
 			->field('anbels_auth_user.id,anbels_auth_user.gender,anbels_auth_user.name as user_name,
 					anbels_master_school.name as school_name,
