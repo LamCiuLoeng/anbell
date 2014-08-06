@@ -21,8 +21,6 @@ class AccountManagementController extends BaseController {
         ->select();
 
         $this->auth_user = $users;
-		//p($users);
-		//die;
         $this->display();
 	}
 	

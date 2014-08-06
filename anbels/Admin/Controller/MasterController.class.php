@@ -285,24 +285,87 @@ class MasterController extends BaseController {
 		
 	
 	public function course_edit(){
-
+	    $id = I("id",null);
+        if(!$id || is_null($id)){
+            $this->error("没有提供ID！");
+        }
+        
+        $C = M("MasterCourse");
+        $c = $C->where(array('active' => 0 , 'id' => intval($id)))->find();
+        if(!$c || is_null($c)){
+            $this->error("该记录不存在！");
+        }
+        
+        $CRW = M("MasterCourseware");
+        $crws = $CRW->where(array('active' => 0 , 'course_id' => $c['id']))->order('id')->select();
+        $this->c = $c;
+        $this->crws = $crws;
+        $this->display();
 	}
 	
 	public function course_edit_handle(){
-
+        $id = I("id",null);
+        if(!$id || is_null($id)){
+            $this->error("没有提供ID！");
+        }
+        $C = M("MasterCourse");
+        $c = $C->where(array('active' => 0 , 'id' => intval($id)))->find();
+        if(!$c || is_null($c)){
+            $this->error("该记录不存在！");
+        }
+        
+        $C->name = I('name',null);
+        $C->desc = I('desc',null);
+        $C->update_by_id = session('user_id');
+        $C->update_time = mynow();
+        $C->where(array('id' => $c['id']))->save(); 
+        
+        //del the files
+        $dels = I("delcrw",array());
+        $CRW = M("MasterCourseware");
+        $CRW->active = 1;
+        $CRW->update_by_id = session('user_id');
+        $CRW->update_time = mynow();
+        $CRW->where(array('id' => array('in',$dels)))->save();
+        
+        //save the upload new file
+        $config = array(    
+                    //'maxSize'    =>    3145728,    
+                    'rootPath'   =>    './Public/',
+                    'savePath'   =>    'Upload/',    
+                    'saveName'   =>    array('uniqid',''),    
+                    // 'exts'       =>    array('jpg', 'gif', 'png', 'jpeg'),    
+                    'autoSub'    =>    true,    
+                    'subName'    =>    array('date','Ymd','time'),
+                 );
+        $upload = new \Think\Upload($config);// 实例化上传类
+        if(!file_exists($upload->savePath)){
+            mkdir($upload->savePath);
+        }    
+        $info   =   $upload->upload();  
+        if($info) {
+            // 上传成功               
+            foreach ($info as $file) {
+                $tmp = mydto();
+                $tmp['course_id'] = $c['id'];   
+                $tmp['path'] = $file['rootpath'].$file['savepath'].$file['savename'];
+                $tmp['name'] = $file['name'];
+                $tmp['url'] = '/Public/'.str_replace("\\", "/", $tmp['path']);
+                $CRW->create($tmp);
+                $CRW->add();
+            }
+        }
+        $this->success('成功修改课程！',U('Master/course_list'));
 	}
+        
 	
 	public function course_list_delete_handle(){
-		$checkbox_array=I('post.checkbox');
-		//$aaaa=$_POST['checkbox'];
-		//p($dddd);
-		//die;
+		$checkbox_array=I('id',array());
 		$master_course = M("master_course"); // 实例化User对象
 		$map['id']  = array('in',$checkbox_array);
 		$data['active'] = 1;
 		$data['update_by_id'] = session('user_id');
 		$data['update_time'] = mynow();
-		//p($master_school->where($map)->setField('active',1));
 		if($master_course->where($map)->setField($data))
 		{
 			$this->success(count($checkbox_array).'条记录删除成功！',U('master/course_list'));

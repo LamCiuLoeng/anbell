@@ -5,6 +5,29 @@
 <block name="extJS">
     <script src="../../../../Public/js/trigger_event.js"></script>
     <script src="../../../../Public/js/select_ssq.js"></script>
+    <script type="text/javascript" language="JavaScript">
+    //<![CDATA[
+        function toEdit(){
+            var c = $("[name='id[]']:checked");
+            if(c.length != 1){
+                alert("请选择一条记录进行修改！");
+            }else(
+                window.location.href = "/index.php/Admin/master/course_edit" + '?id=' + c.val()
+            )
+        }
+        
+        function toDel(){
+            var c = $("[name='id[]']:checked");
+            if(c.length < 1){
+                alert("请选择一条记录进行删除！");
+            }else{
+                if(confirm("你确定要删除选中的课程吗？")){
+                    $('form').submit();
+                }
+            }
+        }
+    //]]>
+    </script>
 </block>
 
 <block name="btnbar">
@@ -14,10 +37,10 @@
     	<li><a href="{:U('master/course_add')}"><img src="../../../../Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
       </if>
       <if condition="has_all_rules('course_edit')">
-        <li><a href="#" id="course_list_edit"><img src="../../../../Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
+        <li><a href="#" id="course_list_edit" onclick="toEdit()"><img src="../../../../Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
       </if>
       <if condition="has_all_rules('course_del')">
-        <li><a href="#" id="course_list_delete"><img src="../../../../Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
+        <li><a href="#" id="course_list_delete" onclick="toDel()"><img src="../../../../Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
       </if>
       <if condition="has_all_rules('course_add')">
         <li><img src="../../../../Public/images/master_34.jpg" width="68" height="28" alt=""/></li>
@@ -40,7 +63,7 @@
 <div class="show_content_b">
 <br>
 <p style="text-align:center"><strong>课程列表</strong></p>
-<form action="" id="form1" name="form1" method="post">
+<form action="{:U('master/course_list_delete_handle')}" id="form1" name="form1" method="post">
 <table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
     <thead>
         <tr>
@@ -55,7 +78,7 @@
             <td align="center" class="first_td">{$v.name}&nbsp;</td>
             <td align="center">{$v.update_by_id|show_edit_user}&nbsp;</td>
             <td align="center">{$v.update_time}&nbsp;</td>
-            <td align="center"><input type="checkbox" name="checkbox[]" id="checkbox" value="{$v.id}">&nbsp;</td>
+            <td align="center"><input type="checkbox" name="id[]" id="checkbox" value="{$v.id}">&nbsp;</td>
         </tr>
      </foreach>
 </table>
