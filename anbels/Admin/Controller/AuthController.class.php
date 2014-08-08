@@ -17,6 +17,10 @@ class AuthController extends Controller {
 		}else{
 			session('login','YES');
 			session('user_id',$result['user']['id']);
+			$key = generatekey();
+			$CurrentUser =  M('SystemCurrentUser');			
+			$CurrentUser->data(array('user_key' => $key,'time_stamp' => mynow() ))->add();
+			session('user_key' , $key);
             $this->redirect('Index/index',NULL,0);
 		}
 		
