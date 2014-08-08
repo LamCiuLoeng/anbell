@@ -1,0 +1,53 @@
+<extend name="Public:base" />
+<block name="extCSS">
+    <link href="../../../../Public/css/style.css" rel="stylesheet" type="text/css">
+</block>
+<block name="extJS">
+    <script src="__PUBLIC__/js/select_ssq.js"></script>
+    <script type="text/javascript" language="JavaScript">
+    //<![CDATA[
+	
+	
+     function sendToActionScript(value) {
+         $('#FlashID embed')[0].sendToActionScript({'aa' : 'hello', 'bb' : 'masdfsdf'});
+		 //document['FlashID'].sendToActionScript({'aa' : 'hello', 'bb' : 'masdfsdf'});
+     }
+
+
+        function swf_player_param(){
+            var c = '欢迎光临！';
+			return c;
+			
+        }
+
+    //]]>
+    </script>
+</block>
+
+<block name="btnbar">
+
+</block>
+
+    
+<block name="content">
+    <div class="show_content_b">
+      <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+              id="FlashID" width="950" height="560"
+             codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">
+         <param name="movie" value="../../../Public/swf/swfPlayer.swf" />
+         <param name="quality" value="high" />
+         <param name="bgcolor" value="#869ca7" />
+         <param name="allowScriptAccess" value="sameDomain" />
+         <embed src="../../../Public/swf/swfPlayer.swf" quality="high" bgcolor="#869ca7"
+             width="950" height="560" name="ExternalInterfaceExample" align="middle"
+             play="true" loop="false" quality="high" allowScriptAccess="sameDomain"
+             type="application/x-shockwave-flash"
+             pluginspage="http://www.macromedia.com/go/getflashplayer">
+         </embed>
+     </object>
+     <input type="submit" onClick="sendToActionScript()">
+    </div>
+    
+</block>
+
+    
