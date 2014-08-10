@@ -82,9 +82,9 @@ class V1Controller extends Controller {
 		}else{
 			try{
 				if($action == 'get_user_info'){ $this->get_user_info(); }
-				//if($action == 'get_plan_by_user'){ $this->get_plan_by_user(); }
                 if($action == 'get_course_by_plan'){ $this->get_course_by_plan(); }
                 if($action == 'get_course_by_user'){ $this->get_course_by_user(); }
+				if($action == 'get_course_info'){ $this->get_course_info(); }
 				if($action == 'get_questions'){ $this->get_questions(); }
 				if($action == 'save_user_data'){ $this->save_user_data(); }
 				if($action == 'get_study_log'){ $this->get_study_log(); }
@@ -192,7 +192,9 @@ class V1Controller extends Controller {
     }
     
     
-    
+    // +----------------------------------------------------------------------
+    // | 获取用户的所有课程
+    // +----------------------------------------------------------------------
     private function get_course_by_user()
     {
         $params = $this->_required('user_id');
@@ -232,6 +234,38 @@ class V1Controller extends Controller {
     }
         
         
+    // +----------------------------------------------------------------------
+    // | 获取某一个课程的详细信息
+    // +----------------------------------------------------------------------
+    private function get_course_info()
+    {
+        $params = $this->_required('course_id');
+        if(!$params['flag']){
+            $this->ajaxReturn(array('flag' =>  FLAG_NOT_ALL_REQUIRED, 'msg' => MSG_NOT_ALL_REQUIRED));
+        }  
+        $Model = M();
+        $q = $Model->query("SELECT id,name,`desc`
+                            FROM anbels_master_course
+                            WHERE id = ".$params['data']['course_id']);
+        if(!$q || is_null($q)){
+            $this->ajaxReturn(array('flag' => FLAG_NOT_EXIST , 'msg' => MSG_NOT_EXIST));
+        }
+        
+        if(is_array($q)){
+            $q = $q[0];
+        }
+        
+        $crws = $Model->query("SELECT id,name,`desc`,url
+                       FROM anbels_master_courseware
+                       WHERE active = 0 and course_id = ".$q['id']);
+        if(!crws || is_null($crws)){
+            $q['coursewares'] = array();
+        }else{
+            $q['coursewares'] = $crws;
+        }
+        
+        $this->ajaxReturn(array('flag' => FLAG_OK , 'data' => $q));
+    }
     
     
 	

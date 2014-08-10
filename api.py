@@ -56,9 +56,9 @@ def test():
              }
 
 
+    course_id = None
     courseware_id = None
     course = get_result( action_url, param )
-    print course
     assert course['flag'] == 0
     assert 'data' in course
     assert type( course['data'] ) == dict
@@ -67,7 +67,7 @@ def test():
         assert 'name' in r
         assert 'coursewares' in r
         assert type( r['coursewares'] ) == list
-
+        course_id = course['data'].keys()[0]
         if len( r['coursewares'] ) > 0:
             assert 'id' in r['coursewares'][0]
             assert 'name' in r['coursewares'][0]
@@ -79,15 +79,28 @@ def test():
 
 
 
-    '''
-    param = {
-             '_q' : 'get_course_by_plan',
-             'user_key' : user_key,
-             'plan_id'  : plan['id'],
-             }
+    if course_id:
+        param = {
+                 '_q' : 'get_course_info',
+                 'user_key' : user_key,
+                 'course_id'  : course_id,
+                 }
+        course = get_result( action_url, param )
 
-    plan = get_result( action_url, param )
-    '''
+
+        print '---------'
+        print param
+
+        assert course['flag'] == 0
+        assert 'id' in course['data']
+        assert 'name' in course['data']
+        assert 'coursewares' in course['data']
+        assert type( course['data']['coursewares'] ) == list
+        if len( course['data']['coursewares'] ) > 0:
+            assert 'id' in course['data']['coursewares'][0]
+            assert 'name' in course['data']['coursewares'][0]
+            assert 'url' in course['data']['coursewares'][0]
+        print '---pass get_course_info c'
 
     #===========================================================================
     # save user's data
@@ -119,21 +132,21 @@ def test():
     print '---pass save_user_data g'
 
 
+    if course_id:
+        param3 = {
+                 '_q' : 'get_questions',
+                 'course_id' : course_id,
+                 'user_key' : user_key,
+                 }
+        qs = get_result( action_url, param3 )
+        assert qs['flag'] == 0
+        assert 'data' in qs
+        assert type( qs['data'] ) == list
+        if( len( qs['data'] ) > 0 ):
+            assert 'content' in  qs['data'][0]
+            assert 'correct_answer' in  qs['data'][0]
 
-    param3 = {
-             '_q' : 'get_questions',
-             'course_id' : courseware_id,
-             'user_key' : user_key,
-             }
-    qs = get_result( action_url, param3 )
-    assert qs['flag'] == 0
-    assert 'data' in qs
-    assert type( qs['data'] ) == list
-    if( len( qs['data'] ) > 0 ):
-        assert 'content' in  qs['data'][0]
-        assert 'correct_answer' in  qs['data'][0]
-
-    print '---pass get_questions g'
+        print '---pass get_questions g'
 
     param4 = {
              '_q' : 'get_study_log',

@@ -229,7 +229,7 @@ class StudyLog( DeclarativeBase, SysMixin ):
     id = Column( Integer, autoincrement = True, primary_key = True )
     user_id = Column( Integer, ForeignKey( 'anbels_auth_user.id' ) )
     user = relation( User )
-    type = Column( Unicode( 5 ), )  # G is game , C is courseware C is course
+    type = Column( Unicode( 5 ), )  # G is game , C is courseware P is course
     refer_id = Column( Integer )
     refer_name = Column( Unicode( 1000 ) )
     start_time = Column( DateTime )
