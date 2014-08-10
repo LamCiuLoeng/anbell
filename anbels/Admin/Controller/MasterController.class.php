@@ -249,6 +249,7 @@ class MasterController extends BaseController {
 		$MasterCourse->create($m);
 		$cid = $MasterCourse->add();
 		
+		/*
 		$config = array(    
                     //'maxSize'    =>    3145728,    
                     'rootPath'   =>    './Public/',
@@ -280,6 +281,30 @@ class MasterController extends BaseController {
 				$MasterCourseware->add();
 			}
         }
+        */
+        $names = I('crw_name',null);
+        $urls = I('crw_url',null);
+        $crwok = true;
+        if(is_null($names) || is_null($urls)){
+        	$crwok = false;
+        }elseif (count($names) != count($urls)) {
+        	$crwok = false;
+        }
+
+        if($crwok){
+        	$MasterCourseware = M('MasterCourseware');
+        	for ($i=0; $i <count($names) ; $i++) { 
+        		$name = $names[$i];
+        		$url = $urls[$i];
+        		$tmp = mydto();
+        		$tmp['course_id'] = $cid;
+        		$tmp['name'] = $name;
+        		$tmp['url'] = $url;
+        		$MasterCourseware->create($tmp);
+        		$MasterCourseware->add();
+        	}
+        }
+
 		$this->success('成功添加课程！',U('Master/course_list'));				
 	}
 		
@@ -328,6 +353,7 @@ class MasterController extends BaseController {
         $CRW->update_time = mynow();
         $CRW->where(array('id' => array('in',$dels)))->save();
         
+        /*
         //save the upload new file
         $config = array(    
                     //'maxSize'    =>    3145728,    
@@ -354,6 +380,29 @@ class MasterController extends BaseController {
                 $CRW->create($tmp);
                 $CRW->add();
             }
+        }
+        */
+        $names = I('crw_name',null);
+        $urls = I('crw_url',null);
+        $crwok = true;
+        if(is_null($names) || is_null($urls)){
+        	$crwok = false;
+        }elseif (count($names) != count($urls)) {
+        	$crwok = false;
+        }
+
+        if($crwok){
+        	$MasterCourseware = M('MasterCourseware');
+        	for ($i=0; $i <count($names) ; $i++) { 
+        		$name = $names[$i];
+        		$url = $urls[$i];
+        		$tmp = mydto();
+        		$tmp['course_id'] = $c['id'];
+        		$tmp['name'] = $name;
+        		$tmp['url'] = $url;
+        		$MasterCourseware->create($tmp);
+        		$MasterCourseware->add();
+        	}
         }
         $this->success('成功修改课程！',U('Master/course_list'));
 	}

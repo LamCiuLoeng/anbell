@@ -202,7 +202,7 @@ class V1Controller extends Controller {
             $this->ajaxReturn(array('flag' =>  FLAG_NOT_ALL_REQUIRED, 'msg' => MSG_NOT_ALL_REQUIRED));
         }       
         $Model = M();
-        $rows = $Model->query('SELECT cr.id as course_id,cr.name as course_name,
+        $rows = $Model->query('SELECT cr.id as course_id,cr.name as course_name,cr.desc as descripiton,
                               crw.id as courseware_id, 
                               crw.name as courseware_name,
                               crw.url as courseware_url
@@ -225,7 +225,9 @@ class V1Controller extends Controller {
                 array_push($result[$row['course_id']]['coursewares'],array('id' => $row['courseware_id'],'name' => $row['courseware_name'], 'url' => $row['courseware_url']));
             }else{
                $result[$row['course_id']] = array(
+                                           'id' => $row['course_id'],
                                            'name' => $row['course_name'],
+                                           'desc' => $row['descripiton'],
                                            'coursewares' => array( array('id' => $row['courseware_id'] , 'name' => $row['courseware_name'] , 'url' => $row['courseware_url']) )
                                            );
             }
@@ -254,17 +256,21 @@ class V1Controller extends Controller {
         if(is_array($q)){
             $q = $q[0];
         }
+
+        $result['id'] = $q['id'];
+        $result['desc'] = $q['desc'];
+        $result['name'] = $q['name'];
         
         $crws = $Model->query("SELECT id,name,`desc`,url
                        FROM anbels_master_courseware
                        WHERE active = 0 and course_id = ".$q['id']);
         if(!crws || is_null($crws)){
-            $q['coursewares'] = array();
+            $result['coursewares'] = array();
         }else{
-            $q['coursewares'] = $crws;
+            $result['coursewares'] = $crws;
         }
         
-        $this->ajaxReturn(array('flag' => FLAG_OK , 'data' => $q));
+        $this->ajaxReturn(array('flag' => FLAG_OK , 'data' => $result));
     }
     
     

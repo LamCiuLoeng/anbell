@@ -10,7 +10,7 @@
         });
         
         function addcrw(){
-        	var tpl = '<tr class="crw"><td height="50" align="right">课件：</td><td>&nbsp;</td><td><input type="file" name="crw[]">&nbsp;<input type="button" onclick="toDel(this)" value="删除"/></td></tr>';
+        	var tpl = '<tr class="crw"><td height="50" align="right">课件：</td><td>&nbsp;</td><td>课件名：<input type="text" name="crw_name[]"/>&nbsp;&nbsp;课件URL：<input type="text" name="crw_url[]"/>&nbsp;<input type="button" onclick="toDel(this)" value="删除"/></td></tr>';
         	$("#desc_tr").before(tpl);	
         }
         
@@ -48,7 +48,7 @@
     <tr class="crw">
       <td height="50" align="right">课件：</td>
       <td>&nbsp;</td>
-      <td><input type="file" name="crw[]">&nbsp;<input type="button" onclick="toDel(this)" value="删除"/></td>
+      <td>课件名：<input type="text" name="crw_name[]"/>&nbsp;&nbsp;课件URL：<input type="text" name="crw_url[]"/>&nbsp;<input type="button" onclick="toDel(this)" value="删除"/></td>
     </tr>
     <tr id="desc_tr">
       <td height="50" align="right">描述：</td>

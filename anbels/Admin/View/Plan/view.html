@@ -9,15 +9,17 @@
 	<script language="JavaScript" type="text/javascript">
     //<![CDATA[
 		$(document).ready(function(){
+       /*
             $("#bfq").dialog({
                 modal: true,
                 autoOpen: false,
                 width: 850,
                 height: 600 ,
-                  buttons: {
-                    "Cancel" : function() { $( this ).dialog( "close" ); }
-                  }
+                buttons: {
+                    "关闭" : function() { $( this ).dialog( "close" ); }
+                }
             });
+*/
         });
         
         function toView(id){
@@ -25,12 +27,28 @@
                 'user_key' : "{$_SESSION.user_key}",
                 'user_id'  : "{$_SESSION.user_id}",
                 'course_id' : id
-            }
-            
-            $("param[name='FlashVars']").val(params);
+            } 
             $("#bfq").dialog("open");
-            
+			window.setTimeout(function(){
+				swf_player_param('aaa');
+		    },1000);
+			
         }
+
+        function swf_player_param(value) {
+          if(navigator.appName.indexOf("Microsoft") != -1)
+          {
+            //判断是否ie浏览器，是就
+            $('#FlashID1')[0].sendToActionScript(value);
+          }
+          else
+          {
+            //不是就
+            $('#FlashID2')[0].sendToActionScript(value);
+          }
+          
+        }
+
 
 	//]]>
    </script>
@@ -68,7 +86,10 @@
                       <td>
                           <ul>
                             <foreach name="pc" item="c">
-                                <li><a href="#" onclick="toView({$c['cid']})">{$c['name']}</a></li>
+                                <!-- <li><a href="#" onclick="toView({$c['cid']})">{$c['name']}</a></li> -->
+                                
+                                
+                                <li><a href="{:U('Plan/openflash')}?id={$c['cid']}" target="_blank">{$c['name']}</a></li>
                             </foreach>
                           </ul>
                       </td>
@@ -84,7 +105,7 @@
         <param name="movie" value="__PUBLIC__/swf/swfPlayer.swf">
         <param name="FlashVars" value="" />
         <param name="quality" value="high">
-        <param name="wmode" value="opaque">
+        <param name="wmode" value="transparent">
         <param name="swfversion" value="6.0.65.0">
         <!-- 此 param 标签提示使用 Flash Player 6.0 r65 和更高版本的用户下载最新版本的 Flash Player。如果您不想让用户看到该提示，请将其删除。 -->
         <param name="expressinstall" value="../../../../Scripts/expressInstall.swf">
@@ -93,9 +114,9 @@
         <object type="application/x-shockwave-flash" data="__PUBLIC__/swf/swfPlayer.swf" width="950" height="540" id="FlashID2">
           <!--<![endif]-->
           <param name="quality" value="high">
-          <param name="wmode" value="opaque">
+          <param name="wmode" value="transparent">
           <param name="swfversion" value="6.0.65.0">
-          <param name="expressinstall" value="../../../../Scripts/expressInstall.swf">
+          <param name="expressinstall" value="__APP__/Scripts/expressInstall.swf">
           <!-- 浏览器将以下替代内容显示给使用 Flash Player 6.0 和更低版本的用户。 -->
           <div>
             <h4>此页面上的内容需要较新版本的 Adobe Flash Player。</h4>

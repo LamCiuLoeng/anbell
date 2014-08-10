@@ -1,9 +1,32 @@
 <extend name="Public:base" />
 <block name="extCSS">
-    <link href="../../../../Public/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/Public/css/style.css" rel="stylesheet" type="text/css">
 </block>
 <block name="extJS">
-    <script src="__PUBLIC__/js/select_ssq.js"></script>
+	<script src="../../../../Public/js/trigger_event.js"></script>
+    <script src="/Public/js/select_ssq.js"></script>
+    <script language="JavaScript" type="text/javascript">
+    //<![CDATA[
+        function toEdit(){
+            var cs = $("input[name='id[]']:checked");
+            if(cs.length != 1){
+                alert("请只选择一条记录进行修改！");
+            }else{
+                window.location.href = "{:U('Plan/edit')}" + '?id=' + cs.val(); 
+            }
+        }
+        
+        function toView(){
+            var cs = $("input[name='id[]']:checked");
+            if(cs.length != 1){
+                alert("请只选择一条记录进行查看！");
+            }else{
+                window.location.href = "{:U('Plan/view')}" + '?id=' + cs.val(); 
+            }
+        }       
+                        
+    //]]>
+   </script>
 </block>
 
 <block name="btnbar">
@@ -14,6 +37,8 @@
           </if>
           <if condition="has_all_rules('plan_edit')">
             <li><a href="#" id="account_list_edit"><img src="__PUBLIC__/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
+          <else />
+            <li><a href="#" onclick="toView()">查看</a></li>
           </if>
           <if condition="has_all_rules('plan_del')">
             <li><a href="#" id="account_list_delete"><img src="__PUBLIC__/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
@@ -41,7 +66,7 @@
           <tr class="odd_tr">
                 <td align="center" class="first_td">&nbsp;{$p['school_name']}</td>
                 <td align="center">{$p.name}&nbsp;</td>
-                <td align="center"><input type="checkbox" name="checkbox[]" id="checkbox" value="{$p.id}">&nbsp;</td>
+                <td align="center"><input type="checkbox" name="id[]" id="checkbox" value="{$p.id}">&nbsp;</td>
             </tr>
          </foreach>
     </table>

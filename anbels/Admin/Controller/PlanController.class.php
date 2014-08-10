@@ -17,7 +17,52 @@ class PlanController extends BaseController {
 		");
         $this->plans = $plan;
         $this->display();
-    } 
+    }
+    
+    public function view()
+    {
+        $id = I('id',null);
+        if(!$id || is_null($id)){
+            $this->error("没有提供记录的ID！");
+        }
+
+        $Q1 = M();   
+        $p = $Q1->query("SELECT 
+        
+                    p.id as id, p.name as name, p.desc as `desc`
+                    FROM anbels_master_school s, anbels_logic_plan p
+                    WHERE s.id = p.school_id and p.id = ".$id);
+        
+        if(!$p || is_null($p)){
+            $this->error("该记录不存在！");
+        }
+        
+        if(is_array($p)){
+            $p = $p[0];
+        }
+        
+        $Q2 = M();   
+        $qs = $Q2->query("SELECT
+                       pc.grade as grade, cr.id as cid,cr.name as name
+                       FROM anbels_master_course cr, anbels_logic_plan_course pc
+                       WHERE cr.active = 0 and pc.active = 0 and pc.course_id = cr.id and 
+                       pc.plan_id=".$p['id']." order by grade");
+        
+        $result = array();
+        foreach ($qs as $q) {
+            if(in_array($q['grade'], $result)){
+                array_push($result[$q['grade']],$q);
+            }else{
+                $result[$q['grade']] = array($q);
+            }
+        }      
+        
+        $this->p = $p;
+        $this->pcs = $result;
+        $this->display();
+    }
+    
+    
     
     public function add()
     {
@@ -56,6 +101,21 @@ class PlanController extends BaseController {
 			}
         }
         $this->success('成功添加教学计划！',U('Plan/index'));
+    }
+    
+	
+	public function openflash(){
+		$id = I('id',null);
+		if(!$id || is_null($id)){
+			$this->error("没有提供ID!");
+		}
+		$this->id = $id;
+		$this->display();
+	}
+    
+    public function edit()
+    {
+        
     }
     
 }
