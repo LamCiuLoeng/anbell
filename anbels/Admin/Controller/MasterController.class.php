@@ -426,9 +426,37 @@ class MasterController extends BaseController {
 	}
 	
 	
-	
+	public function courseware_add()
+	{
+		$this->display();
+	}
 
-	
+	public function courseware_add_handle()
+	{
+		$names = I("name",array());
+        $types = I("type",array());
+        $urls = I("url",array());
+        for ($i=0; $i < count($names); $i++) {
+            $name = $names[$i];
+            $type = $types[$i];
+            $url = $urls[$i];
+            if(!$name || is_null($name)){
+                continue;
+            }
+            
+            $M = M("MasterCourseware");
+            if($type == 'G'){
+                $M = M("MasterGame");    
+            }
+            
+            $dto = mydto();
+            $dto['name'] = $name;
+            $dto['url'] = $url;
+            $M->create($dto);
+            $M->add();  
+        }
+        $this->success("成功添加课件与游戏。");
+	}
 	
 	
 }

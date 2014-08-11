@@ -156,6 +156,8 @@ class Game( DeclarativeBase, SysMixin ):
 
     id = Column( Integer, autoincrement = True, primary_key = True )
     name = Column( Unicode( 1000 ), nullable = False )
+    course_id = Column( Integer, ForeignKey( 'anbels_master_course.id' ) )
+    course = relation( Course )
     desc = Column( Text )
     path = Column( Unicode( 5000 ) )
     url = Column( Unicode( 5000 ) )

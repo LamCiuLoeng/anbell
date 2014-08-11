@@ -1,0 +1,58 @@
+<extend name="Public:base" />
+<block name="extCSS">
+    <link href="../../../../Public/css/style.css" rel="stylesheet" type="text/css">
+</block>
+<block name="extJS">
+    <script language="JavaScript" type="text/javascript">
+    //<![CDATA[
+		$(document).ready(function(){
+            
+        });
+        
+        function addcrw(){
+        	var tpl = '<tr class="crw"><td height="50" align="right">课件：</td><td>&nbsp;</td><td>课件名：<input type="text" name="crw_name[]"/>&nbsp;&nbsp;课件URL：<input type="text" name="crw_url[]"/>&nbsp;<input type="button" onclick="toDel(this)" value="删除"/></td></tr>';
+        	$("#desc_tr").before(tpl);	
+        }
+        
+        function toSubmit(){
+        	if(!$("#name").val()){
+        		alert("课程名不能为空！");
+        	}else{
+	        	$("form").submit();
+        		
+        	}
+        }
+        
+
+        
+	//]]>
+   </script>
+</block>
+
+<block name="content">
+<div class="show_content_b"><br>
+<p style="text-align:center"><strong>课程添加</strong></p>
+<form action="{:U('Master/courseware_add_handle')}" method="post" enctype="multipart/form-data">
+<table width="500" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+        <td>序列</td>
+        <td>文件类型</td>
+        <td>文件名称</td>
+        <td>文件URL</td>
+    </tr>
+    <for start="1" end="11">
+        <tr>
+            <td>{$i}</td>
+            <td><select name="type[]"><option value="C">课件</option><option value="G">游戏</option></select></td>
+            <td><input type="text" name="name[]" value=""/></td>
+            <td><input type="text" name="url[]"/></td>
+        </tr>
+    </for>
+    <tr>
+        <td><input type="submit" value="提交 "/></td>
+    </tr>
+</table>
+</form>
+
+</div>
+</block>
