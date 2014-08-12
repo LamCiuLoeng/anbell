@@ -29,9 +29,12 @@ class PlanController extends BaseController {
         $Q1 = M();   
         $p = $Q1->query("SELECT 
         
-                    p.id as id, p.name as name, p.desc as `desc`
-                    FROM anbels_master_school s, anbels_logic_plan p
-                    WHERE s.id = p.school_id and p.id = ".$id);
+                    p.id as id, p.name as name, p.desc as `desc`,l.name as location
+                    FROM anbels_master_school s, anbels_logic_plan p,anbels_master_location l
+                    WHERE s.id = p.school_id and l.id=s.location_id and p.id = ".$id);
+					
+		//p($p);
+		//die; 
         
         if(!$p || is_null($p)){
             $this->error("该记录不存在！");
@@ -48,6 +51,9 @@ class PlanController extends BaseController {
                        WHERE cr.active = 0 and pc.active = 0 and pc.course_id = cr.id and 
                        pc.plan_id=".$p['id']." order by grade");
         
+		//p($qs);
+		//die; 
+		
         $result = array();
         foreach ($qs as $q) {
             if(in_array($q['grade'], $result)){
@@ -55,7 +61,9 @@ class PlanController extends BaseController {
             }else{
                 $result[$q['grade']] = array($q);
             }
-        }      
+        }
+		 //p($result);
+	     //die; 
         
         $this->p = $p;
         $this->pcs = $result;
