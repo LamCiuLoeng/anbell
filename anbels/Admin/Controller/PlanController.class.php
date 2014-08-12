@@ -123,7 +123,32 @@ class PlanController extends BaseController {
     
     public function edit()
     {
+        $id = I('id',null);
+        if(!$id || is_null($id)){
+            $this->error("没有提供ID!");
+        }
         
+        $p = M('LogicPlan')->where(array('active' => 0 ,'id' => intval($id)))->find();
+        if(!$p || is_null($p)){
+            $this->error("该记录不存在！");
+        }
+        $this->p = $p;
+        
+        $this->courses = M("MasterCourse")->where(array('active' => 0))->order("id")->select();
+        
+        $qs = M("LogicPlanCourse")->where(array('active' => 0 ,'plan_id' => $p['id']))->order("grade")->select();
+        $pc = array();
+
+        foreach ($qs as $q) {
+            if(in_array($q['grade'], $pc)){
+                $pc[$q['grade']][] = $q;
+            }else{
+                $pc[$q['grade']] = array($q);
+            }
+        }
+        dump($pc);
+        $this->plancourses = $pc;
+        $this->display();
     }
     
 }
