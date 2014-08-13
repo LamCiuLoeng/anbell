@@ -60,11 +60,11 @@
 	                  <td>&nbsp;</td>
 	                  <td valign="top">
 	                      <table id="table_{$i}">
-	                       <in name="i" value="1,2">                         
-	                            <foreach name="$plancourses[$i]" item="pc" >
+	                       <in name="i" value="$grades">                      
+	                            <foreach name="plancourses[$i]" item="pc" >
     	                           <tr>
     	                               <td>
-    	                                   <select name="oldcourse_{$pc['id']}">
+    	                                   <select name="oldcourse_{$pc['id']}" class="required">
                                               <option value=""></option>
                                               <foreach name="courses" item="c" > 
                                                      <if condition="$c['id'] eq $pc['course_id']">
@@ -74,8 +74,7 @@
                                                      </if>
                                               </foreach>
                                           </select>
-                                          &nbsp;
-                                          <input type="checkbox" name="delcourse_{$pc['id']}" value="YES" />
+                                          <td><input type="checkbox" name="delcourse_{$pc['id']}" value="YES" />删除</td>
     	                               </td>
     	                           </tr>
 	                           </foreach>
