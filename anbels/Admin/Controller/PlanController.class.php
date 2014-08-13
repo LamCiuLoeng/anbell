@@ -140,15 +140,72 @@ class PlanController extends BaseController {
         $pc = array();
 
         foreach ($qs as $q) {
-            if(in_array($q['grade'], $pc)){
+            if(  array_key_exists($q['grade'], $pc) ){
                 $pc[$q['grade']][] = $q;
             }else{
                 $pc[$q['grade']] = array($q);
             }
         }
-        dump($pc);
         $this->plancourses = $pc;
+        $this->grades = array_keys($pc);
         $this->display();
     }
     
+    public function save_edit()
+    {
+        $id = I('id',null);
+        if(!$id || is_null($id)){
+            $this->error("没有提供ID！");
+        }
+        
+        $M = M("LogicPlan");
+        $p = $M->where(array('active' => 0 ,'id' => intval($id)))->find();
+        if(!$p || is_null($p)){
+            $this->error("该记录不存在！");
+        }
+        
+        $dto = mydto();
+        $dto['name'] = I('name',null);
+        $dto['desc'] = I('desc',null);
+        $M->where(array('id' => $p['id']))->save($dto);
+        
+        //update the existing related course
+        $PC = M("LogicPlanCourse");
+        $cids = M()->query("select id from anbels_logic_plan_course where active = 0 and plan_id = ".$p['id']);
+        foreach ($cids as $cid) {
+            $del = I("delcourse_".$cid['id'],null);
+            echo $cid['id'];
+            if($del && $del == 'YES'){ //delete the record
+                $tmp = mydto();
+                $tmp['active'] = 1;
+                $result = $PC->where(array('id' => $cid['id']))->save($tmp);
+            }else{  //update the record
+                $oldcid = I("oldcourse_".$cid['id'],null);
+                if($oldcid){
+                    $tmp = mydto();
+                    $tmp['course_id'] = $oldcid;
+                    $PC->where(array('id' => $cid['id']))->save($tmp);
+                }
+            }
+        }
+        
+        //add the new 
+        for($i=1;$i<10;$i++){
+            $news  = I("course_".$i,null);
+            if($news && is_array($news)){
+                foreach ($news as $new) {
+                    if($new){
+                        $tmp = mydto();
+                        $tmp['plan_id'] = intval($p['id']);
+                        $tmp['grade'] = $i;
+                        $tmp['course_id'] = $new;
+                        $PC->create($tmp);
+                        $PC->add();
+                    }   
+                }
+            }
+        }
+        
+        $this->success('成功修改教学计划！',U('Plan/index'));
+    }
 }
