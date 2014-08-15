@@ -14,5 +14,5 @@ return array(
 	 
      'TMPL_TEMPLATE_SUFFIX' => '.html',
 	 'URL_HTML_SUFFIX' => '',
-	 'URL_MODEL'=> 1 ,
+	 'URL_MODEL'=> 0 ,
 );

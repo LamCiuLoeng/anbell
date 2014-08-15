@@ -9,6 +9,23 @@ class MasterController extends BaseController {
         $this->display();
 	}
 	
+	public function news_list(){
+		if(!isset($_GET['p']))
+			{
+				$_GET['p'] = 1;
+			}
+			
+		$web_news = M('web_news')->where('active=0')->order('id')->page($_GET['p'].',3')->select(); // 实例化User对象
+		// 进行分页数据查询 注意page方法的参数的前面部分是当前的页数使用 $_GET[p]获取
+		$this->assign('web_news',$web_news);// 赋值数据集
+		$count = M('web_news')->where('active=0')->count();// 查询满足要求的总记录数
+		$Page = new \Think\Page($count,3);// 实例化分页类 传入总记录数和每页显示的记录数
+		$show = $Page->show();// 分页显示输出
+		$this->assign('page',$show);// 赋值分页输出
+		$this->display();
+		die();
+	}
+	
 	public function school_list(){
 		if(!isset($_GET['p']))
 			{
