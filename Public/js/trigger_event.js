@@ -108,6 +108,7 @@ $(document).ready(function(){
 		
 	})
 	
+	
 	$('#reset_btn').click(function(){
 		$('#form1')[0].reset();   
 	})

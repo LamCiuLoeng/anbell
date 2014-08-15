@@ -1,0 +1,99 @@
+<extend name="Public:base" />
+<block name="extCSS">
+    <link href="/Public/css/style.css" rel="stylesheet" type="text/css">
+</block>
+<block name="extJS">
+    <script src="../../../../Public/js/trigger_event.js"></script>
+    <script src="../../../../Public/js/select_ssq.js"></script>
+    
+    <script charset="utf-8" src="/Public/kindeditor-4.1.10/kindeditor.js"></script>
+	<script charset="utf-8" src="/Public/kindeditor-4.1.10/lang/zh_CN.js"></script>
+	<script charset="utf-8" src="/Public/kindeditor-4.1.10/plugins/code/prettify.js"></script>
+	<script>
+		KindEditor.ready(function(K) {
+			var editor1 = K.create('textarea[name="content1"]', {
+				cssPath : '/Public/kindeditor-4.1.10/plugins/code/prettify.css',
+				uploadJson : '/Public/kindeditor-4.1.10/php/upload_json.php',
+				fileManagerJson : '/Public/kindeditor-4.1.10/php/file_manager_json.php',
+				allowFileManager : true,
+				afterCreate : function() {
+					var self = this;
+					K.ctrl(document, 13, function() {
+						var content=$('.ke-edit-iframe').contents().find('body');
+						
+						if(content.html()=='<br>'){
+							alert('内容不能为空！');
+							content.focus();
+							return;
+						}
+						self.sync();
+						K('form[name=form1]')[0].submit();
+					});
+					
+					K.ctrl(self.edit.doc, 13, function() {
+						var content=$('.ke-edit-iframe').contents().find('body');
+						
+						if(content.html()=='<br>'){
+							alert('内容不能为空！');
+							content.focus();
+							return;
+						}
+						self.sync();
+						K('form[name=form1]')[0].submit();
+					});
+					
+					$('#aboutus_send_btn').click(function(){
+						var content=$('.ke-edit-iframe').contents().find('body');
+						
+						if(content.html()=='<br>'){
+							alert('内容不能为空！');
+							content.focus();
+							return;
+						}
+						self.sync();
+						K('form[name=form1]')[0].submit();
+					});
+				}
+			});
+			
+			prettyPrint();
+		});
+	</script>
+</block>
+
+<block name="btnbar">
+<div class="edit_menu_b">
+  <ul>
+    	<li><a href="{:U('aboutus')}"><img src="/Public/images/default_03.jpg" width="95" height="28" alt=""/></a></li>
+        <li><a href="{:U('contactus')}"><img src="../../../../Public/images/default_05.jpg" width="95" height="28" alt=""/></a></li>
+  </ul>
+</div>
+</block>
+<block name="searchbar"></block>
+<block name="content">
+<div class="show_content_b">
+<br>
+<p style="text-align:center"><strong>编辑联系我们</strong></p>
+<form action="{:U('website/contactus_edit_handle')}" id="form1" name="form1" method="post" >
+  <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+      <td height="50" align="right">备注：</td>
+      <td>&nbsp;</td>
+      <td><input name="remarks" type="text" id="textfield" size="80" value="{$web_content[0].remarks}"></td>
+    </tr>
+    <tr>
+      <td width="130" height="50" align="right">内容：</td>
+      <td width="20">&nbsp;</td>
+      <td><textarea name="content1" style="width:700px;height:500px;visibility:hidden;" id="neirong"><php>echo ($web_content[0]['content']);</php></textarea></td>
+    </tr>
+    <tr>
+      <td height="50" align="right">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><span class="send_btn" id="aboutus_send_btn">提交</span>&nbsp;&nbsp;(提交快捷键: Ctrl + Enter)</td>
+    </tr>
+  </table>
+</form>
+{$page} <br>
+  <br>
+</div>
+</block>
