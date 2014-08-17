@@ -1,10 +1,10 @@
 <extend name="Public:base" />
 <block name="extCSS">
-    <link href="../../../../Public/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/Public/css/style.css" rel="stylesheet" type="text/css">
 </block>
 <block name="extJS">
-    <script src="../../../../Public/js/trigger_event.js"></script>
-    <script src="../../../../Public/js/select_ssq.js"></script>
+    <script src="/Public/js/trigger_event.js"></script>
+    <script src="/Public/js/select_ssq.js"></script>
 </block>
 
 <block name="content">
@@ -15,17 +15,17 @@
   <table width="750" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
       <if condition="has_all_rules('system_view')">
-          <td align="center"><a href="{:U('master/school_list')}"><img src="../../../../Public/images/master_42.jpg" width="170" height="200" alt=""/></a></td>
+          <td align="center"><a href="{:U('master/school_list')}"><img src="/Public/images/master_42.jpg" width="170" height="200" alt=""/></a></td>
       </if>
       <if condition="has_all_rules('class_view')">
-          <td align="center"><a href="{:U('master/class_list')}"><img src="../../../../Public/images/master_44.jpg" width="170" height="200" alt=""/></a></td>
+          <td align="center"><a href="{:U('master/class_list')}"><img src="/Public/images/master_44.jpg" width="170" height="200" alt=""/></a></td>
       </if>
       <if condition="has_all_rules('course_view')">
-          <td align="center"><a href="{:U('master/course_list')}"><img src="../../../../Public/images/master_44-02.jpg" width="170" height="200" alt=""/></a></td>
+          <td align="center"><a href="{:U('master/course_list')}"><img src="/Public/images/master_44-02.jpg" width="170" height="200" alt=""/></a></td>
       </if>
     </tr>
     <tr>
-      <td align="center"><a href="{:U('master/courseware_add')}"><img src="../../../../Public/images/master_51.jpg" width="170" height="200" alt=""/></a></td>
+      <td align="center"><a href="{:U('master/courseware_add')}"><img src="/Public/images/master_51.jpg" width="170" height="200" alt=""/></a></td>
       <td align="center"><a href="{:U('website/aboutus')}"><img src="/Public/images/master_55.jpg" width="170" height="200" alt=""/></a></td>
       <td align="center"><a href="{:U('news_list')}"><img src="/Public/images/master_58.jpg" width="170" height="200" alt=""/></a></td>
     </tr>

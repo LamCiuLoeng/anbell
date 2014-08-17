@@ -3,7 +3,7 @@
     <link href="/Public/css/style.css" rel="stylesheet" type="text/css">
 </block>
 <block name="extJS">
-	<script src="../../../../Public/js/trigger_event.js"></script>
+	<script src="/Public/js/trigger_event.js"></script>
     <script src="/Public/js/select_ssq.js"></script>
     <script language="JavaScript" type="text/javascript">
     //<![CDATA[
@@ -33,15 +33,15 @@
     <div class="edit_menu_b">
       <ul>
           <if condition="has_all_rules('plan_add')">
-            <li><a href="{:U('Plan/add')}"><img src="__PUBLIC__/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
+            <li><a href="{:U('Plan/add')}"><img src="/Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
           </if>
           <if condition="has_all_rules('plan_edit')">
-            <li><a href="#" onclick="toEdit()"><img src="__PUBLIC__/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
+            <li><a href="#" onclick="toEdit()"><img src="/Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
           <else />
-            <li><a href="#" onclick="toView()"><img src="__PUBLIC__/images/master_36.jpg" width="68" height="28" alt=""/></a></li>
+            <li><a href="#" onclick="toView()"><img src="/Public/images/master_36.jpg" width="68" height="28" alt=""/></a></li>
           </if>
           <if condition="has_all_rules('plan_del')">
-            <li><a href="#"><img src="__PUBLIC__/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
+            <li><a href="#"><img src="/Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
           </if>
         </ul>
     </div>

@@ -1,28 +1,28 @@
 <extend name="Public:base" />
 <block name="extCSS">
-    <link href="../../../../Public/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/Public/css/style.css" rel="stylesheet" type="text/css">
 </block>
 <block name="extJS">
-    <script src="../../../../Public/js/trigger_event.js"></script>
-    <script src="../../../../Public/js/select_ssq.js"></script>
+    <script src="/Public/js/trigger_event.js"></script>
+    <script src="/Public/js/select_ssq.js"></script>
 </block>
 
 <block name="btnbar">
 <div class="edit_menu_b">
   <ul>
       <if condition="has_all_rules('school_add')">
-    	<li><a href="{:U('master/school_add')}"><img src="../../../../Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
+    	<li><a href="{:U('master/school_add')}"><img src="/Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
       </if>
       <if condition="has_all_rules('school_edit')">
-        <li><a href="#" id="school_list_edit"><img src="../../../../Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
+        <li><a href="#" id="school_list_edit"><img src="/Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
       </if>
       <if condition="has_all_rules('school_del')">
-        <li><a href="#" id="school_list_delete"><img src="../../../../Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
+        <li><a href="#" id="school_list_delete"><img src="/Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
       </if>
       <if condition="has_all_rules('school_add')">
-        <li><img src="../../../../Public/images/master_34.jpg" width="68" height="28" alt=""/></li>
+        <li><img src="/Public/images/master_34.jpg" width="68" height="28" alt=""/></li>
       </if>
-        <li><img src="../../../../Public/images/master_32.jpg" width="68" height="28" alt=""/></li>
+        <li><img src="/Public/images/master_32.jpg" width="68" height="28" alt=""/></li>
       
     </ul>
 </div>

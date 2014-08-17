@@ -11,7 +11,7 @@
 <div class="edit_menu_b">
   <ul>
       <if condition="has_all_rules('school_add')">
-    	<li><a href="{:U('master/school_add')}"><img src="/Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
+    	<li><a href="{:U('news_add')}"><img src="/Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
       </if>
       <if condition="has_all_rules('school_edit')">
         <li><a href="#" id="school_list_edit"><img src="/Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
@@ -34,8 +34,8 @@
         <tr>
             <td align="center" class="first_td"><strong>标题</strong></td>
             <td align="center"><strong>内容</strong></td>
-            <td align="center"><strong>时间</strong></td>
             <td align="center">类型</td>
+            <td align="center"><strong>时间</strong></td>
             <td align="center">&nbsp;</td>
         </tr>
     </thead>
@@ -43,8 +43,8 @@
       <tr class="odd_tr">
             <td align="center" class="first_td">{$v.title}</td>
             <td align="center">{$v.content}&nbsp;</td>
-            <td align="center">{$v.date}&nbsp;</td>
             <td align="center">{$v.category}&nbsp;</td>
+            <td align="center">{$v.date}&nbsp;</td>
             <td align="center"><input type="checkbox" name="checkbox[]" id="checkbox" value="{$v.id}">&nbsp;</td>
         </tr>
      </foreach>
