@@ -60,6 +60,16 @@ class UtilController extends BaseController {
 	}
     
     
+	
+	public function get_config()
+	{
+		$xml = '<?xml version="1.0" encoding="utf-8"?><config><version>1.0.0</version><debug>1</debug><urls><loginURL></loginURL></urls>';
+		$xml .= '<resourcePath value="http://192.168.0.168/Public/swf/"/><courseData>';
+		
+		$xml .= '</courseData></config>';
+		echo $xml;
+	}
+	
 }
 
 	

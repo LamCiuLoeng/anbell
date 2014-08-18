@@ -208,4 +208,25 @@ class PlanController extends BaseController {
         
         $this->success('成功修改教学计划！',U('Plan/index'));
     }
+
+	public function del()
+	{
+		$id = I('id',null);
+		if(!$id || is_null($id)){
+			$this->error("没有提供ID！");
+		}
+				
+		$M = M("LogicPlan");
+		$p = $M->where(array('active' => 0 , 'id' => intval($id)))->find();
+		if(!$p || is_null($p)){
+			$this->error("该记录不存在！");
+		}
+		
+		$tmp = mydto();
+		unset($tmp['create_time']);
+		unset($tmp['create_by_id']);
+		$tmp['active'] = 1;
+		$M->where(array('id' => $p['id']))->save($tmp);
+		$this->success('成功删除教学计划！',U('Plan/index'));
+	}
 }
