@@ -6,7 +6,7 @@ return array(
      'db_port'  => '3306',
      'db_name'  => 'anbels',
      'db_user'  => 'root',
-     'db_pwd'  => '',
+     'db_pwd'  => '3edcvfr$',
      'DB_CHARSET'=> 'utf8',
      
      'DB_PREFIX' => 'anbels_',
