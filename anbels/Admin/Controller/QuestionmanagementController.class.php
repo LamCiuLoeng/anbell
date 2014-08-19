@@ -1,6 +1,7 @@
 <?php
 namespace Admin\Controller;
 use Admin\Controller\BaseController;
+
 class QuestionmanagementController extends BaseController {
     public function index(){
 		if(!isset($_GET['p']))
@@ -119,6 +120,53 @@ class QuestionmanagementController extends BaseController {
 		}
 	}
 	
-
+    public function imp()
+    {
+        $this->show();
+    }
 	
+    public function imp_handle()
+    {
+        $config = array(    
+                    'rootPath'   =>    './Public/',
+                    'savePath'   =>    'Upload/',    
+                    'saveName'   =>    array('uniqid',''),    
+                    //'exts'       =>    array('csv', 'xls', 'xlsx'),    
+                    'autoSub'    =>    true,    
+                    'subName'    =>    array('date','Ymd','time'),
+                 );
+        $upload = new \Think\Upload($config);// 实例化上传类
+        if(!file_exists($upload->savePath)){
+            mkdir($upload->savePath);
+        }    
+        
+        $info   =   $upload->uploadOne($_FILES["xls"]);  
+        if($info) {
+            // 上传成功      
+            $M = M("MasterQuestion");         
+            $path = './Public/'.$info['savepath'].$info['savename'];
+            $data = readXLS($path);
+            foreach ($data as $row) {
+                $tmp = mydto();
+                $tmp['course_id'] = $row[0];
+                $tmp['content'] = $row[1];
+                $tmp['correct_answer'] = $row[2];
+                $tmp['answer01'] = $row[3];
+                $tmp['answer01_content'] = $row[4];
+                $tmp['answer02'] = $row[5];
+                $tmp['answer02_content'] = $row[6];
+                $tmp['answer03'] = $row[7];
+                $tmp['answer03_content'] = $row[8];
+                $tmp['answer04'] = $row[9];
+                $tmp['answer04_content'] = $row[10];
+                $M->create($tmp);
+                $M->add();
+            }
+        }else{
+            $this->error($upload->getError()); 
+        }
+        
+        $this->success('批量导入成功！',U('questionmanagement/index'));
+    }
+    
 }

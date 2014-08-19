@@ -14,9 +14,5 @@ class IndexController extends BaseController {
 		$this->assign('user',$user);
         $this->display();
 	}
-	
-	public function test()
-	{
-		echo authcheck('aabb',1,'or','yes','no');
-	}
+
 }
