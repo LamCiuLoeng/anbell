@@ -1,0 +1,29 @@
+<extend name="Public:base" />
+<block name="extCSS">
+    <link href="/Public/css/style.css" rel="stylesheet" type="text/css">
+</block>
+<block name="extJS">
+        
+</block>
+
+<block name="content">
+<div class="show_content_b"><br>
+<p style="text-align:center"><strong>题目批量添加</strong></p>
+<form action="{:U('questionmanagement/imp_handle')}" id="form1" name="form1" method="post" enctype="multipart/form-data">
+<table width="650" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+      <td>导入文件<input type="file" name="xls"/></td>
+    </tr>
+    
+    <tr>
+       <td height="50" align="right">&nbsp;</td>
+       <td>&nbsp;</td>
+       <td>
+           <span class="send_btn" id="question_send_btn">提交</span>
+       </td>
+       <td></td>
+    </tr>
+</table>
+</form>
+</div>
+</block>

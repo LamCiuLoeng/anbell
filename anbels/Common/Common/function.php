@@ -1,5 +1,7 @@
 <?php
+require_once 'PHPExcel/IOFactory.php';
 use Think\Auth;
+
 
 define('FLAG_OK', 0);
 define('MSG_OK', '操作成功。');
@@ -142,5 +144,12 @@ function download_file($file){
          exit('文件已被删除！');
      }
 }
+
+function readXLS($input_file){
+    $objPHPExcel = PHPExcel_IOFactory::load($input_file);
+    $sheetData = $objPHPExcel->getSheet(0)->toArray(null, true, true, true);
+    return $sheetData;
+}
+
 
 ?>
