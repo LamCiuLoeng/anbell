@@ -1,0 +1,63 @@
+<extend name="Public:base" />
+<block name="extCSS">
+    <link href="/Public/css/style.css" rel="stylesheet" type="text/css">
+</block>
+<block name="extJS">
+    <script language="JavaScript" type="text/javascript">
+    //<![CDATA[
+		$(document).ready(function(){
+            
+        });
+        
+        function addcrw(){
+        	var tpl = '<tr class="crw"><td height="50" align="right">课件：</td><td>&nbsp;</td><td>课件名：<input type="text" name="crw_name[]"/>&nbsp;&nbsp;课件URL：<input type="text" name="crw_url[]"/>&nbsp;<input type="button" onclick="toDel(this)" value="删除"/></td></tr>';
+        	$("#desc_tr").before(tpl);	
+        }
+        
+        function toSubmit(){
+        	if(!$("#name").val()){
+        		alert("课程名不能为空！");
+        	}else{
+	        	$("form").submit();
+        		
+        	}
+        }
+        
+
+        
+	//]]>
+   </script>
+</block>
+
+<block name="content">
+<div class="show_content_b"><br>
+<p style="text-align:center"><strong>课程或游戏修改</strong></p>
+<form action="{:U('Master/courseware_edit_handle')}" method="post" enctype="multipart/form-data">
+<table width="500" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+        <td>文件类型</td>
+        <td>文件名称</td>
+        <td>文件URL</td>
+    </tr>
+    <foreach name="crws" item="c" >
+        <tr>
+            <td>课件 <input type="hidden" name="id[]" value="crw_{$c['id']}"/></td>
+            <td><input type="text" name="crw_name_{$c['id']}" value="{$c['name']}"/></td>
+            <td><input type="text" name="crw_url_{$c['id']}" value="{$c['url']}"/></td>
+        </tr>
+    </foreach>
+    <foreach name="gs" item="g" >
+        <tr>
+            <td>游戏 <input type="hidden" name="id[]" value="g_{$g['id']}"/></td>
+            <td><input type="text" name="g_name_{$g['id']}" value="{$g['name']}"/></td>
+            <td><input type="text" name="g_url_{$g['id']}" value="{$g['url']}"/></td>
+        </tr>
+    </foreach>
+    <tr>
+        <td><input type="submit" value="提交 "/></td>
+    </tr>
+</table>
+</form>
+
+</div>
+</block>

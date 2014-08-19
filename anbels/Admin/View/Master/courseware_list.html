@@ -1,0 +1,95 @@
+<extend name="Public:base" />
+<block name="extCSS">
+    <link href="/Public/css/style.css" rel="stylesheet" type="text/css">
+</block>
+<block name="extJS">
+            <script type="text/javascript" language="JavaScript">
+    //<![CDATA[
+        function toEdit(){
+            var c = $("[name='id[]']:checked");
+            if(c.length < 0 ){
+                alert("请选择记录进行修改！");
+            }else{
+            	$("form").attr('action',"{:U('master/courseware_edit')}");
+                $('form').submit();
+            }
+        }
+        
+        function toDel(){
+            var c = $("[name='id[]']:checked");
+            if(c.length < 1){
+                alert("请选择记录进行删除！");
+            }else{
+                if(confirm("你确定要删除选中的课件或者游戏吗？")){
+                	$("form").attr('action',"{:U('master/courseware_del_handle')}");
+                    $('form').submit();
+                }
+            }
+        }
+    //]]>
+    </script>
+</block>
+
+<block name="btnbar">
+<div class="edit_menu_b">
+  <ul>
+      <if condition="has_all_rules('courseware_add')">
+    	<li><a href="{:U('master/course_add')}"><img src="/Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
+      </if>
+      <if condition="has_all_rules('courseware_edit')">
+        <li><a href="#" onclick="toEdit()"><img src="/Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
+      </if>
+      <if condition="has_all_rules('courseware_del')">
+        <li><a href="#" onclick="toDel()"><img src="/Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
+      </if>
+    </ul>
+</div>
+<div style="clear:both"></div>
+</block>
+<block name="searchbar">
+<div class="search_bar_b">
+<label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
+<input type="text">
+</div>
+</block>
+<block name="pathline">
+<div class="div_path_content">系统设置 -> 课件或游戏管理</div>
+</block>
+<block name="content">
+<div class="show_content_b">
+<br>
+<p style="text-align:center"><strong>课程列表</strong></p>
+<form action="" id="form" name="form" method="post">
+<table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
+    <thead>
+        <tr>
+            <td align="center" class="first_td"><strong>课件或游戏名称</strong></td>
+            <td align="center">类型</td>
+            <td align="center">路径</td>
+            <td align="center">操作人</td>
+            <td align="center"><strong>更新时间</strong></td>
+            <td align="center">&nbsp;</td>
+        </tr>
+    </thead>
+    <foreach name="result" item="v" >
+      <tr class="odd_tr">
+            <td align="center" class="first_td">{$v.name}&nbsp;</td>
+            <td align="center" class="first_td">
+            	<if condition="($v.type eq 'crw')">课件
+            	<elseif condition="$v.type eq 'g'"/>游戏
+            	</if>
+            	&nbsp;
+            </td>
+            <td align="center" class="first_td">{$v.url}&nbsp;</td>
+            <td align="center">{$v.update_by}&nbsp;</td>
+            <td align="center">{$v.update_time}&nbsp;</td>
+            <td align="center"><input type="checkbox" name="id[]" value="{$v.type}_{$v.id}">&nbsp;</td>
+        </tr>
+     </foreach>
+</table>
+</form>
+<div class="result page">{$page}</div>
+<br>
+  <br>
+</div>
+</block>
