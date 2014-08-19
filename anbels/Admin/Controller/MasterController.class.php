@@ -479,38 +479,101 @@ class MasterController extends BaseController {
 	
 	
     public function courseware_list(){
-        // if(!isset($_GET['p']))
-            // {
-                // $_GET['p'] = 1;
-            // }
-//             
-        // $master_class = M('MasterCourseware')->where('active=0')->order('create_time')->page($_GET['p'].',7')->select(); // 实例化User对象
-        // // 进行分页数据查询 注意page方法的参数的前面部分是当前的页数使用 $_GET[p]获取
-        // $this->assign('master_class',$master_class);// 赋值数据集
-        // $count = M('master_class')->where('active=0')->count();// 查询满足要求的总记录数
-        // $Page = new \Think\Page($count,7);// 实例化分页类 传入总记录数和每页显示的记录数
-        // $show = $Page->show();// 分页显示输出
-        // $this->assign('page',$show);// 赋值分页输出
-        // $this->display();
-        
         $total = "select tmp.* from
-                    (select crw.id  as id, crw.name  as name ,'crw' as type
-                    from anbels_master_courseware crw
-                    where crw.active = 0 and  crw.course_id is null
+                    (select crw.id  as id, crw.name  as name ,'crw' as type,
+                    		crw.url as url,crw.update_time as update_time,u1.name as update_by
+                    from anbels_master_courseware crw,anbels_auth_user u1
+                    where crw.active = 0 and  crw.course_id is null and crw.update_by_id = u1.id
+                    
                     union
-                    select g.id as id, g.name  as name,'g' as type
-                    from anbels_master_game g
-                    where g.active = 0) tmp
+                    select g.id as id, g.name  as name,'g' as type,
+                    	   g.url as url,g.update_time as update_time,u2.name as update_by
+                    from anbels_master_game g,anbels_auth_user u2
+                    where g.active = 0 and g.update_by_id = u2.id ) tmp
+                    order by tmp.type ,tmp.id 
                     ";
             
         $M = M();
-        $page = new \Think\Page(count($M->query($total)), 7);
+        $page = new \Think\Page(count($M->query($total)), 4);
         
         $sql = $total.' limit '.$page->firstRow.','.$page->listRows;
-        $result = $M->query($sql);
-        $show = $page->show();// 分页显示输出
-        $this->assign('page',$show);// 赋值分页输出
+        $result = $M->query($sql);	
+		$this->assign('result',$result);// 赋值分页输出
+        $this->assign('page',$page->show());// 赋值分页输出
         $this->display();
     }
     
+    
+    public function courseware_del_handle()
+    {
+        $ids = I('id',null);
+        if(!$ids || is_null($ids)){
+        	$this->error("没有提供ID！");
+        }
+		
+		$crwids = array();
+		$gids = array();
+		foreach ($ids as $v) {
+			$t = explode("_",$v);
+			if($t[0] == 'crw'){
+				array_push($crwids,$t[1]);
+			}elseif($t[0] == 'g'){
+				array_push($gids,$t[1]);
+			}
+		}		
+		M("MasterCourseware")->where(array('id' => array('in',$crwids)))->save(array('active'=>1));
+		M("MasterGame")->where(array('id' => array('in',$gids)))->save(array('active'=>1));
+		$this->success("成功删除该课件或者游戏！");		
+    }
+    
+	
+	public function courseware_edit()
+	{
+		$ids = I('id',null);
+        if(!$ids || is_null($ids)){
+        	$this->error("没有提供ID！");
+        }
+		
+		$crwids = array();
+		$gids = array();
+		foreach ($ids as $v) {
+			$t = explode("_",$v);
+			if($t[0] == 'crw'){
+				array_push($crwids,$t[1]);
+			}elseif($t[0] == 'g'){
+				array_push($gids,$t[1]);
+			}
+		}	
+		$this->crws = M("MasterCourseware")->where(array('id' => array('in',$crwids)))->select();		
+		$this->gs = M("MasterGame")->where(array('id' => array('in',$gids)))->select();
+		$this->show();
+	}
+	
+	public function courseware_edit_handle()
+	{
+		$ids = I('id',null);
+        if(!$ids || is_null($ids)){
+        	$this->error("没有提供ID！");
+        }
+		
+		$CRW = M("MasterCourseware");
+		$G = M("MasterGame");
+		
+		foreach ($ids as $v) {
+			$t = explode("_",$v);
+			$tmp = mydto();
+			unset($tmp['create_time']);
+			unset($tmp['create_by_id']);
+			if($t[0] == 'crw'){
+				$tmp['name'] = I("crw_name_".$t[1],null);
+				$tmp['url'] = I("crw_url_".$t[1],null);
+				$CRW->where(array('id' => $t[1]))->save($tmp);
+			}elseif($t[0] == 'g'){
+				$tmp['name'] = I("g_name_".$t[1],null);
+				$tmp['url'] = I("g_url_".$t[1],null);
+				$G->where(array('id' => $t[1]))->save($tmp);
+			}
+		}
+		$this->success("成功修改课件或者游戏！",U('master/courseware_list'));		
+	}
 }

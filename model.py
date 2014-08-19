@@ -315,19 +315,23 @@ def init():
     rule24 = Rule( name = 'course_add', title = '课程增加', )
     rule25 = Rule( name = 'course_edit', title = '课程修改', )
     rule26 = Rule( name = 'course_del', title = '课程删除', )
+    rule27 = Rule( name = 'courseware_view', title = '单个课件或者游戏管理', )
+    rule28 = Rule( name = 'courseware_add', title = '课件或游戏增加', )
+    rule29 = Rule( name = 'courseware_edit', title = '课件或游戏修改', )
+    rule30 = Rule( name = 'courseware_del', title = '课件或游戏删除', )
 
 
     DBSession.add_all( [ admin, teacher, student,
                         rule01, rule02, rule03, rule04, rule05, rule06, rule07, rule08, rule09,
                         rule10, rule11, rule12, rule13, rule14, rule15, rule16, rule17, rule18, rule19,
-                        rule20, rule21, rule22, rule23, rule24, rule25, rule26,
+                        rule20, rule21, rule22, rule23, rule24, rule25, rule26, rule27, rule28, rule29, rule30,
                         ] )
     DBSession.flush()
     gAdmin = Group( title = 'ADMIN' , display_name = '超级管理员' )
     gAdmin.users = [admin, ]
     gAdmin.rules = ",".join( map( str, [rule01.id, rule02.id, rule03.id, rule04.id, rule05.id, rule06.id, rule07.id, rule08.id, rule09.id,
                              rule10.id, rule11.id, rule12.id, rule13.id, rule14.id, rule15.id, rule16.id, rule17.id, rule18.id, rule19.id,
-                             rule20.id, rule21.id, rule22.id, rule23.id, rule24.id, rule25.id, rule26.id, ] ) )
+                             rule20.id, rule21.id, rule22.id, rule23.id, rule24.id, rule25.id, rule26.id, rule27.id, rule28.id, rule29.id, rule30.id, ] ) )
     gTeacher = Group( title = 'TEACHER' , display_name = '老师' )
     gTeacher.users = [teacher, ]
     gTeacher.rules = ",".join( map( str, [rule01.id, rule02.id, rule03.id, rule04.id, rule05.id, rule06.id,

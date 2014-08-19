@@ -24,7 +24,9 @@
       </if>
     </tr>
     <tr>
-      <td align="center"><a href="{:U('master/courseware_add')}"><img src="/Public/images/master_51.jpg" width="170" height="200" alt=""/></a></td>
+      <if condition="has_all_rules('courseware_view')">
+      	<td align="center"><a href="{:U('master/courseware_list')}"><img src="/Public/images/master_51.jpg" width="170" height="200" alt=""/></a></td>
+      </if>
       <td align="center"><a href="{:U('website/aboutus')}"><img src="/Public/images/master_55.jpg" width="170" height="200" alt=""/></a></td>
       <td align="center"><a href="{:U('news_list')}"><img src="/Public/images/master_58.jpg" width="170" height="200" alt=""/></a></td>
     </tr>
