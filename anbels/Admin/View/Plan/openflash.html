@@ -25,12 +25,12 @@
           if(navigator.appName.indexOf("Microsoft") != -1)
           {
             //判断是否ie浏览器，是就
-            $('#FlashID1').sendToActionScript(value);
+            $('#FlashID1')[0].sendToActionScript(value);
           }
           else
           {
             //不是就
-            $('#FlashID2').sendToActionScript(value);
+            $('#FlashID2')[0].sendToActionScript(value);
           }
           
         }

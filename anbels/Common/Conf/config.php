@@ -13,6 +13,6 @@ return array(
 	 
 	 
      'TMPL_TEMPLATE_SUFFIX' => '.html',
-	 'URL_HTML_SUFFIX' => 'htm',
+	 'URL_HTML_SUFFIX' => '',
 	 'URL_MODEL'=> 1 ,
 );
