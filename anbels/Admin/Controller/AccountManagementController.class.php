@@ -113,7 +113,8 @@ class AccountManagementController extends BaseController {
 			->field('anbels_auth_user.id,anbels_auth_user.gender,anbels_auth_user.name as user_name,
 					anbels_master_school.name as school_name,
 					anbels_master_class.id as class_id,anbels_master_class.name as class_name,
-					anbels_auth_group.id as group_id,anbels_auth_group.display_name as group_name')
+					anbels_auth_group.id as group_id,anbels_auth_group.display_name as group_name,
+					anbels_logic_class_user.role as role')
 			->where($map)
 			->select();
 		
