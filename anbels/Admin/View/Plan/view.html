@@ -1,7 +1,7 @@
 <extend name="Public:base" />
 
 <block name="extCSS">
-    <link href="/Public/css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" type="text/css">
+    <link href="/Public/css/jquery-ui-1.8.17.custom.css" rel="stylesheet" type="text/css">
 </block>
 
 <block name="extJS">
@@ -39,12 +39,12 @@
           if(navigator.appName.indexOf("Microsoft") != -1)
           {
             //判断是否ie浏览器，是就
-            $('#FlashID1')[0].sendToActionScript(value);
+            $('#FlashID1').sendToActionScript(value);
           }
           else
           {
             //不是就
-            $('#FlashID2')[0].sendToActionScript(value);
+            $('#FlashID2').sendToActionScript(value);
           }
           
         }

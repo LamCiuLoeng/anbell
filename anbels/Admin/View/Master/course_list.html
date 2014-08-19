@@ -3,7 +3,7 @@
     <link href="/Public/css/style.css" rel="stylesheet" type="text/css">
 </block>
 <block name="extJS">
-            <script type="text/javascript" language="JavaScript">
+<script type="text/javascript" language="JavaScript">
     //<![CDATA[
         function toEdit(){
             var c = $("[name='id[]']:checked");
@@ -17,7 +17,7 @@
         function toDel(){
             var c = $("[name='id[]']:checked");
             if(c.length < 1){
-                alert("请选择一条记录进行删除！");
+                alert("请选择一条或多条记录进行删除！");
             }else{
                 if(confirm("你确定要删除选中的课程吗？")){
                     $('form').submit();
@@ -25,7 +25,7 @@
             }
         }
     //]]>
-    </script>
+</script>
 </block>
 
 <block name="btnbar">
@@ -35,10 +35,10 @@
     	<li><a href="{:U('master/course_add')}"><img src="/Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
       </if>
       <if condition="has_all_rules('course_edit')">
-        <li><a href="#" id="course_list_edit" onclick="toEdit()"><img src="/Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
+        <li><a href="#" onclick="toEdit()"><img src="/Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
       </if>
       <if condition="has_all_rules('course_del')">
-        <li><a href="#" id="course_list_delete" onclick="toDel()"><img src="/Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
+        <li><a href="#" onclick="toDel()"><img src="/Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
       </if>
       <if condition="has_all_rules('course_add')">
         <li><img src="/Public/images/master_34.jpg" width="68" height="28" alt=""/></li>

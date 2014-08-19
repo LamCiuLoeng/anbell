@@ -12,12 +12,12 @@
 		if(navigator.appName.indexOf("Microsoft") != -1)
 		{
 			//判断是否ie浏览器，是就
-			$('#FlashID1')[0].sendToActionScript("{$user_id}+{$user_key}");
+			$('#FlashID1').sendToActionScript("{$user_id}+{$user_key}");
 		}
 		else
 		{
 			//不是就
-			$('#FlashID2')[0].sendToActionScript("{$user_id}+{$user_key}");
+			$('#FlashID2').sendToActionScript("{$user_id}+{$user_key}");
 		}
 		
      }
