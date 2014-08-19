@@ -105,7 +105,7 @@ function authcheck($rule,$uid,$relation='or'){
  }
 
 
-function has_all_rules($rule,$uid){
+function has_all_rules($rule){
     return authcheck($rule,session('user_id'),'and');
 }
 
@@ -121,4 +121,26 @@ function in_all_groups(){
 function in_any_groups(){
     
 }
+
+
+function download_file($file){
+    if(is_file($file)){
+        $length = filesize($file);
+        $type = mime_content_type($file);
+        $showname =  ltrim(strrchr($file,'/'),'/');
+        header("Content-Description: File Transfer");
+        header('Content-type: ' . $type);
+        header('Content-Length:' . $length);
+         if (preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT'])) { //for IE
+             header('Content-Disposition: attachment; filename="' . rawurlencode($showname) . '"');
+         } else {
+             header('Content-Disposition: attachment; filename="' . $showname . '"');
+         }
+         readfile($file);
+         exit;
+     } else {
+         exit('文件已被删除！');
+     }
+}
+
 ?>
