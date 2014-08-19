@@ -69,9 +69,11 @@ $(document).ready(function(){
       <td width="20">&nbsp;</td>
       <td valign="top">
       <div class="sub_content">
-      <p class="title">·联系我们</p>
+      <p class="title">·安全动态</p>
       <hr style="border:#ffde06 3px solid">
-      <php>echo htmlspecialchars_decode($web_content['content']);</php>
+      <foreach name="web_news" item="n" >
+          <p><a href="{:U('news_page')}?id={$n.id}">{$n.title}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$n.date_time}</a></p>
+         </foreach>
       </div>
       </td>
       <td width="50">&nbsp;</td>

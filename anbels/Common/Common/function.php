@@ -1,5 +1,5 @@
 <?php
-require_once 'PHPExcel/IOFactory.php';
+//require_once 'PHPExcel/IOFactory.php';
 use Think\Auth;
 
 
