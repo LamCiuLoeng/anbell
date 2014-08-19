@@ -25,7 +25,7 @@
         
         function toDel(obj){
         	var t = $(obj);
-        	$(t.parents(".crw")[0]).remove();
+        	$(t.parents(".crw")).remove();
         }
       
         
@@ -43,7 +43,7 @@
       <td width="130" height="50" align="right">课程名：</td>
       <td width="20">&nbsp;</td>
       <td>
-        <input name="name" id="name" type="text" id="textfield" size="50" value="{$c['name']}">&nbsp;*
+        <input name="name" id="name" type="text" size="50" value="{$c['name']}">&nbsp;*
         </td>
     </tr>
     <foreach name="crws" item="crw" >
@@ -53,11 +53,7 @@
             <td><a href="{$crw['url']}">{$crw['name']}</a>(<input type="checkbox" name="delcrw[]" value="{$crw['id']}"/>删除)</td>
         </tr>
     </foreach>
-    <tr class="crw">
-      <td height="50" align="right">课件：</td>
-      <td>&nbsp;</td>
-      <td>课件名：<input type="text" name="crw_name[]"/>&nbsp;&nbsp;课件URL：<input type="text" name="crw_url[]"/>&nbsp;<input type="button" onclick="toDel(this)" value="删除"/></td>
-    </tr>
+    
     <tr id="desc_tr">
       <td height="50" align="right">描述：</td>
       <td>&nbsp;</td>
@@ -68,7 +64,7 @@
        <td>&nbsp;</td>
        <td>
            <span class="send_btn" id="add_crw_btn" onclick="addcrw()">添加课件</span>
-           <span class="send_btn" id="school_send_btn" onclick="toSubmit()">提交</span>
+           <span class="send_btn" onclick="toSubmit()">提交</span>
            <span class="send_btn" id="reset_btn">重置</span> 
        </td>
     </tr>

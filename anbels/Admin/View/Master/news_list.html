@@ -3,7 +3,29 @@
     <link href="/Public/css/style.css" rel="stylesheet" type="text/css">
 </block>
 <block name="extJS">
-
+<script type="text/javascript" language="JavaScript">
+    //<![CDATA[
+        function toEdit(){
+            var c = $("[name='id[]']:checked");
+            if(c.length != 1){
+                alert("请选择一条记录进行修改！");
+            }else(
+                window.location.href = "{:U('news_edit')}" + '?id=' + c.val()
+            )
+        }
+        
+        function toDel(){
+            var c = $("[name='id[]']:checked");
+            if(c.length < 1){
+                alert("请选择一条或多条记录进行删除！");
+            }else{
+                if(confirm("你确定要删除选中的新闻吗？")){
+                    $('form').submit();
+                }
+            }
+        }
+    //]]>
+</script>
 </block>
 
 <block name="btnbar">
@@ -13,26 +35,32 @@
     	<li><a href="{:U('news_add')}"><img src="/Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
       </if>
       <if condition="has_all_rules('school_edit')">
-        <li><a href="#" id="school_list_edit"><img src="/Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
+        <li><a href="#" onClick="toEdit()"><img src="/Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
       </if>
       <if condition="has_all_rules('school_del')">
-        <li><a href="#" id="school_list_delete"><img src="/Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
+        <li><a href="#" onClick="toDel()"><img src="/Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
       </if>
   </ul>
 </div>
 <div style="clear:both"></div>
 </block>
-<block name="searchbar"></block>
+<div class="search_bar_b">
+<label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
+<input type="text">
+</div>
+</block>
+<block name="pathline">
+<div class="div_path_content">系统设置 -> 新闻中心</div>
+</block>
 <block name="content">
 <div class="show_content_b">
 <br>
 <p style="text-align:center"><strong>新闻动态列表</strong></p>
-<form action="" id="form1" name="form1" method="post">
+<form action="{:U('news_list_delete_handle')}" id="form1" name="form1" method="post">
 <table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
     <thead>
         <tr>
             <td align="center" class="first_td"><strong>标题</strong></td>
-            <td align="center"><strong>内容</strong></td>
             <td align="center">类型</td>
             <td align="center"><strong>时间</strong></td>
             <td align="center">&nbsp;</td>
@@ -41,10 +69,9 @@
     <foreach name="web_news" item="v" >
       <tr class="odd_tr">
             <td align="center" class="first_td">{$v.title}</td>
-            <td align="center">{$v.content}&nbsp;</td>
             <td align="center">{$v.category}&nbsp;</td>
-            <td align="center">{$v.date}&nbsp;</td>
-            <td align="center"><input type="checkbox" name="checkbox[]" id="checkbox" value="{$v.id}">&nbsp;</td>
+            <td align="center">{$v.date_time}&nbsp;</td>
+            <td align="center"><input type="checkbox" name="id[]" id="checkbox" value="{$v.id}">&nbsp;</td>
         </tr>
      </foreach>
 </table>

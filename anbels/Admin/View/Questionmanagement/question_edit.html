@@ -15,7 +15,7 @@
       <td height="50" align="right">课程：</td>
       <td>&nbsp;</td>
       <td><select name="course" id="select_course">
-      <option value="{$master_question[0].course_id}">{$master_question[0].course_id|kecheng}</option>
+      <option value="{$master_question.course_id}">{$master_question.course_id|kecheng}</option>
       </select></td>
       <td>&nbsp;</td>
     </tr>
@@ -23,15 +23,15 @@
        <td width="100" height="50" align="right">题目：</td>
        <td width="10">&nbsp;</td>
        <td>
-       <input name="question_name" type="text" id="textfield" size="70" value="{$master_question[0].content}">
-       <input name="id" type="text" id="textfield2" size="50" value="{$master_question[0].id}" style="display:none">
+       <input name="question_name" type="text" id="textfield" size="70" value="{$master_question.content}">
+       <input name="id" type="text" id="textfield2" size="50" value="{$master_question.id}" style="display:none">
        </td>
        <td>&nbsp;</td>
     </tr>
     <tr>
       <td height="50" align="right">正确答案：</td>
       <td>&nbsp;</td>
-      <td><input name="correct_answer" type="text" id="textfield6" size="3" value="{$master_question[0].correct_answer}"></td>
+      <td><input name="correct_answer" type="text" id="textfield6" size="3" value="{$master_question.correct_answer}"></td>
       <td></td>
     </tr>
     <tr>
@@ -39,8 +39,8 @@
       <td>&nbsp;</td>
       <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
-          <td><input name="answer01" type="text" id="textfield7" size="3" value="{$master_question[0].answer01}"></td>
-          <td><input name="answer_content01" type="text" id="textfield2" size="65" value="{$master_question[0].answer01_content}"></td>
+          <td><input name="answer01" type="text" id="textfield7" size="3" value="{$master_question.answer01}"></td>
+          <td><input name="answer_content01" type="text" id="textfield2" size="65" value="{$master_question.answer01_content}"></td>
         </tr>
       </table></td>
       <td>&nbsp;</td>
@@ -50,8 +50,8 @@
       <td>&nbsp;</td>
       <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
-          <td><input name="answer02" type="text" id="textfield3" size="3" value="{$master_question[0].answer02}"></td>
-          <td><input name="answer_content02" type="text" id="textfield8" size="65" value="{$master_question[0].answer02_content}"></td>
+          <td><input name="answer02" type="text" id="textfield3" size="3" value="{$master_question.answer02}"></td>
+          <td><input name="answer_content02" type="text" id="textfield8" size="65" value="{$master_question.answer02_content}"></td>
         </tr>
       </table></td>
       <td>&nbsp;</td>
@@ -61,8 +61,8 @@
       <td>&nbsp;</td>
       <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
-          <td><input name="answer03" type="text" id="textfield4" size="3" value="{$master_question[0].answer03}"></td>
-          <td><input name="answer_content03" type="text" id="textfield9" size="65" value="{$master_question[0].answer03_content}"></td>
+          <td><input name="answer03" type="text" id="textfield4" size="3" value="{$master_question.answer03}"></td>
+          <td><input name="answer_content03" type="text" id="textfield9" size="65" value="{$master_question.answer03_content}"></td>
         </tr>
       </table></td>
       <td>&nbsp;</td>
@@ -72,8 +72,8 @@
       <td>&nbsp;</td>
       <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
-          <td><input name="answer04" type="text" id="textfield5" size="3" value="{$master_question[0].answer04}"></td>
-          <td><input name="answer_content04" type="text" id="textfield10" size="65" value="{$master_question[0].answer04_content}"></td>
+          <td><input name="answer04" type="text" id="textfield5" size="3" value="{$master_question.answer04}"></td>
+          <td><input name="answer_content04" type="text" id="textfield10" size="65" value="{$master_question.answer04_content}"></td>
         </tr>
       </table></td>
       <td>&nbsp;</td>

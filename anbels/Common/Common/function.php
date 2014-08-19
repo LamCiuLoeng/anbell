@@ -65,7 +65,16 @@ function mydto(){
 		'update_time' => mynow(),
 		'active' => 0,
 		'create_by_id' => session('user_id'),
-		'update_by_id' => session('user_id'),
+		'update_by_id' => session('user_id')
+	);
+		
+}
+
+function mydto_edit(){
+	return array(
+		'update_time' => mynow(),
+		'active' => 0,
+		'update_by_id' => session('user_id')
 	);
 		
 }

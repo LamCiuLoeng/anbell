@@ -16,23 +16,23 @@
        <td width="130" height="50" align="right">省市区：</td>
        <td width="20">&nbsp;</td>
        <td>
-       <select id="select_province"><option value="">{$master_school[0].location_id|sheng}</option></select>
-       <select id="select_city"><option value="">{$master_school[0].location_id|shi}</option></select>
-       <select name="location" id="select_area"><option value="{$master_school[0].location_id}">{$master_school[0].location_id|qu}</option></select>
+       <select id="select_province"><option value="">{$master_school.location_id|sheng}</option></select>
+       <select id="select_city"><option value="">{$master_school.location_id|shi}</option></select>
+       <select name="location" id="select_area"><option value="{$master_school.code}" selected>{$master_school.location_id|qu}</option></select>
        </td>
     </tr>
     <tr>
       <td height="50" align="right">学校名：</td>
       <td>&nbsp;</td>
       <td>
-        <input name="school_name" type="text" id="textfield" size="50" value="{$master_school[0].name}">&nbsp;*
-        <input name="id" type="text" id="textfield2" size="50" value="{$master_school[0].id}" style="display:none">
+        <input name="school_name" type="text" id="textfield" size="50" value="{$master_school.name}">&nbsp;*
+        <input type="hidden" name="id" value="{$master_school.id}"/>
         </td>
     </tr>
     <tr>
       <td height="50" align="right">描述：</td>
       <td>&nbsp;</td>
-      <td><textarea name="description" cols="50" rows="7" id="textarea">{$master_school[0].desc}</textarea></td>
+      <td><textarea name="description" cols="50" rows="7" id="textarea">{$master_school.desc}</textarea></td>
     </tr>
     <tr>
        <td height="50" align="right">&nbsp;</td>

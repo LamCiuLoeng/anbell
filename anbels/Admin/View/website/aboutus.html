@@ -76,12 +76,12 @@
     <tr>
       <td height="50" align="right">备注：</td>
       <td>&nbsp;</td>
-      <td><input name="remarks" type="text" id="textfield" size="80" value="{$web_content[0].remarks}"></td>
+      <td><input name="remarks" type="text" id="textfield" size="80" value="{$web_content.remarks}"></td>
     </tr>
     <tr>
       <td width="130" height="50" align="right">内容：</td>
       <td width="20">&nbsp;</td>
-      <td><textarea name="content1" style="width:700px;height:500px;visibility:hidden;" id="neirong"><php>echo ($web_content[0]['content']);</php></textarea></td>
+      <td><textarea name="content1" style="width:700px;height:500px;visibility:hidden;" id="neirong"><php>echo ($web_content['content']);</php></textarea></td>
     </tr>
     <tr>
       <td height="50" align="right">&nbsp;</td>

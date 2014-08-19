@@ -25,7 +25,7 @@
         
         function toDel(obj){
         	var t = $(obj);
-        	$(t.parents(".crw")[0]).remove();
+        	$(t.parents(".crw")).remove();
         }
       
         
@@ -42,7 +42,7 @@
       <td width="130" height="50" align="right">课程名：</td>
       <td width="20">&nbsp;</td>
       <td>
-        <input name="name" id="name" type="text" id="textfield" size="50">&nbsp;*
+        <input name="name" id="name" type="text" size="50"/>&nbsp;*
         </td>
     </tr>
     <tr class="crw">
@@ -60,7 +60,7 @@
        <td>&nbsp;</td>
        <td>
            <span class="send_btn" id="add_crw_btn" onclick="addcrw()">添加课件</span>
-           <span class="send_btn" id="school_send_btn" onclick="toSubmit()">提交</span>
+           <span class="send_btn" onclick="toSubmit()">提交</span>
            <span class="send_btn" id="reset_btn">重置</span> 
        </td>
     </tr>

@@ -11,7 +11,7 @@ class WebsiteController extends BaseController {
 	public function aboutus()
 	{
 		$map['page'] = 'aboutus';
-		$web_content=M('web_content')->where($map)->select();
+		$web_content=M('web_content')->where($map)->find();
 		$this->assign('web_content',$web_content);
 		$this->display();
 	}
@@ -37,7 +37,7 @@ class WebsiteController extends BaseController {
 	public function contactus()
 	{
 		$map['page'] = 'contactus';
-		$web_content=M('web_content')->where($map)->select();
+		$web_content=M('web_content')->where($map)->find();
 		$this->assign('web_content',$web_content);
 		$this->display();
 	}

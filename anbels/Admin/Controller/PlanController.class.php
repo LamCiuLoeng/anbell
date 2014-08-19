@@ -164,7 +164,7 @@ class PlanController extends BaseController {
             $this->error("该记录不存在！");
         }
         
-        $dto = mydto();
+        $dto = mydto_edit();
         $dto['name'] = I('name',null);
         $dto['desc'] = I('desc',null);
         $M->where(array('id' => $p['id']))->save($dto);

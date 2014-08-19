@@ -23,10 +23,84 @@ class MasterController extends BaseController {
 		$show = $Page->show();// 分页显示输出
 		$this->assign('page',$show);// 赋值分页输出
 		$this->display();
-		die();
 	}
 	
-	public function school_list(){
+	public function news_add()
+	{
+		$this->display();
+	}
+	
+	public function news_add_handle()
+	{
+		$web_news = M("web_news"); // 实例化User对象
+		$data=mydto();
+		$data['title'] = I('news_title');
+		$data['date_time'] = I('date_time');
+		$data['content'] = I('content1');
+		$data['category'] = I('news_category');
+		if($web_news->add($data))
+		{
+			$this->success('新闻添加成功！',U('news_list'));
+		} 
+		else 
+		{
+			$this->error('新闻添加失败，请重试...');	
+		}
+
+	}
+	
+	public function news_edit(){
+		$id = I("id",null);
+        if(!$id || is_null($id)){
+            $this->error("没有提供ID！");
+        }
+        
+        $web_news = M("web_news")->where(array('active' => 0 , 'id' => intval($id)))->find();
+        if(!$web_news || is_null($web_news)){
+            $this->error("该记录不存在！");
+        }
+		
+        $this->web_news = $web_news;
+        $this->display();
+	}
+	
+	public function news_edit_handle(){
+		$web_news = M("web_news"); // 实例化User对象
+		$map['id'] = I('post.id');
+		$data = mydto_edit();
+		$data['title'] = I('news_title');
+		$data['date_time'] = I('date_time');
+		$data['content'] = I('content1');
+		$data['category'] = I('news_category');
+		if($web_news->where($map)->setField($data))
+		{
+			$this->success('新闻修改成功！',U('news_list'));
+		} 
+		else 
+		{
+			$this->error('新闻修改失败，请重试...');	
+		}
+	}
+	
+	public function news_list_delete_handle(){
+		$checkbox_array=I('id',array());
+		$web_news = M("web_news"); // 实例化User对象
+		$map['id']  = array('in',$checkbox_array);
+		$data['active'] = 1;
+		$data['update_by_id'] = session('user_id');
+		$data['update_time'] = mynow();
+		if($web_news->where($map)->setField($data))
+		{
+			$this->success(count($checkbox_array).'条记录删除成功！',U('news_list'));
+		} 
+		else
+		{
+			$this->error('删除失败，请勾选需要删除的课程...');	
+		}
+	}
+	
+	public function school_list()
+	{
 		if(!isset($_GET['p']))
 			{
 				$_GET['p'] = 1;
@@ -46,20 +120,19 @@ class MasterController extends BaseController {
 		$this->display();
 	}
 	
-	public function school_add(){
+	public function school_add()
+	{
         $this->display();
 	}
-	public function school_add_handle(){
+	public function school_add_handle()
+	{
 		$master_school = M("master_school"); // 实例化User对象
 		$location_id=M('master_location')->where('code='.I('post.location'))->find();
+		$data = mydto();
 		$data['location_id'] = $location_id['id'];
 		$data['name'] = I('post.school_name');
 		$data['desc'] = I('post.description');
-		$data['active'] = 0;
-		$data['create_by_id'] = session('user_id');
-		$data['create_time'] = mynow();
-		$data['update_by_id'] = session('user_id');
-		$data['update_time'] = mynow();
+		
 		//p($master_school->add($data));die;
 		if($master_school->add($data))
 		{
@@ -75,9 +148,12 @@ class MasterController extends BaseController {
 		if(I('post.checkbox'))
 		{
 			$checkbox_array=I('post.checkbox');
-			$map['id'] = $checkbox_array[0];
+			$map['anbels_master_school.id'] = $checkbox_array[0];
 			//p($checkbox_array[0]);die;
-			$master_school=M('master_school')->where($map)->select();
+			$master_school=M('master_location')
+			->join('RIGHT JOIN anbels_master_school ON anbels_master_location.id = anbels_master_school.location_id')
+			->where($map)->find();
+			
 			$this->assign('master_school',$master_school);
 			$this->display();
 		} 
@@ -91,12 +167,11 @@ class MasterController extends BaseController {
 		$master_school = M("master_school"); // 实例化User对象
 		$map['id'] = I('post.id');
 		$location_id=M('master_location')->where('code='.I('post.location'))->find();
+		$data = mydto_edit();
 		$data['location_id'] = $location_id['id'];
 		//$data['location_id'] = I('post.location');
 		$data['name'] = I('post.school_name');
 		$data['desc'] = I('post.description');
-		$data['update_by_id'] = session('user_id');
-		$data['update_time'] = mynow();
 		if($master_school->where($map)->setField($data))
 		{
 			$this->success('学校修改成功！',U('master/school_list'));
