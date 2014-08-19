@@ -29,7 +29,7 @@ class PlanController extends BaseController {
         $Q1 = M();   
         $p = $Q1->query("SELECT 
         
-                    p.id as id, p.name as name, p.desc as `desc`,l.name as location
+                    p.id as id, p.name as name, p.desc as `desc`,l.full_name as location
                     FROM anbels_master_school s, anbels_logic_plan p,anbels_master_location l
                     WHERE s.id = p.school_id and l.id=s.location_id and p.id = ".$id);
 					
