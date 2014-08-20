@@ -90,27 +90,38 @@ class UtilController extends BaseController {
             }
         }
         
+		$this->o('<?xml version="1.0" encoding="utf-8"?>');
+		$this->o('<config>');
+		$this->o('<version>1.0.0</version>');
+		$this->o('<debug>1</debug>');
+		$this->o('<urls><loginURL></loginURL></urls>');
+		$this->o('<resourcePath value="http://192.168.0.168/Public/swf/"/>');
+		$this->o('<courseData>');
         $content = "";
+                
         ksort($data);
         foreach ($data as $grade => $course) {
-            $content .= '<grade value="'.$grade.'">';
+            $this->o('<grade value="'.$grade.'">');
             ksort($course);
             foreach ($course as $course_id => $course_info) {
-                $content .= '<course name="'.$course_info['course_name'].'" id="'.$course_id.'" description="'.$course_info['description'].'">';
+                $this->o('<course name="'.$course_info['course_name'].'" id="'.$course_id.'" description="'.$course_info['description'].'">');
                 foreach ($course_info['coursewares'] as $crw) {
-                    $content .= '<courseWare id="'.$crw['courseware_id'].'" name="'.$crw['courseware_name'].'" url="'.$crw['url'].'" />';
+                    $this->o('<courseWare id="'.$crw['courseware_id'].'" name="'.$crw['courseware_name'].'" url="'.$crw['url'].'" />');
                 }
-                $content .= '</course>';
+                $this->o('</course>');
             }
-            $content .= '</grade>';
+            $this->o('</grade>');
         }
-                
-		$xml = '<?xml version="1.0" encoding="utf-8"?><config><version>1.0.0</version><debug>1</debug><urls><loginURL></loginURL></urls>';
-		$xml .= '<resourcePath value="http://192.168.0.168/Public/swf/"/><courseData>';
-		$xml .= $content;
-		$xml .= '</courseData></config>';
-		echo $xml;
+		$this->o('</courseData>');
+		$this->o('</config>');        
 	}
+
+
+    private function o($str)
+    {
+        echo htmlentities($str,ENT_COMPAT, 'UTF-8'); 
+        echo '<br />';
+    }
 	
 }
 

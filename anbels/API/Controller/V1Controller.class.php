@@ -381,15 +381,21 @@ class V1Controller extends Controller {
                 }else{
                     $update['start_time'] = mynow();
                     $update['complete_time'] = null;
-                    $update['score'] = I('score',null);
+                    //$update['score'] = I('score',null);
                     $LogicStudyLog->where($condition)->data($update)->save();
                 }
                 $this->ajaxReturn(array('flag' => FLAG_OK ,'msg' => MSG_OK));
             }else{
                 if($before){ //get the record before
                     $update['complete_time'] = mynow();
-                    $update['score'] = I('score',null);
-                    $LogicStudyLog->where($condition)->data($update)->save();
+                    $score = I('score',null);
+                    if($score){
+                        $s = floatval($score);
+                        if(is_null($before['score']) || $before['score'] < $s){
+                            $update['score'] = $s;
+                        }
+                    }
+                    $LogicStudyLog->where($condition)->data($update)->save();                            
                 }
             }
             $this->ajaxReturn(array('flag' => FLAG_OK ,'msg' => MSG_OK));

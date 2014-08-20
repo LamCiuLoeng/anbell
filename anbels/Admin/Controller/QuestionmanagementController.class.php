@@ -146,19 +146,23 @@ class QuestionmanagementController extends BaseController {
             $M = M("MasterQuestion");         
             $path = './Public/'.$info['savepath'].$info['savename'];
             $data = readXLS($path);
+            // dump($data);
+            $index = 0;
             foreach ($data as $row) {
+                $index += 1;
+                if($index == 1){ continue ;} //excel header
                 $tmp = mydto();
-                $tmp['course_id'] = $row[0];
-                $tmp['content'] = $row[1];
-                $tmp['correct_answer'] = $row[2];
-                $tmp['answer01'] = $row[3];
-                $tmp['answer01_content'] = $row[4];
-                $tmp['answer02'] = $row[5];
-                $tmp['answer02_content'] = $row[6];
-                $tmp['answer03'] = $row[7];
-                $tmp['answer03_content'] = $row[8];
-                $tmp['answer04'] = $row[9];
-                $tmp['answer04_content'] = $row[10];
+                $tmp['course_id'] = $row["F"];
+                $tmp['content'] = $row["G"];
+                $tmp['correct_answer'] = $row["H"];
+                $tmp['answer01'] = $row["I"];
+                $tmp['answer01_content'] = $row["J"];
+                $tmp['answer02'] = $row["K"];
+                $tmp['answer02_content'] = $row["L"];
+                $tmp['answer03'] = $row["M"];
+                $tmp['answer03_content'] = $row["N"];
+                $tmp['answer04'] = $row["O"];
+                $tmp['answer04_content'] = $row["P"];
                 $M->create($tmp);
                 $M->add();
             }
