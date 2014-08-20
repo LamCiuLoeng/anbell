@@ -12,7 +12,7 @@ class AccountManagementController extends BaseController {
 		if($search_info['class_id']!='') $map['anbels_master_class.id']  = array('eq',$search_info['class_id']);
 		
 		
-		$map['anbels_auth_user.name|anbels_auth_user.system_no']  = array('like','%'.$search_info['keyword'].'%');
+		$map['anbels_auth_user.name|anbels_auth_user.system_no|anbels_master_location.full_name|anbels_master_school.name|anbels_auth_group.display_name']  = array('like','%'.$search_info['keyword'].'%');
 		$map['anbels_auth_user.active']  = array('eq','0');
 		$map['_logic'] = 'and';
 		$User = M('AuthUser');
@@ -26,8 +26,7 @@ class AccountManagementController extends BaseController {
 		->join('left join anbels_auth_group_access on anbels_auth_group_access.uid = anbels_auth_user.id')
 		->join('left join anbels_auth_group on anbels_auth_group.id = anbels_auth_group_access.group_id')
 		
-        ->field('anbels_auth_user.id,anbels_auth_user.system_no,anbels_auth_user.name as user_name,
-                 anbels_auth_user.gender,anbels_auth_user.last_login_time,
+        ->field('anbels_auth_user.id,anbels_auth_user.system_no,anbels_auth_user.name as user_name,anbels_auth_user.gender,anbels_auth_user.last_login_time,
                  anbels_master_school.name as school_name,anbels_master_class.name as class_name,
 				 anbels_master_location.full_name,
 				 anbels_auth_group.display_name')
