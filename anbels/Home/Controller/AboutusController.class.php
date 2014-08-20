@@ -9,6 +9,13 @@ class AboutusController extends Controller {
 		$this->display('aboutus');
     }
 	
+	public function aboutanbels(){
+		$map['page'] = 'aboutanbels';
+		$web_content=M('web_content')->where($map)->find();
+		$this->assign('web_content',$web_content);
+		$this->display();
+    }
+	
 	public function contactus(){
 		$map['page'] = 'contactus';
 		$web_content=M('web_content')->where($map)->find();

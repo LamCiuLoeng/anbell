@@ -5,26 +5,9 @@
 <title>安贝尔儿童安全乐园</title>
 <link href="/anbels/Home/Public/css/style.css" rel="stylesheet" type="text/css">
 <script src="/anbels/Home/Public/js/jquery-1.11.1.min.js"></script>
+<script src="/anbels/Home/Public/js/common_home.js"></script>
 <script language="javascript">
-$(document).ready(function(){
-	$("img[src='/anbels/Home/Public/images/guanyuanbeier_06.jpg']").hover(
-	  function () {
-		$(this).attr("src","/anbels/Home/Public/images/guanyuanbeier_06_h.jpg"); 
-	  },
-	  function () {
-		$(this).attr("src","/anbels/Home/Public/images/guanyuanbeier_06.jpg"); 
-	  }
-	); 
-	
-	$("img[src='/anbels/Home/Public/images/guanyuanbeier_10.jpg']").hover(
-	  function () {
-		$(this).attr("src","/anbels/Home/Public/images/guanyuanbeier_10_h.jpg"); 
-	  },
-	  function () {
-		$(this).attr("src","/anbels/Home/Public/images/guanyuanbeier_10.jpg"); 
-	  }
-	); 
-});
+
 </script>
 </head>
 
@@ -56,16 +39,14 @@ $(document).ready(function(){
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td width="183" valign="top">
-      <div class="left_navi_menu">
-          <ul>
+      <td width="183" valign="top"><div class="left_navi_menu">
+        <ul>
           <li><img src="/anbels/Home/Public/images/guanyuanbeier_03.jpg" width="160" height="41" alt=""/></li>
-          <li><a href="{:U('aboutus/index')}"><img src="/anbels/Home/Public/images/guanyuanbeier_06.jpg" width="160" height="34" alt=""/></a></li>
-          <li><img src="/anbels/Home/Public/images/guanyuanbeier_08.jpg" width="160" height="34" alt=""/></li>
+          <li><a href="{:U('aboutus/aboutanbels')}"><img src="/anbels/Home/Public/images/guanyuanbeier_06.jpg" width="160" height="34" alt=""/></a></li>
+          <li><a href="{:U('aboutus/index')}"><img src="/anbels/Home/Public/images/guanyuanbeier_08.jpg" width="160" height="34" alt=""/></a></li>
           <li><a href="{:U('aboutus/contactus')}"><img src="/anbels/Home/Public/images/guanyuanbeier_10.jpg" width="160" height="34" alt=""/></a></li>
-          </ul>
-      </div>
-      </td>
+        </ul>
+      </div></td>
       <td width="20">&nbsp;</td>
       <td valign="top">
       <div class="sub_content">

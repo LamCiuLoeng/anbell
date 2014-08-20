@@ -8,7 +8,7 @@ ul,li,dd,dt,dl {
 	list-style:none;
 }
 body {
-	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: "宋体", Arial;
 	font-size: 12px;
 	color: #ffffff;
 	background-repeat: repeat-x;
@@ -39,6 +39,8 @@ body {
 	text-align:center;
 }
 .sub_content{
+	font-family: "宋体", Arial;
+	font-size:14px;
 	text-align:left;
 	color:#000000;
 	width:700px; 

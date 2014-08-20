@@ -39,23 +39,24 @@
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td width="183" valign="top"><div class="left_navi_menu">
-        <ul>
+      <td width="183" valign="top">
+      <div class="left_navi_menu">
+          <ul>
           <li><a href="{:U('index')}"><img src="/anbels/Home/Public/images/news_03.jpg" width="160" height="41" alt=""/></a></li>
           <li><a href="{:U('anbels_info')}"><img src="/anbels/Home/Public/images/news_08.jpg" width="160" height="34" alt=""/></a></li>
           <li><a href="{:U('news_info')}"><img src="/anbels/Home/Public/images/news_06.jpg" width="160" height="34" alt=""/></a></li>
           <li><a href="{:U('policy_info')}"><img src="/anbels/Home/Public/images/news_10.jpg" width="160" height="34" alt=""/></a></li>
-        </ul>
-      </div></td>
+          </ul>
+      </div>
+      </td>
       <td width="20">&nbsp;</td>
       <td valign="top">
       <div class="sub_content">
-      <p class="title">{$web_news.title}</p>
+      <p class="title">·政策动态</p>
       <hr style="border:#ffde06 3px solid">
-      <br>
-      <p>{$web_news.date_time}</p>
-      <br>
-      <php>echo htmlspecialchars_decode($web_news['content']);</php>
+      <foreach name="web_news" item="n" >
+          <p><a href="{:U('news_page')}?id={$n.id}">[&nbsp;{$n.category}&nbsp;]&nbsp;&nbsp;{$n.title}&nbsp;&nbsp;&nbsp;{$n.date_time}</a></p>
+         </foreach>
       </div>
       </td>
       <td width="50">&nbsp;</td>
