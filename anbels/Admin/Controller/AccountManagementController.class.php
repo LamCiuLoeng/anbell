@@ -169,10 +169,10 @@ class AccountManagementController extends BaseController {
             
 
             if($role == 'S'){ //student
-                $g = $Group->where(array('active' => 0 ,'name' => 'STUDENT'))->find();
+                $g = $Group->where(array('active' => 0 ,'title' => 'STUDENT'))->find();
                 $UserGroup->where(array('uid' => $id))->setField(array('group_id' => $g['id']));
             }elseif($role == 'T'){ //teacher
-                $g = $Group->where(array('active' => 0 ,'name' => 'TEACHER'))->find();
+                $g = $Group->where(array('active' => 0 ,'title' => 'TEACHER'))->find();
                 $UserGroup->where(array('uid' => $id))->setField(array('group_id' => $g['id']));
             }
             

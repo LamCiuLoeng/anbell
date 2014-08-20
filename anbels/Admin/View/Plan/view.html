@@ -1,7 +1,7 @@
 <extend name="Public:base" />
-
 <block name="extCSS">
     <link href="/Public/css/jquery-ui-1.8.17.custom.css" rel="stylesheet" type="text/css">
+    <link href="/Public/css/style.css" rel="stylesheet" type="text/css">
 </block>
 
 <block name="extJS">
@@ -57,44 +57,42 @@
 
 <block name="content">
     <div class="show_content_b"><br>
-		<p style="text-align:center"><strong>教堂计划详情</strong></p>
+	  <p style="text-align:center"><strong>教堂计划详情</strong></p>
 
-          <table width="650" border="0" align="center" cellpadding="0" cellspacing="0">
-              <tr>
-                  <td height="50" align="right">地区：</td>
-                  <td>&nbsp;</td>
-                  <td>{$p['location']}</td>
-                  <td>&nbsp;</td>
+      <table width="500" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+              <td width="100" align="right">&nbsp;</td>
+              <td height="50" align="left">地区 ： {$p['location']}</td>
+              <td>&nbsp;</td>
             </tr>
+            <tr>
+              <td align="right">&nbsp;</td>
+              <td height="50" align="left">教学计划名称 ：{$p['name']}</td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td align="right">&nbsp;</td>
+              <td height="50" align="left">教学计划描述 ：{$p['desc']}</td>
+              <td>&nbsp;</td>
+            </tr>
+          </table>
+          <table width="500" border="0" align="center" cellpadding="0" cellspacing="0">
+              <foreach name="pcs" item="pc" key="grade">
                 <tr>
-                  <td width="100" height="50" align="right">教学计划名称：</td>
-                   <td width="10">&nbsp;</td>
-                   <td>{$p['name']}</td>
-                   <td>&nbsp;</td>
-                </tr>
-                
-                <tr>
-                  <td height="50" align="right">教学计划描述：</td>
-                  <td>&nbsp;</td>
-                  <td>{$p['desc']}</td>
-                  <td>&nbsp;</td>
-                </tr>
-                <foreach name="pcs" item="pc" key="grade">
-                  <tr>
-                      <td width="100" height="50" align="right">{$grade}年级课程</td>
-                      <td>&nbsp;</td>
-                      <td>
-                          <ul>
-                            <foreach name="pc" item="c">
-                                <!-- <li><a href="#" onclick="toView({$c['cid']})">{$c['name']}</a></li> -->
+                  <td width="100" align="right">&nbsp;</td>
+                    <td width="100" height="50" align="left">{$grade}年级课程</td>
+                    <td>
+                        <ul>
+                          <foreach name="pc" item="c">
+                              <!-- <li><a href="#" onclick="toView({$c['cid']})">{$c['name']}</a></li> -->
                                 
                                 
-                                <li><a href="{:U('Plan/openflash')}?id={$c['cid']}" target="_blank">{$c['name']}</a></li>
-                            </foreach>
-                          </ul>
-                      </td>
-                      <td>&nbsp;</td>
-                  </tr>
+                              <li><a href="{:U('Plan/openflash')}?id={$c['cid']}" target="_blank">{$c['name']}</a></li>
+                          </foreach>
+                        </ul>
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
                 </foreach>
           </table>      
     </div>

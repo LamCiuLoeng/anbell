@@ -43,6 +43,7 @@ class PlanController extends BaseController {
         if(is_array($p)){
             $p = $p[0];
         }
+		//p($p);
         
         $Q2 = M();   
         $qs = $Q2->query("SELECT
