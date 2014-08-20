@@ -229,15 +229,11 @@ class MasterController extends BaseController {
 	}
 	public function class_add_handle(){
 		$master_class = M("master_class"); // 实例化User对象
+		$data = mydto();
 		$data['school_id'] = I('post.school_name');
 		$data['name'] = I('post.class_name');
 		$data['grade'] = I('post.grade');
 		$data['desc'] = I('post.description');
-		$data['active'] = 0;
-		$data['create_by_id'] = session('user_id');
-		$data['create_time'] = mynow();
-		$data['update_by_id'] = session('user_id');
-		$data['update_time'] = mynow();
 		//p($master_school->add($data));die;
 		if($master_class->add($data))
 		{
@@ -268,15 +264,14 @@ class MasterController extends BaseController {
 	public function class_edit_handle(){
 		$master_class = M("master_class"); // 实例化User对象
 		$map['id'] = I('post.id');
+		$data = mydto_edit();
 		$data['school_id'] = I('post.school_name');
 		$data['name'] = I('post.class_name');
 		$data['grade'] = I('post.grade');
 		$data['desc'] = I('post.description');
-		$data['update_by_id'] = session('user_id');
-		$data['update_time'] = mynow();
-		if($master_school->where($map)->setField($data))
+		if($master_class->where($map)->setField($data))
 		{
-			$this->success('班级修改成功！',U('master/school_list'));
+			$this->success('班级修改成功！',U('class_list'));
 		} 
 		else 
 		{

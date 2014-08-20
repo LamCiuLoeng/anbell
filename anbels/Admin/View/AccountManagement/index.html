@@ -5,6 +5,43 @@
 <block name="extJS">
     
     <script src="/Public/js/select_ssq.js"></script>
+    <script language="JavaScript" type="text/javascript">
+    //<![CDATA[
+        function toEdit(){
+            var cs = $("input[name='id[]']:checked");
+            if(cs.length != 1){
+                alert("请只选择一条记录进行修改！");
+            }else{
+                window.location.href = "{:U('Plan/edit')}" + '?id=' + cs.val(); 
+            }
+        }
+        
+        function toView(){
+            var cs = $("input[name='id[]']:checked");
+            if(cs.length != 1){
+                alert("请只选择一条记录进行查看！");
+            }else{
+                window.location.href = "{:U('Plan/view')}" + '?id=' + cs.val(); 
+            }
+        }       
+         
+         
+        function toDel(){
+        	var cs = $("input[name='id[]']:checked");
+            if(cs.length != 1){
+                alert("请只选择一条记录进行删除！");
+            }else{
+            	if(confirm("你确定要删除选中的教学计划吗？些操作不可逆！")){
+	                window.location.href = "{:U('Plan/del')}" + '?id=' + cs.val(); 
+            	}
+            }
+        }
+		
+		function toSearch(){
+        	$("form[name='search']").submit();
+        }       
+    //]]>
+   </script>
 </block>
 
 <block name="btnbar">
@@ -22,10 +59,25 @@
 
  <block name="searchbar">
 <div class="search_bar_b">
-<label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
-    <select id="select_province"><option value="预设值">请选择</option></select>
-    <select id="select_city"><option value="预设值">请选择</option></select>
-    <select id="select_area"><option value="预设值">请选择</option></select>
+<form action="" id="search" name="search" method="post">
+    <label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
+    <select id="lev1" name="location_code[]" onchange="getlocationchildren(this,'#lev2')">
+    <option value="">请选择</option>
+    <foreach name="locations" item="l" >
+    <option value="{$l.code}">{$l.name}</option>
+    </foreach>
+    </select>
+    <select id="lev2" name="location_code[]" onchange="getlocationchildren(this,'#lev3')">
+    </select>
+    <select id="lev3" name="location_code[]" onchange="getlocationchildren(this,'','#school_id')">
+    </select>
+    <select id="school_id" name="school_id" onchange="get_class_by_school(this,'#class_id')">
+    </select>
+    <select id="class_id" name="class_id">
+    </select>
+    <input type="text" name="keyword" id="keyword"/>
+    <span class="send_btn" onClick="toSearch();">搜索</span>
+</form>
 </div>
 </block>   
 <block name="content">
@@ -39,6 +91,7 @@
                 <td align="center" class="first_td"><strong>帐号名</strong></td>
                 <td align="center"><strong>姓名</strong></td>
                 <td align="center"><strong>性别</strong></td>
+                <td align="center">地区</td>
                 <td align="center"><strong>所在学校</strong></td>
                 <td align="center">所在班级</td>
                 <td align="center"><strong>用户类型</strong></td>
@@ -51,6 +104,7 @@
                 <td align="center" class="first_td">{$v.system_no}&nbsp;</td>
                 <td align="center">{$v.user_name}&nbsp;</td>
                 <td align="center">{$v.gender}&nbsp;</td>
+                <td align="center">{$v.full_name}&nbsp;</td>
                 <td align="center">{$v.school_name}&nbsp;</td>
                 <td align="center">{$v.class_name}&nbsp;</td>
                 <td align="center">{$v.display_name}&nbsp;</td>

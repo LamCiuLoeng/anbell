@@ -2,12 +2,26 @@
 namespace Admin\Controller;
 use Admin\Controller\BaseController;
 class AccountManagementController extends BaseController {
-    public function index(){	
+    public function index(){
+		$search_info=I('post.');
+		$this->locations = gettoplocation();
+		if($search_info['location_code'][0]!='') $map['anbels_logic_location.sheng']  = array('eq',$search_info['location_code'][0]);
+		if($search_info['location_code'][1]!='') $map['anbels_logic_location.shi']  = array('eq',$search_info['location_code'][1]);
+		if($search_info['location_code'][2]!='') $map['anbels_master_location.code']  = array('eq',$search_info['location_code'][2]);
+		if($search_info['school_id']!='') $map['anbels_master_school.id']  = array('eq',$search_info['school_id']);
+		if($search_info['class_id']!='') $map['anbels_master_class.id']  = array('eq',$search_info['class_id']);
+		
+		
+		$map['anbels_auth_user.name|anbels_auth_user.system_no']  = array('like','%'.$search_info['keyword'].'%');
+		$map['anbels_auth_user.active']  = array('eq','0');
+		$map['_logic'] = 'and';
 		$User = M('AuthUser');
         $users = $User
         ->join('left join anbels_logic_class_user  on  anbels_logic_class_user.user_id = anbels_auth_user.id')
         ->join('left join anbels_master_class on anbels_master_class.id = anbels_logic_class_user.class_id')
         ->join('left join anbels_master_school on anbels_master_school.id = anbels_master_class.school_id')
+		->join('left join anbels_master_location on anbels_master_location.id = anbels_master_school.location_id')
+		->join('left join anbels_logic_location on anbels_logic_location.qu = anbels_master_location.code')
 		
 		->join('left join anbels_auth_group_access on anbels_auth_group_access.uid = anbels_auth_user.id')
 		->join('left join anbels_auth_group on anbels_auth_group.id = anbels_auth_group_access.group_id')
@@ -15,9 +29,10 @@ class AccountManagementController extends BaseController {
         ->field('anbels_auth_user.id,anbels_auth_user.system_no,anbels_auth_user.name as user_name,
                  anbels_auth_user.gender,anbels_auth_user.last_login_time,
                  anbels_master_school.name as school_name,anbels_master_class.name as class_name,
+				 anbels_master_location.full_name,
 				 anbels_auth_group.display_name')
         ->order('anbels_auth_user.id desc')
-		->where('anbels_auth_user.active=0')
+		->where($map)
         ->select();
 
         $this->auth_user = $users;
