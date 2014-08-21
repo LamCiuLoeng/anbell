@@ -151,5 +151,20 @@ function readXLS($input_file){
     return $sheetData;
 }
 
+function generatepw( $length = 8 ,$chars = null ) {
+    // 密码字符集，可任意添加你需要的字符
+    if(is_null($chars)){
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_ []{}<>~`+=,.;:/?|';
+    }
+    $password = '';
+    for ( $i = 0; $i < $length; $i++ ) 
+    {
+       $password .= $chars[ mt_rand(0, strlen($chars) - 1) ];
+    }
+
+    return $password;
+}
+
+
 
 ?>

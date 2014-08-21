@@ -216,11 +216,131 @@ class AccountManagementController extends BaseController {
     
     public function imp()
     {
-        echo 'imp';
+        $this->locations = gettoplocation();
+        $this->display();
     }
     
-    public function exp()
+    public function imp_handle()
     {
-        echo 'exp';
+        $location_id = I("location_id",null);
+        if(!$location_id || is_null($location_id)){ $this->error("请选择需要导入账号的地区！"); }
+        
+        $SG = M("MuthGroup");
+        $g = $SG->where(array('title' => 'STUDENT'))->find();
+        if(!g || is_null($g)){
+            $this->error("没有学生的角色，请先创建学生的角色！");
+        }else{
+            $gid = $g['id'];
+        }
+        
+        
+        $config = array(    
+                    'rootPath'   =>    './Public/',
+                    'savePath'   =>    'Upload/',    
+                    'saveName'   =>    array('uniqid',''),    
+                    //'exts'       =>    array('csv', 'xls', 'xlsx'),    
+                    'autoSub'    =>    true,    
+                    'subName'    =>    array('date','Ymd','time'),
+                 );
+        $upload = new \Think\Upload($config);// 实例化上传类
+        if(!file_exists($upload->savePath)){
+            mkdir($upload->savePath);
+        }    
+        $info   =   $upload->uploadOne($_FILES["xls"]);  
+        if($info) {
+        
+            // 上传成功      
+            $M = M("AuthUser");         
+            $path = './Public/'.$info['savepath'].$info['savename'];
+            $data = readXLS($path);
+            // dump($data);
+            $index = 0;
+            $succ = 0;
+
+            foreach ($data as $row) {
+                $index += 1;
+                if($index == 1){ continue ;} //excel header
+                
+                $school_name = $row["A"];
+                $grade = $row["B"];
+                $class_name = $row["C"];
+                $school_id = $this->get_or_create_school($school_name,$location_id);
+                $class_id = $this->get_or_create_class($class_name, $grade, $school_id);
+
+                $tmp = mydto();
+                $tmp['system_no'] = M("SystemNo")->add(array('active'=>0));
+                $tmp['name'] = $row["D"];
+                $tmp['gender'] = $row["E"];                
+                $tmp['salt'] = generatepw(10,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+                $p = generatepw(6,"0123456789");
+                $tmp['password'] = crypt($p,$tmp['salt']);
+                $M->create($tmp);
+                $user_id = $M->add();
+                
+                $GU = M("AuthGroupAccess");
+                $GU->create(array("uid" => $user_id, "group_id" => $gid));
+                $GU->add();
+                
+                $result = $this->add_user_to_class($user_id, $class_id);
+                if($result){
+                    $succ ++;
+                }
+                
+                
+                
+            }                               
+        }else{
+            $this->error($upload->getError()); 
+        }
+        
+        $this->success('批量导入成功,共创建了'.$succ.'个账号！',U('AccountManagement/index'));
     }
+
+
+    private function get_or_create_school($name,$locaton_id)
+    {
+        $M = M("MasterSchool");
+        $s = $M->where(array('active' => 0 , 'location_id' => $locaton_id , 'name' => $name))->find();
+        if(!$s || is_null($s)){
+            $t = mydto();
+            $t['name'] = $name;
+            $t['location_id'] = $locaton_id;
+            $M->create($t);
+            return $M->add();
+        }else{
+            return $s['id'];
+        }
+    }
+
+
+    private function get_or_create_class($class_name,$grade,$school_id)
+    {
+        $M = M();
+        $result = $M->query("select c.id as id
+                   FROM anbels_master_class c, anbels_master_school s
+                   WHERE s.id = c.school_id and s.id = ".$school_id." and c.grade= ".$grade." and c.name= ".$class_name." ;"
+        );
+        if(!$result || is_null($result)){
+            $C = M("MasterClass");
+            $t=mydto();
+            $t['school_id']= $school_id;
+            $t['grade']= $grade;
+            $t['name']=$class_name;
+            $C->create($t);
+            return $C->add();
+        }else{
+             return $result[0]['id'];  
+        }
+    }
+    
+    private function add_user_to_class($user_id,$class_id)
+    {
+        $M = M("LogicClassUser");
+        $m['user_id'] = $user_id;
+        $m['class_id'] = $class_id;
+        $M->create($m);
+        return $M->add();
+    }
+    
+    
 }
