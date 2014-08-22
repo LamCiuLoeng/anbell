@@ -48,11 +48,16 @@ class AccountManagementController extends BaseController {
     
     public function save_new()
     {
+		$class_id = I('class_id',null);
         $m = mydto();
         $m['name'] = I('name',null);
         $m['password'] = I('password',null);
         $m['repassword'] = I('repassword',null);
         $m['gender'] = I('gender',null);
+		
+		if(!$class_id || is_null($class_id)){
+            $this->error("请选择班级！");
+        }
         
         if(!$m['name'] || is_null($m['name'])){
             $this->error("没有填写姓名！");
@@ -68,7 +73,7 @@ class AccountManagementController extends BaseController {
         
         try{
             $SystemNo = M("SystemNo");
-           // $SystemNo->create(array('active'=>0));
+            // $SystemNo->create(array('active'=>0));
             $m['system_no'] =$SystemNo->add(array('active'=>0));
             $m['password'] = crypt($m['password'],"dingnigefei"); #encrypt the password to save into db
             $m['salt'] = "dingnigefei";  #salt
@@ -91,7 +96,7 @@ class AccountManagementController extends BaseController {
                 $UserGroup->data(array('uid' => $id, 'group_id' => $g['id']))->add();
             }
             
-            $class_id = I('class_id',null);
+            
             if($class_id){
                 $Class = M('MasterClass');
                 $ClassUser = M('LogicClassUser');
@@ -191,6 +196,38 @@ class AccountManagementController extends BaseController {
         }
 		
 	}
+	
+	public function pw_edit()
+    {
+		$id = I('id',null);
+        if(!$id || is_null($id)){
+            $this->error("没有提供ID！");
+        }
+        
+        $auth_user=M('auth_user')->where(array('active' => 0 ,'id' => intval($id)))->find();
+        if(!$auth_user || is_null($auth_user)){
+            $this->error("该记录不存在！");
+        }
+		$this->assign('auth_user',$auth_user);
+		$this->display();
+    }
+	
+	public function pw_edit_handle()
+    {
+		$map['id'] = I('post.id');
+		$data['password'] = crypt(I('post.pwc'),"dingnigefei"); #encrypt the password to save into db
+		$auth_user=M('auth_user');
+		if($auth_user->where($map)->setField($data))
+		{
+			$this->success('密码重置成功！',U('index'));
+		} 
+		else 
+		{
+			$this->error('密码重置改失败，请重试...');	
+		}
+    }
+	
+	
     
     public function del()
     {

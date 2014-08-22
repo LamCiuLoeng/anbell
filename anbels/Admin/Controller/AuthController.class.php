@@ -21,6 +21,13 @@ class AuthController extends Controller {
 			$CurrentUser =  M('SystemCurrentUser');			
 			$CurrentUser->data(array('user_key' => $key,'time_stamp' => mynow() ))->add();
 			session('user_key' , $key);
+			
+			if(!has_all_rules('into_the_background')){
+				session('user_id',null);
+				session('login',null); 
+				$this->error('不能进入后台',U('/home/index'),1);
+			}
+			
             $this->redirect('Index/index',NULL,0);
 		}
 		

@@ -1,5 +1,7 @@
 <extend name="Public:base" />
-
+<block name="extCSS">
+    <link href="/Public/css/style.css" rel="stylesheet" type="text/css">
+</block>
 <block name="extJS">
     
     <script src="/Public/js/select_ssq.js"></script>
@@ -27,6 +29,20 @@
         }
         
 		function toSubmit(){
+			var select_location=$('select[name=school_id]');
+			var plan_name=$('input[name=name]');
+			
+			if(select_location.val()==null){
+			alert('地区不能为空！');
+			return;
+			}
+			
+			if(plan_name.val()==''){
+			alert('教学计划名称不能为空！');
+			plan_name.focus();
+			return;
+			}
+			
 			$("form").submit();
 		}
 	//]]>
@@ -97,8 +113,15 @@
 	                </tr>
 				</for>
 				<tr>
-					<td><input type="button" onclick="toSubmit()" value="提交"/></td>
+					<td>&nbsp;</td>
+                    <td></td>
+                    <td><span class="send_btn" onclick="toSubmit()">提交</span>&nbsp;</td>
 				</tr>
+				<tr>
+				  <td>&nbsp;</td>
+				  <td></td>
+				  <td>&nbsp;</td>
+		    </tr>
           </table>      
       </form>
     </div>

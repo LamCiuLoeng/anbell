@@ -1,0 +1,134 @@
+<extend name="Public:base" />
+<block name="extCSS">
+    <link href="/Public/css/style.css" rel="stylesheet" type="text/css">
+</block>
+<block name="extJS">
+<script type="text/javascript" language="JavaScript">
+    //<![CDATA[
+        function toEdit(){
+            var c = $("[name='id[]']:checked");
+            if(c.length != 1){
+                alert("请选择一条记录进行修改！");
+            }else(
+                window.location.href = "/index.php/Admin/master/course_edit" + '?id=' + c.val()
+            )
+        }
+        
+        function toDel(){
+            var c = $("[name='id[]']:checked");
+            if(c.length < 1){
+                alert("请选择一条或多条记录进行删除！");
+            }else{
+                if(confirm("你确定要删除选中的课程吗？")){
+                    $('form').submit();
+                }
+            }
+        }
+    //]]>
+</script>
+</block>
+
+<block name="btnbar">
+<div class="edit_menu_b">
+  <ul>
+     <li><img src="/Public/images/master_32.jpg" width="68" height="28" alt=""/></li>
+  </ul>
+</div>
+<div style="clear:both"></div>
+</block>
+<block name="searchbar">
+<div class="search_bar_b">
+<label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
+<input type="text">
+</div>
+</block>
+<block name="pathline">
+<div class="div_path_content">数据统计</div>
+</block>
+<block name="content">
+<div class="show_content_b">
+<br>
+<p style="text-align:center"><strong>数据统计</strong></p>
+<form action="{:U('master/course_list_delete_handle')}" id="form1" name="form1" method="post">
+<!--<table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
+    <thead>
+        <tr>
+            <td align="center" class="first_td">年级班级</td>
+            <td align="center">学生账号</td>
+            <td align="center">学生姓名</td>
+            <td align="center">测试次数</td>
+            <td align="center">测试最高得分</td>
+            <td align="center">&nbsp;</td>
+        </tr>
+    </thead>
+    <foreach name="school" item="v" >
+      <tr class="odd_tr">
+            <td align="center" class="first_td">{$v.name}</td>
+            <td align="center">10000002</td>
+            <td align="center">学生甲</td>
+            <td align="center">50</td>
+            <td align="center">3500</td>
+            <td align="center"><input type="checkbox" name="id[]" id="checkbox" value="{$v.id}">&nbsp;</td>
+        </tr>
+     </foreach>
+</table>-->
+<table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
+  <thead>
+    <tr>
+      <td align="center" class="first_td">年级班级</td>
+      <td align="center">学生账号</td>
+      <td align="center">学生姓名</td>
+      <td align="center">测试次数</td>
+      <td align="center">测试最高得分</td>
+      <td align="center">&nbsp;</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="odd_tr">
+      <td align="center" class="first_td">三年级一班</td>
+      <td align="center">10000008</td>
+      <td align="center">张清</td>
+      <td align="center">2</td>
+      <td align="center">58</td>
+      <td align="center"><input name="checkbox" id="checkbox2" value="1" type="checkbox"></td>
+    </tr>
+    <tr class="odd_tr">
+      <td align="center" class="first_td">三年级一班</td>
+      <td align="center">10000009</td>
+      <td align="center">陈秋梅</td>
+      <td align="center">5</td>
+      <td align="center">60</td>
+      <td align="center"><input name="checkbox" id="checkbox2" value="2" type="checkbox"></td>
+    </tr >
+    <tr class="odd_tr">
+      <td align="center" class="first_td">三年级一班</td>
+      <td align="center">10000010</td>
+      <td align="center">李好</td>
+      <td align="center">13</td>
+      <td align="center">95</td>
+      <td align="center"><input name="checkbox" id="checkbox2" value="3" type="checkbox"></td>
+    </tr>
+    <tr class="odd_tr">
+      <td align="center" class="first_td">三年级一班</td>
+      <td align="center">10000011</td>
+      <td align="center">吴世荣</td>
+      <td align="center">0</td>
+      <td align="center">0</td>
+      <td align="center"><input name="checkbox" id="checkbox2" value="4" type="checkbox"></td>
+    </tr>
+    <tr class="odd_tr">
+      <td align="center" class="first_td">三年级一班</td>
+      <td align="center">10000012</td>
+      <td align="center">李全贵</td>
+      <td align="center">1</td>
+      <td align="center">37</td>
+      <td align="center"><input name="checkbox" id="checkbox2" value="5" type="checkbox"></td>
+    </tr>
+  </tbody>
+</table>
+</form>
+{$page}
+<br>
+  <br>
+</div>
+</block>

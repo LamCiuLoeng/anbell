@@ -27,13 +27,22 @@
          
          
         function toDel(){
-        	var cs = $("input[name='id[]']:checked");
+        	var cs = $("input[name='checkbox[]']:checked");
             if(cs.length != 1){
-                alert("请只选择一条记录进行删除！");
+                alert("请只选择一条或多条记录进行删除！");
             }else{
-            	if(confirm("你确定要删除选中的教学计划吗？些操作不可逆！")){
-	                window.location.href = "{:U('Plan/del')}" + '?id=' + cs.val(); 
+            	if(confirm("你确定要删除选中的账号吗？些操作不可逆！")){
+	                $('#form1').submit();
             	}
+            }
+        }
+		
+		function pwEdit(){
+            var cs = $("input[name='checkbox[]']:checked");
+            if(cs.length != 1){
+                alert("请只选择一条记录进行重置！");
+            }else{
+                window.location.href = "{:U('pw_edit')}" + '?id=' + cs.val(); 
             }
         }
 		
@@ -49,9 +58,10 @@
       <ul>
             <li><a href="{:U('AccountManagement/add')}"><img src="/Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
             <li><a href="#" id="account_list_edit"><img src="/Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
-            <li><a href="#" id="account_list_delete"><img src="/Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
+            <li><a href="#" onclick="toDel()"><img src="/Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
             <li><a href="{:U('AccountManagement/imp')}"><img src="/Public/images/master_34.jpg" width="68" height="28" alt=""/></a></li>
             <li><a href="{:U('AccountManagement/exp')}"><img src="/Public/images/master_32.jpg" width="68" height="28" alt=""/></a></li>
+            <li><a href="#" onclick="pwEdit()"><img src="/Public/images/default_12.jpg" width="95" height="28" alt=""/></a></li>
         </ul>
     </div>
     <div style="clear:both"></div>
@@ -84,7 +94,7 @@
     <div class="show_content_b">
     <br>
 	<p style="text-align:center"><strong>账号列表</strong></p>
-    <form action="" id="form1" name="form1" method="post">
+    <form action="{:U('AccountManagement/del')}" id="form1" name="form1" method="post">
     <table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
         <thead>
             <tr>

@@ -544,7 +544,7 @@ class MasterController extends BaseController {
             $M->create($dto);
             $M->add();  
         }
-        $this->success("成功添加课件与游戏。");
+        $this->success("成功添加课件与游戏。",U('courseware_list'));
 	}
 	
 	

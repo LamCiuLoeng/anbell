@@ -1,0 +1,72 @@
+<extend name="Public:base" />
+<block name="extCSS">
+    <link href="/Public/css/style.css" rel="stylesheet" type="text/css">
+</block>
+<block name="extJS">
+    <script language="JavaScript" type="text/javascript">
+    //<![CDATA[
+		function toSubmit(){
+			var pw=$('#pw');
+			var pwc=$('#pwc');
+			
+			if(pw.val()==''){
+			alert('请输入新密码！');
+			pw.focus();
+			return;
+			}
+			
+			if(pwc.val()!=pw.val()){
+			alert('确认密码不一致！');
+			pwc.focus();
+			return;
+			}
+			
+			$("form").submit();
+		}
+	//]]>
+   </script>
+</block>
+
+<block name="content">
+    <div class="show_content_b"><br>
+		<p style="text-align:center"><strong>账号密码修改</strong></p>
+        <form action="{:U('pw_edit_handle')}" id="form1" name="form1" method="post">
+        <input name="id" type="hidden" value="{$auth_user.id}">
+          <table width="650" border="0" align="center" cellpadding="0" cellspacing="0">
+              <tr>
+                <td height="50" align="right">账号名：</td>
+                <td>&nbsp;</td>
+                <td>{$auth_user.system_no}</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td height="50" align="right">姓名：</td>
+                <td>&nbsp;</td>
+                <td>{$auth_user.name}</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td height="50" align="right">新密码</td>
+                <td>&nbsp;</td>
+                <td><input type="password" name="pw" id="pw"/></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="100" height="50" align="right">确认新密码</td>
+                 <td width="10">&nbsp;</td>
+                 <td><input type="password" name="pwc" id="pwc"/></td>
+                 <td>&nbsp;</td>
+                </tr>
+                <tr>
+                   <td height="50" align="right">&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>
+                       <span class="send_btn" onclick="toSubmit()">提交</span>
+                       <span class="send_btn" id="reset_btn">重置</span> 
+                   </td>
+                   <td></td>
+                </tr>
+          </table>
+      </form>
+    </div>
+</block>
