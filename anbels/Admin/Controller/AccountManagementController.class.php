@@ -3,42 +3,101 @@ namespace Admin\Controller;
 use Admin\Controller\BaseController;
 class AccountManagementController extends BaseController {
     public function index(){
-		$search_info=I('post.');
-		$this->locations = gettoplocation();
-		if($search_info['location_code'][0]!='') $map['anbels_logic_location.sheng']  = array('eq',$search_info['location_code'][0]);
-		if($search_info['location_code'][1]!='') $map['anbels_logic_location.shi']  = array('eq',$search_info['location_code'][1]);
-		if($search_info['location_code'][2]!='') $map['anbels_master_location.code']  = array('eq',$search_info['location_code'][2]);
-		if($search_info['school_id']!='') $map['anbels_master_school.id']  = array('eq',$search_info['school_id']);
-		if($search_info['class_id']!='') $map['anbels_master_class.id']  = array('eq',$search_info['class_id']);
-		
-		
-		$map['anbels_auth_user.name|anbels_auth_user.system_no|anbels_master_location.full_name|anbels_master_school.name|anbels_auth_group.display_name']  = array('like','%'.$search_info['keyword'].'%');
-		$map['anbels_auth_user.active']  = array('eq','0');
-		$map['_logic'] = 'and';
-		$User = M('AuthUser');
-        $users = $User
-        ->join('left join anbels_logic_class_user  on  anbels_logic_class_user.user_id = anbels_auth_user.id')
-        ->join('left join anbels_master_class on anbels_master_class.id = anbels_logic_class_user.class_id')
-        ->join('left join anbels_master_school on anbels_master_school.id = anbels_master_class.school_id')
-		->join('left join anbels_master_location on anbels_master_location.id = anbels_master_school.location_id')
-		->join('left join anbels_logic_location on anbels_logic_location.qu = anbels_master_location.code')
-		
-		->join('left join anbels_auth_group_access on anbels_auth_group_access.uid = anbels_auth_user.id')
-		->join('left join anbels_auth_group on anbels_auth_group.id = anbels_auth_group_access.group_id')
-		
-        ->field('anbels_auth_user.id,anbels_auth_user.system_no,anbels_auth_user.name as user_name,anbels_auth_user.gender,anbels_auth_user.last_login_time,
-                 anbels_master_school.name as school_name,anbels_master_class.name as class_name,
-				 anbels_master_location.full_name,
-				 anbels_auth_group.display_name')
-        ->order('anbels_auth_user.id desc')
-		->where($map)
-        ->select();
-
+		// $search_info=I('post.');
+		// $this->locations = gettoplocation();
+		// if($search_info['location_code'][0]!='') $map['anbels_logic_location.sheng']  = array('eq',$search_info['location_code'][0]);
+		// if($search_info['location_code'][1]!='') $map['anbels_logic_location.shi']  = array('eq',$search_info['location_code'][1]);
+		// if($search_info['location_code'][2]!='') $map['anbels_master_location.code']  = array('eq',$search_info['location_code'][2]);
+		// if($search_info['school_id']!='') $map['anbels_master_school.id']  = array('eq',$search_info['school_id']);
+		// if($search_info['class_id']!='') $map['anbels_master_class.id']  = array('eq',$search_info['class_id']);
+// 		
+// 		
+		// $map['anbels_auth_user.name|anbels_auth_user.system_no|anbels_master_location.full_name|anbels_master_school.name|anbels_auth_group.display_name']  = array('like','%'.$search_info['keyword'].'%');
+		// $map['anbels_auth_user.active']  = array('eq','0');
+		// $map['_logic'] = 'and';
+		// $User = M('AuthUser');
+        // $users = $User
+        // ->join('left join anbels_logic_class_user  on  anbels_logic_class_user.user_id = anbels_auth_user.id')
+        // ->join('left join anbels_master_class on anbels_master_class.id = anbels_logic_class_user.class_id')
+        // ->join('left join anbels_master_school on anbels_master_school.id = anbels_master_class.school_id')
+		// ->join('left join anbels_master_location on anbels_master_location.id = anbels_master_school.location_id')
+		// ->join('left join anbels_logic_location on anbels_logic_location.qu = anbels_master_location.code')
+// 		
+		// ->join('left join anbels_auth_group_access on anbels_auth_group_access.uid = anbels_auth_user.id')
+		// ->join('left join anbels_auth_group on anbels_auth_group.id = anbels_auth_group_access.group_id')
+// 		
+        // ->field('anbels_auth_user.id,anbels_auth_user.system_no,anbels_auth_user.name as user_name,anbels_auth_user.gender,anbels_auth_user.last_login_time,
+                 // anbels_master_school.name as school_name,anbels_master_class.name as class_name,
+				 // anbels_master_location.full_name,
+				 // anbels_auth_group.display_name')
+        // ->order('anbels_auth_user.id desc')
+		// ->where($map)
+        // ->select();
+       
+        if(has_all_rules('account_view_all')){
+            $sql = $this->get_all_account();
+        }elseif(has_all_rules('account_view')){
+            $sql = $this->get_account();
+        }else{
+            $this->error("没有权限进行该操作！");            
+        }
+        
+        $users = M()->query($sql);
         $this->auth_user = $users;
         $this->display();
 	}
 	
 	
+    private function get_all_account()
+    {
+        $sql = "
+            SELECT 
+            t.id,t.system_no, t.user_name ,t.gender, 
+            t.location_full_name ,t.school_name , t.last_login_time ,t.role
+            ,GROUP_CONCAT(class_name SEPARATOR ',') as class_names
+            FROM
+            (select u.id as id ,u.system_no as system_no, u.name as user_name ,u.gender as gender, 
+            l.full_name as location_full_name ,s.name as school_name ,c.name as class_name , u.last_login_time as last_login_time
+            , cu.role as role
+            from anbels_logic_class_user cu,  anbels_auth_user u , anbels_master_class c ,anbels_master_school s ,anbels_master_location l
+            where cu.user_id = u.id and cu.class_id = c.id and c.school_id = s.id and s.location_id = l.id
+            ) t
+            group by 
+            t.id,t.system_no, t.user_name ,t.gender, 
+            t.location_full_name ,t.school_name , t.last_login_time, t.role
+            order by t.system_no
+        ";
+        return $sql;
+    }
+    
+    private function get_account()
+    {
+        $user_id = session('user_id');
+        $sql = "
+            SELECT 
+            t.id,t.system_no, t.user_name ,t.gender, 
+            t.location_full_name ,t.school_name , t.last_login_time ,t.role
+            ,GROUP_CONCAT(class_name SEPARATOR ',') as class_names
+            FROM
+            (select u.id as id ,u.system_no as system_no, u.name as user_name ,u.gender as gender, 
+            l.full_name as location_full_name ,s.name as school_name ,c.name as class_name , u.last_login_time as last_login_time
+            ,cu.role as role
+            from anbels_logic_class_user cu,  anbels_auth_user u , anbels_master_class c ,anbels_master_school s ,anbels_master_location l
+            where u.active = 0 and cu.user_id = u.id and cu.class_id = c.id and c.school_id = s.id and s.location_id = l.id
+        ";
+        $sql .= "and u.id = ".$user_id;
+        $sql .= "
+            ) t
+            group by 
+            t.id,t.system_no, t.user_name ,t.gender, 
+            t.location_full_name ,t.school_name , t.last_login_time , t.role
+            order by t.system_no";
+        return $sql;           
+
+    }
+    
+    
+    
     
     public function add()
     {
@@ -259,8 +318,8 @@ class AccountManagementController extends BaseController {
     
     public function imp_handle()
     {
-        $location_id = I("location_id",null);
-        if(!$location_id || is_null($location_id)){ $this->error("请选择需要导入账号的地区！"); }
+        $location_code = I("location_code",null);
+        if(!$location_code || is_null($location_code)){ $this->error("请选择需要导入账号的地区！"); }
         
         $SG = M("MuthGroup");
         $g = $SG->where(array('title' => 'STUDENT'))->find();
@@ -301,7 +360,7 @@ class AccountManagementController extends BaseController {
                 $school_name = $row["A"];
                 $grade = $row["B"];
                 $class_name = $row["C"];
-                $school_id = $this->get_or_create_school($school_name,$location_id);
+                $school_id = $this->get_or_create_school($school_name,$location_code);
                 $class_id = $this->get_or_create_class($class_name, $grade, $school_id);
 
                 $tmp = mydto();
@@ -334,14 +393,15 @@ class AccountManagementController extends BaseController {
     }
 
 
-    private function get_or_create_school($name,$locaton_id)
+    private function get_or_create_school($name,$locaton_code)
     {
         $M = M("MasterSchool");
-        $s = $M->where(array('active' => 0 , 'location_id' => $locaton_id , 'name' => $name))->find();
+        $l = M("MasterLocation")->where(array('code' => $locaton_code))->find();
+        $s = $M->where(array('active' => 0 , 'location_id' => $l['id'] , 'name' => $name))->find();
         if(!$s || is_null($s)){
             $t = mydto();
             $t['name'] = $name;
-            $t['location_id'] = $locaton_id;
+            $t['location_id'] = $l['id'];
             $M->create($t);
             return $M->add();
         }else{
@@ -353,10 +413,10 @@ class AccountManagementController extends BaseController {
     private function get_or_create_class($class_name,$grade,$school_id)
     {
         $M = M();
-        $result = $M->query("select c.id as id
+        $sql = "select c.id as id
                    FROM anbels_master_class c, anbels_master_school s
-                   WHERE s.id = c.school_id and s.id = ".$school_id." and c.grade= ".$grade." and c.name= ".$class_name." ;"
-        );
+                   WHERE s.id = c.school_id and s.id = ".$school_id." and c.grade= ".$grade." and c.name= '".$class_name."' ;";
+        $result = $M->query($sql);
         if(!$result || is_null($result)){
             $C = M("MasterClass");
             $t=mydto();
@@ -375,6 +435,7 @@ class AccountManagementController extends BaseController {
         $M = M("LogicClassUser");
         $m['user_id'] = $user_id;
         $m['class_id'] = $class_id;
+        $m['role'] = 'S';
         $M->create($m);
         return $M->add();
     }

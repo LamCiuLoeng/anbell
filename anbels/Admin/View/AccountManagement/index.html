@@ -114,10 +114,15 @@
                 <td align="center" class="first_td">{$v.system_no}&nbsp;</td>
                 <td align="center">{$v.user_name}&nbsp;</td>
                 <td align="center">{$v.gender}&nbsp;</td>
-                <td align="center">{$v.full_name}&nbsp;</td>
+                <td align="center">{$v.location_full_name}&nbsp;</td>
                 <td align="center">{$v.school_name}&nbsp;</td>
-                <td align="center">{$v.class_name}&nbsp;</td>
-                <td align="center">{$v.display_name}&nbsp;</td>
+                <td align="center">{$v.class_names}&nbsp;</td>
+                <td align="center">
+                    <if condition="$v.role eq 'T'">老师
+                    <elseif condition="$v.role eq 'S'"/>学生
+                    <else />&nbsp;
+                    </if>
+                </td>                
                 <td align="center">{$v.last_login_time}&nbsp;</td>
                 <td align="center"><input type="checkbox" name="checkbox[]" id="checkbox" value="{$v.id}">&nbsp;</td>
             </tr>

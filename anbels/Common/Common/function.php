@@ -112,7 +112,7 @@ function has_all_rules($rule){
 }
 
 
-function has_any_rules(){
+function has_any_rules($rule){
     return authcheck($rule,session('user_id'),'or');
 }
 

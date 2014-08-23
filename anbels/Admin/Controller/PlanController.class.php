@@ -5,16 +5,30 @@ class PlanController extends BaseController {
     public function index()
     {	
 		$Q = M();
-		$plan = $Q->query("SELECT 
-				   anbels_master_school.name as school_name,anbels_logic_plan.id as id,
-				   anbels_logic_plan.name as name
-				   FROM 
-				   anbels_master_school ,anbels_logic_plan
-				   WHERE
-				   anbels_master_school.active = 0 and
-				   anbels_logic_plan.active = 0 and
-				   anbels_master_school.id = anbels_logic_plan.school_id
-		");
+        $sql = "SELECT 
+                   anbels_master_school.name as school_name,anbels_logic_plan.id as id,
+                   anbels_logic_plan.name as name
+                   FROM 
+                   anbels_master_school ,anbels_logic_plan
+                   WHERE
+                   anbels_master_school.active = 0 and
+                   anbels_logic_plan.active = 0 and
+                   anbels_master_school.id = anbels_logic_plan.school_id ";
+
+        if(!has_all_rules("plan_view_all")){
+            $user_id = session('user_id');
+            $s = M()->query("
+                SELECT s.id as school_id
+                FROM  anbels_logic_class_user cu ,anbels_master_class c ,anbels_master_school s
+                WHERE cu.class_id = c.id and c.school_id = s.id and cu.user_id = ".$user_id." ;");
+            if($s && is_array($s)){
+                $sql .= " and anbels_logic_plan.school_id = ".$s[0]['school_id']." ";
+            }else{
+                $sql .= " and anbels_logic_plan.school_id = 0 "; #don't show any school plan
+            }
+        }
+
+		$plan = $Q->query($sql);
         $this->plans = $plan;
         $this->display();
     }
