@@ -106,7 +106,7 @@ class UtilController extends BaseController {
             foreach ($course as $course_id => $course_info) {
                 $this->o('<course name="'.$course_info['course_name'].'" id="'.$course_id.'" description="'.$course_info['description'].'">');
                 foreach ($course_info['coursewares'] as $crw) {
-                    $this->o('<courseWare id="'.$crw['courseware_id'].'" name="'.$crw['courseware_name'].'" url="'.$crw['url'].'" />');
+                    $this->o('<courseWare id="'.$crw['courseware_id'].'" name="'.$crw['courseware_name'].'" url="'.$crw['courseware_url'].'" />');
                 }
                 $this->o('</course>');
             }

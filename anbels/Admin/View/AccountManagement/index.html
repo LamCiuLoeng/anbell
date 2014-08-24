@@ -26,13 +26,13 @@
         }
         
         function toShow(){
-            $("#dataform").attr('action',"{:U('AccountManagement/index')}");
-            $("#dataform").submit();
+            $("#search").attr('action',"{:U('AccountManagement/index')}");
+            $("#search").submit();
         }    
          
          
         function toDel(){
-        	var cs = $("input[name='checkbox[]']:checked");
+        	var cs = $("input[name='id[]']:checked");
             if(cs.length != 1){
                 alert("请只选择一条或多条记录进行删除！");
             }else{
@@ -76,36 +76,28 @@
 
  <block name="searchbar">
 <div class="search_bar_b">
-<form action="" id="search" name="search" method="post">
+	<form action="" id="search" name="search" method="post">
     <label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
-    <select id="lev1" name="location_code[]" onchange="getlocationchildren(this,'#lev2')">
-    <option value="">请选择</option>
-    <foreach name="locations" item="l" >
-    <option value="{$l.code}">{$l.name}</option>
-    </foreach>
-    </select>
-    <select id="lev2" name="location_code[]" onchange="getlocationchildren(this,'#lev3')">
-    </select>
-    <select id="lev3" name="location_code[]" onchange="getlocationchildren(this,'','#school_id')">
-    </select>
-    <select id="school_id" name="school_id" onchange="get_class_by_school(this,'#class_id')">
-    </select>
-    <select id="class_id" name="class_id">
-    </select>
-    <input type="text" name="keyword" id="keyword"/>
-    <span class="send_btn" onClick="toSearch();">搜索</span>
-</form>
-</div>
-</block>   
-<block name="content">
-    <div class="show_content_b">
-    <br>
-	<p style="text-align:center"><strong>账号列表</strong></p>
-    <form action="{:U('AccountManagement/del')}" id="dataform" name="dataform" method="post">
-    
     <if condition="has_all_rules('account_view_all')">
+        
+            
+            <select id="lev1" name="location_code[]" onchange="getlocationchildren(this,'#lev2')">
+            <option value="">请选择</option>
+            <foreach name="locations" item="l" >
+            <option value="{$l.code}">{$l.name}</option>
+            </foreach>
+            </select>
+            <select id="lev2" name="location_code[]" onchange="getlocationchildren(this,'#lev3')">
+            </select>
+            <select id="lev3" name="location_code[]" onchange="getlocationchildren(this,'','#school_id')">
+            </select>
+            <select id="school_id" name="school_id" onchange="get_class_by_school(this,'#class_id')">
+            </select>
+            <select id="class_id" name="class_id">
+            </select>
+            <input type="text" name="keyword" id="keyword"/>
+            <span class="send_btn" onClick="toSearch();">搜索</span>
     <else />
-        <p>
             <select name="class_id">
                 <option value=""></option>
                 <foreach name="classes" item="c">
@@ -118,11 +110,15 @@
             </select>
             &nbsp;
             <input type="button" value="显示" onclick="toShow()"/>
-        </p>
     </if>
-    
-        
-        
+     </form>
+</div>
+</block>   
+<block name="content">
+    <div class="show_content_b">
+    <br>
+	<p style="text-align:center"><strong>账号列表</strong></p>
+    <form action="{:U('AccountManagement/del')}" id="dataform" name="dataform" method="post">        
     <table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
         <thead>
             <tr>

@@ -67,7 +67,7 @@ class AccountManagementController extends BaseController {
             l.full_name as location_full_name ,s.name as school_name ,c.name as class_name , u.last_login_time as last_login_time
             , cu.role as role
             from anbels_logic_class_user cu,  anbels_auth_user u , anbels_master_class c ,anbels_master_school s ,anbels_master_location l
-            where cu.user_id = u.id and cu.class_id = c.id and c.school_id = s.id and s.location_id = l.id
+            where cu.user_id = u.id and cu.class_id = c.id and c.school_id = s.id and s.location_id = l.id and u.active = 0
             ) t
             group by 
             t.id,t.system_no, t.user_name ,t.gender, 
@@ -353,8 +353,8 @@ class AccountManagementController extends BaseController {
     
     public function del()
     {
-		$checkbox_array=I('post.checkbox');
-
+		$ids = I("id",null);
+		$checkbox_array=$ids;
 		$auth_user = M("auth_user"); // 实例化User对象
 		$map['id']  = array('in',$checkbox_array);
 		//p($map);
@@ -396,8 +396,8 @@ class AccountManagementController extends BaseController {
         $config = array(    
                     'rootPath'   =>    './Public/',
                     'savePath'   =>    'Upload/',    
-                    'saveName'   =>    array('uniqid',''),    
-                    //'exts'       =>    array('csv', 'xls', 'xlsx'),    
+                    'saveName'   =>    array('date','YmdHis'),    
+                    //'exts'       =>    array('csv', 'xls', 'xlsx'),   
                     'autoSub'    =>    true,    
                     'subName'    =>    array('date','Ymd','time'),
                  );
@@ -410,7 +410,7 @@ class AccountManagementController extends BaseController {
         
             // 上传成功      
             $M = M("AuthUser");         
-            $path = './Public/'.$info['savepath'].$info['savename'];
+            $path =  './Public/'.$info['savepath'].$info['savename'];
             $data = readXLS($path);
             // dump($data);
             $index = 0;
@@ -443,9 +443,7 @@ class AccountManagementController extends BaseController {
                 $result = $this->add_user_to_class($user_id, $class_id);
                 if($result){
                     $succ ++;
-                }
-                
-                
+                } 
                 
             }                               
         }else{
