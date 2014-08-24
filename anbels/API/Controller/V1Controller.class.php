@@ -200,25 +200,23 @@ class V1Controller extends Controller {
         $params = $this->_required('user_id');
         if(!$params['flag']){
             $this->ajaxReturn(array('flag' =>  FLAG_NOT_ALL_REQUIRED, 'msg' => MSG_NOT_ALL_REQUIRED));
-        }       
+        }
+        
+        $school = getUserSchool($params['data']['user_id']);
         $Model = M();
+             
         $rows = $Model->query('SELECT cr.id as course_id,cr.name as course_name,cr.desc as descripiton,
                               crw.id as courseware_id, 
                               crw.name as courseware_name,
                               crw.url as courseware_url
-                       FROM anbels_logic_class_user cu,anbels_master_class c,anbels_master_school s,anbels_logic_plan p,
-                            anbels_logic_plan_course pcr ,anbels_master_course cr,anbels_master_courseware crw
+                       FROM anbels_logic_plan p, anbels_logic_plan_course pcr ,anbels_master_course cr,anbels_master_courseware crw
                        WHERE 
-                            s.active = 0 and cr.active = 0 and crw.active = 0 and c.active = 0 and p.active = 0 and pcr.active = 0 and
-                            cu.class_id = c.id and 
-                            c.school_id = s.id and 
-                            p.school_id = s.id and 
+                            cr.active = 0 and crw.active = 0 and p.active = 0 and pcr.active = 0 and
+                            
                             p.id = pcr.plan_id and
                             pcr.course_id = cr.id and
                             crw.course_id = cr.id and
-                            pcr.grade = c.grade and
-                            cu.user_id = 
-                      '.$params['data']['user_id']);        
+                            p.school_id ='.$school['id']);        
         $result = array();
         foreach ($rows as $row) {
             if(array_key_exists($row['course_id'], $result)){

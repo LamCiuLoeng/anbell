@@ -3,8 +3,74 @@
     <link href="/Public/css/style.css" rel="stylesheet" type="text/css">
 </block>
 <block name="extJS">
-    
     <script src="/Public/js/select_ssq.js"></script>
+    <script language="JavaScript" type="text/javascript">
+    //<![CDATA[ 
+        <if condition="has_all_rules('account_view_all')">
+            function addClz(){
+                var opts = $(".class_option").html();
+                var tpl = '<p><select class="class_option" name="class_id[]">'+opts+'</select>&nbsp;<input type="button" value="删除" onclick="delClz(this)"/></p>';
+                $("#ctd").append(tpl);
+            }
+    
+                
+            function delClz(obj){
+                var t = $(obj);
+                $(t.parents("p")[0]).remove();
+            }
+            
+            function toSubmit(){
+                var msg = [];
+                var classok = false;
+                $(".class_option").each(function(){
+                    if($(this).val()){ classok = true; }
+                });
+                                
+                if(!classok){ msg.push("请选择班级！"); }
+                if(!$("#name").val()){ msg.push("请填写姓名！"); }
+                if(!$("#password").val()){ msg.push("请填写密码！"); }
+                if(!$("#repassword").val()){ msg.push("请填写确认密码！"); }
+                if( $("#password").val() != $("#repassword").val() ){ msg.push("密码和确认密码不一致！"); };
+                if(!$("#role").val()){ 
+                    msg.push("请用户角色！");
+                }else if( $("#role").val()== 'S' && $(".class_option").length > 1){
+                    msg.push("学生角色请只选择一个班级！");
+                }
+                
+                if(msg.length > 0){
+                    var s = "";
+                    for(var i=0;i<msg.length;i++){
+                        s += msg[i] + '\n';
+                    }
+                    alert(s);
+                    return;
+                }else{
+                    $("form").submit();
+                }
+            }
+        <elseif condition="has_all_rules('account_view')"/>
+            function toSubmit(){
+                var msg = [];                                
+                if(!$(".class_option").val()){ msg.push("请选择班级！"); }
+                if(!$("#name").val()){ msg.push("请填写姓名！"); }
+                if(!$("#password").val()){ msg.push("请填写密码！"); }
+                if(!$("#repassword").val()){ msg.push("请填写确认密码！"); }
+                if( $("#password").val() != $("#repassword").val() ){ msg.push("密码和确认密码不一致！"); };
+               
+                if(msg.length > 0){
+                    var s = "";
+                    for(var i=0;i<msg.length;i++){
+                        s += msg[i] + '\n';
+                    }
+                    alert(s);
+                    return;
+                }else{
+                    $("form").submit();
+                }
+            }
+        </if>
+    //]]>
+    </script>
 </block>
 
 <block name="content">
@@ -12,26 +78,63 @@
 		<p style="text-align:center"><strong>账号添加</strong></p>
         <form action="{:U('AccountManagement/save_new')}" id="form1" name="form1" method="post">
           <table width="650" border="0" align="center" cellpadding="0" cellspacing="0">
-              <tr>
-                  <td height="50" align="right">地区：</td>
-                  <td>&nbsp;</td>
-                  <td><select id="lev1" onchange="getlocationchildren(this,'#lev2')">
-                    <option value="">请选择</option>
-                      <foreach name="locations" item="l" >
-                        <option value="{$l.code}">{$l.name}</option>
-                      </foreach>
-                    </select>
-                    
-                    <select id="lev2" onchange="getlocationchildren(this,'#lev3')">
-                    </select>
-                    <select id="lev3" onchange="getlocationchildren(this,'#lev4','#school_id')">
-                    </select>
-                    <select id="school_id" name="school_id" onchange="get_class_by_school(this,'#class_id')">
-                    </select>
-                    <select id="class_id" name="class_id">
-                </select></td>
-                  <td>&nbsp;</td>
-            </tr>
+              
+              
+              <if condition="has_all_rules('account_view_all')">
+                  <tr>
+                      <td height="50" align="right">地区：</td>
+                      <td>&nbsp;</td>
+                      <td><select id="lev1" onchange="getlocationchildren(this,'#lev2')">
+                        <option value="">请选择</option>
+                          <foreach name="locations" item="l" >
+                            <option value="{$l.code}">{$l.name}</option>
+                          </foreach>
+                        </select>
+                        
+                        <select id="lev2" onchange="getlocationchildren(this,'#lev3')">
+                        </select>
+                        <select id="lev3" onchange="getlocationchildren(this,'#lev4','#school_id')">
+                        </select>
+                        <select id="school_id" name="school_id" onchange="get_class_by_school(this,'.class_option')">
+                        </select>
+                        </td>
+                        <td>&nbsp;</td>
+                  </tr>
+                  <tr>
+                      <td height="50" align="right" valign="top">班级：</td>
+                      <td width="10">&nbsp;</td>
+                      <td id="ctd" valign="top">
+                          <p><select class="class_option" name="class_id[]"></select>&nbsp;<input type="button" value="添加" onclick="addClz()"/></p>
+                      </td>
+                      <td>&nbsp;</td>
+                  </tr>
+              <elseif condition="has_all_rules('account_view')"/>
+                  <tr>
+                      <td width="100" height="50" align="right">地区</td>
+                      <td width="10">&nbsp;</td>
+                      <td>{$location['full_name']}</td>
+                      <td>&nbsp;</td>
+                  </tr>
+                  <tr>
+                      <td width="100" height="50" align="right">学校</td>
+                      <td width="10">&nbsp;</td>
+                      <td>{$school['name']}</td>
+                      <td>&nbsp;</td>
+                  </tr>
+                  <tr>
+                      <td width="100" height="50" align="right">班级</td>
+                      <td width="10">&nbsp;</td>
+                      <td>
+                          <select name="class_id" id="class_id" class="class_option">
+                              <option value=""></option>
+                              <foreach name="class" item="c" >
+                                  <option value="{$c['id']}">{$c['grade']}年级{$c['name']}</option>
+                              </foreach>
+                          </select>
+                      </td>
+                      <td>&nbsp;</td>
+                  </tr>
+              </if>
                 <tr>
                   <td width="100" height="50" align="right">姓名：</td>
                    <td width="10">&nbsp;</td>
@@ -60,21 +163,30 @@
                   </select></td>
                   <td>&nbsp;</td>
                 </tr>
-                <tr>
-                  <td height="50" align="right">账号角色：</td>
-                  <td>&nbsp;</td>
-                  <td><select name="role">
-                    <option value="">请选择</option>
-                    <option value="S">学生</option>
-                    <option value="T">教师</option>
-                  </select></td>
-                  <td>&nbsp;</td>
-                </tr>
+                <if condition="has_all_rules('account_view_all')">
+                    <tr>
+                      <td height="50" align="right">账号角色：</td>
+                      <td>&nbsp;</td>
+                      <td><select name="role" id="role">
+                        <option value="">请选择</option>
+                        <option value="S">学生</option>
+                        <option value="T">教师</option>
+                      </select></td>
+                      <td>&nbsp;</td>
+                    </tr>
+                <else />
+                    <tr>
+                      <td height="50" align="right">账号角色：</td>
+                      <td>&nbsp;</td>
+                      <td><input type="hidden" name="role" value="S" id="role"/>学生</td>
+                      <td>&nbsp;</td>
+                    </tr>
+                </if>
                 <tr>
                    <td height="50" align="right">&nbsp;</td>
                    <td>&nbsp;</td>
                    <td>
-                       <span class="send_btn" id="account_send_btn">添加</span>
+                       <span class="send_btn" onclick="toSubmit()">添加</span>
                        <span class="send_btn" id="reset_btn">重置</span> 
                    </td>
                    <td></td>

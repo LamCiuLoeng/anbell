@@ -12,50 +12,64 @@
 		<p style="text-align:center"><strong>账号修改</strong></p>
         <form action="{:U('AccountManagement/edit_handle')}" id="form1" name="form1" method="post">
           <table width="650" border="0" align="center" cellpadding="0" cellspacing="0">
-              <tr>
-                  <td height="50" align="right">地区：</td>
-                  <td>&nbsp;</td>
-                  <td><select id="lev1" onchange="getlocationchildren(this,'#lev2')">
-                    <option value="">请选择</option>
-                      <foreach name="locations" item="l" >
-                        <option value="{$l.code}">{$l.name}</option>
-                      </foreach>
-                    </select>
-                    
-                    <select id="lev2" onchange="getlocationchildren(this,'#lev3')">
-                    </select>
-                    <select id="lev3" onchange="getlocationchildren(this,'#lev4','#school_id')">
-                    </select>
-                    <select id="school_id" name="school_id" onchange="get_class_by_school(this,'#class_id')">
-                    <option value="">{$auth_user[0].school_name}</option>
-                    </select>
-                    <select id="class_id" name="class_id">
-                    <option value="{$auth_user[0].class_id}">{$auth_user[0].class_name}</option>
-                </select></td>
-                  <td>&nbsp;</td>
-            </tr>
+              
+              <if condition="has_all_rules('account_view_all')">
+                  <tr>
+                      <td height="50" align="right">地区：</td>
+                      <td>&nbsp;</td>
+                      <td><select id="lev1" onchange="getlocationchildren(this,'#lev2')">
+                        <option value="">请选择</option>
+                          <foreach name="locations" item="l" >
+                            <option value="{$l.code}">{$l.name}</option>
+                          </foreach>
+                        </select>
+                        
+                        <select id="lev2" onchange="getlocationchildren(this,'#lev3')">
+                        </select>
+                        <select id="lev3" onchange="getlocationchildren(this,'#lev4','#school_id')">
+                        </select>
+                        <select id="school_id" name="school_id" onchange="get_class_by_school(this,'#class_id')">
+                        <option value="">{$user.school_name}</option>
+                        </select>
+                        <select id="class_id" name="class_id">
+                            <option value="{$user.class_id}">{$user.class_name}</option>
+                        </select></td>
+                      <td>&nbsp;</td>
+                    </tr>
+             <elseif condition="has_all_rules('account_view')"/>
+                <tr>
+                      <td height="50" align="right">地区：</td>
+                      <td>&nbsp;</td>
+                      <td>{$location.full_name}</td>
+                </tr>
+                <tr>
+                      <td height="50" align="right">学校：</td>
+                      <td>&nbsp;</td>
+                      <td>{$school.name}</td>
+                </tr>
+             </if>
                 <tr>
                   <td width="100" height="50" align="right">姓名：</td>
                    <td width="10">&nbsp;</td>
-                   <td><input type="text" name="name" id="name" value="{$auth_user[0].user_name}"/>
-                   <input name="id" type="text" id="textfield2" size="30" value="{$auth_user[0].id}" style="display:none"></td>
+                   <td><input type="text" name="name" id="name" value="{$user.name}"/>
+                   <input name="id" type="text" id="textfield2" size="30" value="{$user.id}" style="display:none"></td>
                    <td>&nbsp;</td>
                 </tr>
                 <tr>
                   <td height="50" align="right">性别：</td>
                   <td>&nbsp;</td>
-                  <td><select name="gender">
-                  	<option value="{$auth_user[0].gender}">{$auth_user[0].gender}</option>
-                    <option value="男">男</option>
-                    <option value="女">女</option>
-                  </select></td>
+                  <td>
+                      <select name="gender">
+                      	
+                      </select>
+                  </td>
                   <td>&nbsp;</td>
                 </tr>
                 <tr>
                   <td height="50" align="right">账号角色：</td>
                   <td>&nbsp;</td>
                   <td><select name="role">
-                    <option value="{$auth_user[0].role}">{$auth_user[0].group_name}</option>
+                    <option value="{$user.role}">{$user.group_name}</option>
                     <option value="S">学生</option>
                     <option value="T">教师</option>
                   </select></td>

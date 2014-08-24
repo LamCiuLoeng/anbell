@@ -34,10 +34,17 @@ class AccountManagementController extends BaseController {
 		// ->where($map)
         // ->select();
        
-        if(has_all_rules('account_view_all')){
+        if(has_all_rules('account_view_all')){ //admin
             $sql = $this->get_all_account();
-        }elseif(has_all_rules('account_view')){
-            $sql = $this->get_account();
+        }elseif(has_all_rules('account_view')){ //teacher
+            $this->classes = M()->query("
+                    SELECT c.id as id ,c.grade as grade, c.name as name 
+                    FROM anbels_logic_class_user cu , anbels_master_class c
+                    WHERE c.active = 0 and c.id = cu.class_id and cu.user_id = ".session('user_id')." ;");
+            
+            $class_id = I("class_id",null);
+            $sql = $this->get_account($class_id);
+            $this->class_id = intval($class_id);
         }else{
             $this->error("没有权限进行该操作！");            
         }
@@ -70,9 +77,22 @@ class AccountManagementController extends BaseController {
         return $sql;
     }
     
-    private function get_account()
+    private function get_account($class_id)
     {
         $user_id = session('user_id');
+        $andsql = "";
+        if(!$class_id){
+            $class = M("LogicClassUser")->where(array('user_id'=>$user_id))->select();
+            $cids = array();
+            foreach ($class as $c) {
+                $cids[] = $c['class_id'];
+            }   
+            $andsql = "and cu.class_id in (".join(",",$cids).")";
+        }else{
+            $andsql = "and cu.class_id = ".$class_id;
+        }
+        
+        
         $sql = "
             SELECT 
             t.id,t.system_no, t.user_name ,t.gender, 
@@ -84,8 +104,9 @@ class AccountManagementController extends BaseController {
             ,cu.role as role
             from anbels_logic_class_user cu,  anbels_auth_user u , anbels_master_class c ,anbels_master_school s ,anbels_master_location l
             where u.active = 0 and cu.user_id = u.id and cu.class_id = c.id and c.school_id = s.id and s.location_id = l.id
-        ";
-        $sql .= "and u.id = ".$user_id;
+            and cu.role = 'S' 
+        ";       
+        $sql .= $andsql;
         $sql .= "
             ) t
             group by 
@@ -101,7 +122,24 @@ class AccountManagementController extends BaseController {
     
     public function add()
     {
-        $this->locations = gettoplocation();
+        if(has_all_rules("account_add")){
+            if(has_all_rules("account_view_all")){  //is admin
+                $this->locations = gettoplocation();
+            }else if(has_all_rules("account_view")){  //is teacher
+                $school = getUserSchool(session('user_id'));
+                if($school){
+                    $this->school = $school;
+                    $this->location = M("MasterLocation")->where(array('id' => $school['location_id']))->find();
+                    
+                    $this->class = M()->query("
+                        SELECT c.id,c.name,c.grade
+                        FROM anbels_master_class c, anbels_logic_class_user cu
+                        WHERE c.id = cu.class_id and cu.user_id = ".session('user_id')." order by c.grade,c.name");
+                }            
+            }
+        }else{
+            $this->error("没该操作的权限！");
+        }
         $this->display();
     }
     
@@ -139,14 +177,12 @@ class AccountManagementController extends BaseController {
             $User = M('AuthUser');
             $User->create($m);
             $id = $User->add();
-			//p($id);
-			//die;
+			
             
             $role = I('role',null);
             $Group = M('AuthGroup');
             $UserGroup = M('AuthGroupAccess');
             
-
             if($role == 'S'){ //student
                 $g = $Group->where(array('active' => 0 ,'title' => 'STUDENT'))->find();
                 $UserGroup->data(array('uid' => $id, 'group_id' => $g['id']))->add();
@@ -154,15 +190,24 @@ class AccountManagementController extends BaseController {
                 $g = $Group->where(array('active' => 0 ,'title' => 'TEACHER'))->find();
                 $UserGroup->data(array('uid' => $id, 'group_id' => $g['id']))->add();
             }
+
             
-            
-            if($class_id){
-                $Class = M('MasterClass');
-                $ClassUser = M('LogicClassUser');
-                $class = $Class->where(array('active' => 0 , 'id' => intval($class_id)))->find();
-                $ClassUser->data(array('user_id' => $id,'class_id' => $class['id'],'role' => $role))->add();
+            $Class = M('MasterClass');
+            $ClassUser = M('LogicClassUser');
+            if(has_all_rules('account_view_all')){ //admin
+                if(is_array($class_id)){
+                    foreach ($class_id as $cid) {
+                        if($cid){
+                            $ClassUser->data(array('user_id' => $id,'class_id' => $cid,'role' => $role))->add();
+                        }
+                    }
+                }
+                
+            }elseif(has_all_rules('account_view')){ //teacher
+                //teacher only can add student account            
+                $ClassUser->data(array('user_id' => $id,'class_id' => $class_id,'role' => $role))->add();
             }
-            
+
             $this->success('成功添加账号！',U('AccountManagement/index'));
         }catch(Exception $e){
             dump($e);
@@ -173,30 +218,48 @@ class AccountManagementController extends BaseController {
     
     public function edit()
     {
-       
-		if(I('post.checkbox'))
+        $user_id = I('id',null);
+		if($user_id)
 		{
-			$this->locations = gettoplocation();
-			$checkbox_array=I('post.checkbox');
-			$map['anbels_auth_user.id'] = $checkbox_array[0];
-			//p($checkbox_array[0]);die;
-			$auth_user=M('auth_user')
-			->join('left join anbels_logic_class_user  on  anbels_logic_class_user.user_id = anbels_auth_user.id')
-			->join('left join anbels_master_class on anbels_master_class.id = anbels_logic_class_user.class_id')
-			->join('left join anbels_master_school on anbels_master_school.id = anbels_master_class.school_id')
-			
-			->join('left join anbels_auth_group_access on anbels_auth_group_access.uid = anbels_auth_user.id')
-			->join('left join anbels_auth_group on anbels_auth_group.id = anbels_auth_group_access.group_id')
-			
-			->field('anbels_auth_user.id,anbels_auth_user.gender,anbels_auth_user.name as user_name,
-					anbels_master_school.name as school_name,
-					anbels_master_class.id as class_id,anbels_master_class.name as class_name,
-					anbels_auth_group.id as group_id,anbels_auth_group.display_name as group_name,
-					anbels_logic_class_user.role as role')
-			->where($map)
-			->select();
-		
-			$this->assign('auth_user',$auth_user);
+		    $U = M("AuthUser");
+            $user = $U->where(array('active' => 0 , 'id' =>$user_id))->find();
+            if(!$user || is_null($user)){
+                $this->error("记录不存在！");
+            }
+            $this->user = $user;
+            
+		    if(has_all_rules('account_view_all')){ //admin
+    			$this->locations = gettoplocation();
+    			$checkbox_array=I('post.checkbox');
+    			$map['anbels_auth_user.id'] = $checkbox_array[0];
+    			//p($checkbox_array[0]);die;
+    			$auth_user=M('auth_user')
+    			->join('left join anbels_logic_class_user  on  anbels_logic_class_user.user_id = anbels_auth_user.id')
+    			->join('left join anbels_master_class on anbels_master_class.id = anbels_logic_class_user.class_id')
+    			->join('left join anbels_master_school on anbels_master_school.id = anbels_master_class.school_id')
+    			
+    			->join('left join anbels_auth_group_access on anbels_auth_group_access.uid = anbels_auth_user.id')
+    			->join('left join anbels_auth_group on anbels_auth_group.id = anbels_auth_group_access.group_id')
+    			
+    			->field('anbels_auth_user.id,anbels_auth_user.gender,anbels_auth_user.name as user_name,
+    					anbels_master_school.name as school_name,
+    					anbels_master_class.id as class_id,anbels_master_class.name as class_name,
+    					anbels_auth_group.id as group_id,anbels_auth_group.display_name as group_name,
+    					anbels_logic_class_user.role as role')
+    			->where($map)
+    			->select();
+    		
+    			$this->assign('auth_user',$auth_user);
+		    
+            }elseif(has_all_rules('account_view')){ //teacher
+                $school = getUserSchool($user_id);
+                $this->school = $school;
+                $this->location = M("MasterLocation")->where(array('id' => $school['location_id']))->find();
+                
+            }
+            
+            
+            
 			$this->display();
 		} 
 		else 
