@@ -12,7 +12,7 @@
             if(cs.length != 1){
                 alert("请只选择一条记录进行修改！");
             }else{
-                window.location.href = "{:U('Plan/edit')}" + '?id=' + cs.val(); 
+                window.location.href = "{:U('AccountManagement/edit')}" + '?id=' + cs.val(); 
             }
         }
         
@@ -23,7 +23,12 @@
             }else{
                 window.location.href = "{:U('Plan/view')}" + '?id=' + cs.val(); 
             }
-        }       
+        }
+        
+        function toShow(){
+            $("#dataform").attr('action',"{:U('AccountManagement/index')}");
+            $("#dataform").submit();
+        }    
          
          
         function toDel(){
@@ -32,7 +37,7 @@
                 alert("请只选择一条或多条记录进行删除！");
             }else{
             	if(confirm("你确定要删除选中的账号吗？些操作不可逆！")){
-	                $('#form1').submit();
+	                $('#dataform').submit();
             	}
             }
         }
@@ -57,10 +62,12 @@
     <div class="edit_menu_b">
       <ul>
             <li><a href="{:U('AccountManagement/add')}"><img src="/Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
-            <li><a href="#" id="account_list_edit"><img src="/Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
+            <li><a href="#" onclick="toEdit()"><img src="/Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
             <li><a href="#" onclick="toDel()"><img src="/Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
-            <li><a href="{:U('AccountManagement/imp')}"><img src="/Public/images/master_34.jpg" width="68" height="28" alt=""/></a></li>
-            <li><a href="{:U('AccountManagement/exp')}"><img src="/Public/images/master_32.jpg" width="68" height="28" alt=""/></a></li>
+            <if condition="has_all_rules('account_view_all')">
+                <li><a href="{:U('AccountManagement/imp')}"><img src="/Public/images/master_34.jpg" width="68" height="28" alt=""/></a></li>
+                <li><a href="{:U('AccountManagement/exp')}"><img src="/Public/images/master_32.jpg" width="68" height="28" alt=""/></a></li>
+            </if>
             <li><a href="#" onclick="pwEdit()"><img src="/Public/images/default_12.jpg" width="95" height="28" alt=""/></a></li>
         </ul>
     </div>
@@ -94,7 +101,28 @@
     <div class="show_content_b">
     <br>
 	<p style="text-align:center"><strong>账号列表</strong></p>
-    <form action="{:U('AccountManagement/del')}" id="form1" name="form1" method="post">
+    <form action="{:U('AccountManagement/del')}" id="dataform" name="dataform" method="post">
+    
+    <if condition="has_all_rules('account_view_all')">
+    <else />
+        <p>
+            <select name="class_id">
+                <option value=""></option>
+                <foreach name="classes" item="c">
+                    <if condition="$c.id eq $class_id">
+                        <option value="{$c['id']}" selected="selected">{$c['name']}</option>
+                    <else />
+                        <option value="{$c['id']}">{$c['name']}</option>
+                    </if>
+                </foreach>
+            </select>
+            &nbsp;
+            <input type="button" value="显示" onclick="toShow()"/>
+        </p>
+    </if>
+    
+        
+        
     <table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
         <thead>
             <tr>
@@ -124,7 +152,7 @@
                     </if>
                 </td>                
                 <td align="center">{$v.last_login_time}&nbsp;</td>
-                <td align="center"><input type="checkbox" name="checkbox[]" id="checkbox" value="{$v.id}">&nbsp;</td>
+                <td align="center"><input type="checkbox" name="id[]" value="{$v.id}">&nbsp;</td>
             </tr>
          </foreach>
     </table>

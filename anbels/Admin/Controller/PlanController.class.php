@@ -61,25 +61,34 @@ class PlanController extends BaseController {
         
         $Q2 = M();   
         $qs = $Q2->query("SELECT
-                       pc.grade as grade, cr.id as cid,cr.name as name
-                       FROM anbels_master_course cr, anbels_logic_plan_course pc
-                       WHERE cr.active = 0 and pc.active = 0 and pc.course_id = cr.id and 
-                       pc.plan_id=".$p['id']." order by grade");
-        
-		//p($qs);
-		//die; 
-		
+                       pc.grade as grade, cr.id as cid,cr.name as course_name,crw.name as courseware_name
+                       FROM 
+                            anbels_master_course cr, 
+                            anbels_logic_plan_course pc ,
+                            anbels_master_courseware crw
+                       WHERE 
+                             cr.active = 0 and pc.active = 0 
+                             and pc.course_id = cr.id and crw.course_id = cr.id
+                             and pc.plan_id=".$p['id']." order by grade"); 
         $result = array();
         foreach ($qs as $q) {
-            if(in_array($q['grade'], $result)){
-                array_push($result[$q['grade']],$q);
+            if(array_key_exists($q['grade'], $result)){
+                if(array_key_exists($q['cid'], $result[$q['grade']])){
+                    //array_push($result[$q['grade']][$q['cid']]['courseware'],$q);
+                    $result[$q['grade']][$q['cid']]['courseware'][] = $q;
+                }else{
+                    $result[$q['grade']][$q['cid']] = array(
+                                                            'name' => $q['course_name'],
+                                                            'courseware' => array($q),
+                                                            );
+                }
             }else{
-                $result[$q['grade']] = array($q);
+                $result[$q['grade']] = array( $q['cid'] => array(
+                                                                'name' => $q['course_name'],
+                                                                'courseware' => array($q),
+                                                                ));
             }
         }
-		 //p($result);
-	     //die; 
-        
         $this->p = $p;
         $this->pcs = $result;
         $this->display();

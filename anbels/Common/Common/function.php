@@ -166,5 +166,18 @@ function generatepw( $length = 8 ,$chars = null ) {
 }
 
 
+function getUserSchool($user_id){
+    $s = M()->query("
+        select s.*
+        from anbels_master_school s, anbels_master_class c ,anbels_logic_class_user cu
+        where s.id = c.school_id and c.id = cu.class_id and cu.user_id = ".$user_id."  group by s.id");
+    if($s){
+        return $s[0];
+    }else{
+        return null;
+    }
+}
+
+
 
 ?>
