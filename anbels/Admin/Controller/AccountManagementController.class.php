@@ -172,7 +172,8 @@ class AccountManagementController extends BaseController {
             $SystemNo = M("SystemNo");
             // $SystemNo->create(array('active'=>0));
             $m['system_no'] =$SystemNo->add(array('active'=>0));
-            $m['password'] = crypt($m['password'],"dingnigefei"); #encrypt the password to save into db
+            $m['salt'] = generatepw(10,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+            $m['password'] = crypt($m['password'],$m['salt']); #encrypt the password to save into db
             $m['salt'] = "dingnigefei";  #salt
             $User = M('AuthUser');
             $User->create($m);
@@ -227,39 +228,26 @@ class AccountManagementController extends BaseController {
                 $this->error("记录不存在！");
             }
             $this->user = $user;
-            
-		    if(has_all_rules('account_view_all')){ //admin
-    			$this->locations = gettoplocation();
-    			$checkbox_array=I('post.checkbox');
-    			$map['anbels_auth_user.id'] = $checkbox_array[0];
-    			//p($checkbox_array[0]);die;
-    			$auth_user=M('auth_user')
-    			->join('left join anbels_logic_class_user  on  anbels_logic_class_user.user_id = anbels_auth_user.id')
-    			->join('left join anbels_master_class on anbels_master_class.id = anbels_logic_class_user.class_id')
-    			->join('left join anbels_master_school on anbels_master_school.id = anbels_master_class.school_id')
-    			
-    			->join('left join anbels_auth_group_access on anbels_auth_group_access.uid = anbels_auth_user.id')
-    			->join('left join anbels_auth_group on anbels_auth_group.id = anbels_auth_group_access.group_id')
-    			
-    			->field('anbels_auth_user.id,anbels_auth_user.gender,anbels_auth_user.name as user_name,
-    					anbels_master_school.name as school_name,
-    					anbels_master_class.id as class_id,anbels_master_class.name as class_name,
-    					anbels_auth_group.id as group_id,anbels_auth_group.display_name as group_name,
-    					anbels_logic_class_user.role as role')
-    			->where($map)
-    			->select();
-    		
-    			$this->assign('auth_user',$auth_user);
-		    
-            }elseif(has_all_rules('account_view')){ //teacher
-                $school = getUserSchool($user_id);
-                $this->school = $school;
-                $this->location = M("MasterLocation")->where(array('id' => $school['location_id']))->find();
-                
+            $school = getUserSchool($user_id);
+            $this->school = $school;
+            $this->location = M("MasterLocation")->where(array('id' => $school['location_id']))->find();
+            $clzs = M()->query("SELECT  c.*
+                        FROM anbels_logic_class_user cu,anbels_master_class c
+                        WHERE c.id = cu.class_id and cu.user_id = ".$user_id);
+            if(in_any_groups("TEACHER",$user_id)){ //is teacher
+                if($clzs){
+                    $this->user_classes = $clzs;
+                }
+                $this->school_classes = M("MasterClass")->where(array('active' => 0 ,school_id =>$school['id']))->order("grade,name")->select(); 
+                $this->role = 'T';
+            }else if(in_any_groups("STUDENT",$user_id)){ //is student
+                if($clzs){
+                    $this->class = $clzs[0];
+                }
+                $this->role = 'S';
+            }else{
+                $this->error("没有该用户类型可以修改！");
             }
-            
-            
-            
 			$this->display();
 		} 
 		else 
@@ -281,41 +269,53 @@ class AccountManagementController extends BaseController {
         if(!$m['name'] || is_null($m['name'])){
             $this->error("没有填写姓名！");
         }
+        $User = M('AuthUser');
+        $User->where($map)->setField($m);
         
-        try{
-            $m['salt'] = "dingnigefei";  #salt
-			$id = I('post.id');
-            $User = M('AuthUser');
-            $User->where($map)->setField($m);
-			//p($m);
-			//die;
-            
-            $role = I('role',null);
-            $Group = M('AuthGroup');
-            $UserGroup = M('AuthGroupAccess');
-            
-
-            if($role == 'S'){ //student
-                $g = $Group->where(array('active' => 0 ,'title' => 'STUDENT'))->find();
-                $UserGroup->where(array('uid' => $id))->setField(array('group_id' => $g['id']));
-            }elseif($role == 'T'){ //teacher
-                $g = $Group->where(array('active' => 0 ,'title' => 'TEACHER'))->find();
-                $UserGroup->where(array('uid' => $id))->setField(array('group_id' => $g['id']));
-            }
-            
-            $class_id = I('class_id',null);
-            if($class_id){
-                $Class = M('MasterClass');
+        
+        if(in_any_groups("TEACHER",$map['id'])){ //is teacher
+            $clzids = I('class_id',null);
+            if($clzids){
                 $ClassUser = M('LogicClassUser');
-                $class = $Class->where(array('active' => 0 , 'id' => intval($class_id)))->find();
-                $ClassUser->where(array('user_id' => $id))->setField(array('class_id' => $class['id'],'role' => $role));
+                $ClassUser->where(array('user_id' => $map['id']))->delete();
+                foreach ($clzids as $cid) {
+                    $ClassUser->create(array('user_id' => $map['id'], 'class_id' => $cid,'role' => 'T'));
+                    $ClassUser->add();
+                }
             }
-            
-            $this->success('成功修改账号！',U('AccountManagement/index'));
-        }catch(Exception $e){
-            dump($e);
-            $this->error("系统出错，创建不成功！");
         }
+        
+        $this->success('成功修改账号！',U('AccountManagement/index'));
+        
+        
+        // try{
+//            
+            // $role = I('role',null);
+            // $Group = M('AuthGroup');
+            // $UserGroup = M('AuthGroupAccess');
+//             
+// 
+            // if($role == 'S'){ //student
+                // $g = $Group->where(array('active' => 0 ,'title' => 'STUDENT'))->find();
+                // $UserGroup->where(array('uid' => $id))->setField(array('group_id' => $g['id']));
+            // }elseif($role == 'T'){ //teacher
+                // $g = $Group->where(array('active' => 0 ,'title' => 'TEACHER'))->find();
+                // $UserGroup->where(array('uid' => $id))->setField(array('group_id' => $g['id']));
+            // }
+//             
+            // $class_id = I('class_id',null);
+            // if($class_id){
+                // $Class = M('MasterClass');
+                // $ClassUser = M('LogicClassUser');
+                // $class = $Class->where(array('active' => 0 , 'id' => intval($class_id)))->find();
+                // $ClassUser->where(array('user_id' => $id))->setField(array('class_id' => $class['id'],'role' => $role));
+            // }
+//             
+            // $this->success('成功修改账号！',U('AccountManagement/index'));
+        // }catch(Exception $e){
+            // dump($e);
+            // $this->error("系统出错，创建不成功！");
+        // }
 		
 	}
 	

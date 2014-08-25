@@ -3,8 +3,65 @@
     <link href="/Public/css/style.css" rel="stylesheet" type="text/css">
 </block>
 <block name="extJS">
-    
     <script src="/Public/js/select_ssq.js"></script>
+     <script language="JavaScript" type="text/javascript">
+        //<![CDATA[ 
+        
+        function toDel(obj){
+            var t = $(obj);
+            $(t.parents("p")[0]).remove();
+        }
+        
+        var opts = '<option value=""></option>';
+        
+        <foreach name="school_classes" item="sc" >
+            opts += '<option value="{$sc.id}">{$sc.name}</option>';
+        </foreach>
+        
+        
+        function toAdd(){
+            var html = '<p><select name="class_id[]">' + opts + '</select>&nbsp;<input type="button" value="删除" onclick="toDel(this)"/></p>';
+            $("#classtd").append(html);
+        }
+        
+        function toSubmit(){
+            var msg = [];
+            if(!$("#name").val()){ msg.push("请填写用户的名称"); }
+            
+            <if condition="$role eq 'T'">
+                var clzok = false;
+                var clzdup = false;
+                var clzids = [];
+                $("[name='class_id[]']").each(function(){
+                    var t = $(this);
+                    if(t.val()){ 
+                        clzok = true; 
+                        if(clzids.indexOf(t.val()) > -1){
+                            clzdup = true;
+                        }else{
+                            clzids.push(t.val());
+                        }
+                    }
+                });
+                if(!clzok){ msg.push("请选择老师的班级！"); }
+                if(clzdup){ msg.push("选择的班级有重复，请重新选择！");}
+            </if>
+            
+            if(msg.length > 0){
+                var s = "";
+                for(var i=0;i<msg.length;i++){
+                    s += msg[i] + '\n';
+                }
+                alert(s);
+                return;
+            }else{
+                $("form").submit();
+            }
+        }
+        
+        //]]>
+     </script>
+
 </block>
 
 <block name="content">
@@ -13,30 +70,50 @@
         <form action="{:U('AccountManagement/edit_handle')}" id="form1" name="form1" method="post">
           <table width="650" border="0" align="center" cellpadding="0" cellspacing="0">
               
-              <if condition="has_all_rules('account_view_all')">
+              <if condition="$role eq 'T'">
                   <tr>
                       <td height="50" align="right">地区：</td>
                       <td>&nbsp;</td>
-                      <td><select id="lev1" onchange="getlocationchildren(this,'#lev2')">
-                        <option value="">请选择</option>
-                          <foreach name="locations" item="l" >
-                            <option value="{$l.code}">{$l.name}</option>
-                          </foreach>
-                        </select>
-                        
-                        <select id="lev2" onchange="getlocationchildren(this,'#lev3')">
-                        </select>
-                        <select id="lev3" onchange="getlocationchildren(this,'#lev4','#school_id')">
-                        </select>
-                        <select id="school_id" name="school_id" onchange="get_class_by_school(this,'#class_id')">
-                        <option value="">{$user.school_name}</option>
-                        </select>
-                        <select id="class_id" name="class_id">
-                            <option value="{$user.class_id}">{$user.class_name}</option>
-                        </select></td>
+                      <td>{$location.full_name}</td>
+                </tr>
+                <tr>
+                      <td height="50" align="right">学校：</td>
                       <td>&nbsp;</td>
-                    </tr>
-             <elseif condition="has_all_rules('account_view')"/>
+                      <td>{$school.name}</td>
+                </tr>
+                <tr>
+                      <td height="50" align="right" valign="top">班级：</td>
+                      <td>&nbsp;</td>
+                      <td valign="top" id="classtd">
+                          <foreach name="user_classes" item="uc" >
+                              <p>
+                                  <select name="class_id[]">
+                                      <option value=""></option>
+                                      <foreach name="school_classes" item="sc" >
+                                          <if condition="$sc.id eq $uc.id ">
+                                              <option value="{$sc['id']}" selected="selected">{$sc['name']}</option>
+                                          <else />
+                                              <option value="{$sc['id']}">{$sc['name']}</option>
+                                          </if>
+                                      </foreach>
+                                  </select>
+                                  &nbsp;
+                                  <input type="button" value="删除" onclick="toDel(this)"/>
+                              </p>
+                          </foreach>
+                          <p>
+                              <select name="class_id[]">
+                                  <option value=""></option>
+                                  <foreach name="school_classes" item="sc" >
+                                      <option value="{$sc['id']}">{$sc['name']}</option>
+                                  </foreach>
+                              </select>
+                              &nbsp;
+                              <input type="button" value="添加" onclick="toAdd()"/>
+                          </p>
+                      </td>
+                </tr>
+             <elseif condition="$role eq 'S'"/>
                 <tr>
                       <td height="50" align="right">地区：</td>
                       <td>&nbsp;</td>
@@ -46,6 +123,11 @@
                       <td height="50" align="right">学校：</td>
                       <td>&nbsp;</td>
                       <td>{$school.name}</td>
+                </tr>
+                <tr>
+                      <td height="50" align="right">班级：</td>
+                      <td>&nbsp;</td>
+                      <td>{$class.name}</td>
                 </tr>
              </if>
                 <tr>
@@ -60,26 +142,26 @@
                   <td>&nbsp;</td>
                   <td>
                       <select name="gender">
-                      	
+                          <option value=""></option>
+                          <eq name="user['gender']" value="男">
+                              <option value="男" selected="selected">男</option>
+                          <else/>
+                              <option value="男">男</option>
+                          </eq>
+                          <eq name="user['gender']" value="女">
+                              <option value="女" selected="selected">女</option>
+                          <else/>
+                              <option value="女">女</option>
+                          </eq>
                       </select>
                   </td>
-                  <td>&nbsp;</td>
-                </tr>
-                <tr>
-                  <td height="50" align="right">账号角色：</td>
-                  <td>&nbsp;</td>
-                  <td><select name="role">
-                    <option value="{$user.role}">{$user.group_name}</option>
-                    <option value="S">学生</option>
-                    <option value="T">教师</option>
-                  </select></td>
                   <td>&nbsp;</td>
                 </tr>
                 <tr>
                    <td height="50" align="right">&nbsp;</td>
                    <td>&nbsp;</td>
                    <td>
-                       <span class="send_btn" id="account_send_btn">更新</span>
+                       <span class="send_btn" onclick="toSubmit()">提交</span>
                        <span class="send_btn" id="reset_btn">重置</span> 
                    </td>
                    <td></td>

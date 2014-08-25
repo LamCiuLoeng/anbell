@@ -42,7 +42,7 @@ function login_check($system_no,$password){
 		return array("flag" => FLAG_NOT_ALL_REQUIRED, "msg" => MSG_NOT_ALL_REQUIRED);
 	}
 	$dbpw = $user['password'];
-	$hashpw = crypt($password,"dingnigefei");
+	$hashpw = crypt($password,$user['salt']);
 	if($dbpw != $hashpw){
 		return array("flag" => FLAG_WRONG_PARAMS, "msg" => MSG_WRONG_PARAMS);
 	}
@@ -116,13 +116,19 @@ function has_any_rules($rule){
     return authcheck($rule,session('user_id'),'or');
 }
 
-function in_all_groups(){
-    
+function in_all_groups($groups){
 }
 
-function in_any_groups(){
-    
+function in_any_groups($groups,$user_id){
+    $sql = "select g.*
+                from anbels_auth_group_access gu ,anbels_auth_group g, anbels_auth_user u
+                where g.id = gu.group_id and u.id = uid and g.title in ('".$groups."') and u.id=".$user_id;
+    $q = M()->query($sql);
+    if(!$q || is_null($q)){ return FALSE; }
+    else{ return TRUE;}       
 }
+                
+    
 
 
 function download_file($file){
