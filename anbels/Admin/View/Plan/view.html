@@ -76,7 +76,7 @@
               <td>&nbsp;</td>
             </tr>
           </table>
-          <table width="500" border="0" align="center" cellpadding="0" cellspacing="0">
+          <!-- <table width="500" border="0" align="center" cellpadding="0" cellspacing="0">
               <foreach name="pcs" item="pc" key="grade">
                 <tr>
                   <td width="100" align="right">&nbsp;</td>
@@ -84,10 +84,7 @@
                     <td valign="top">
                         <ul>
                           <foreach name="pc" item="c" key="cid">
-                              <!-- <li><a href="#" onclick="toView({$c['cid']})">{$c['name']}</a></li> -->
-                              <!-- <li><a href="{:U('Plan/openflash')}?id={$c['cid']}" target="_blank">{$c['name']}</a></li> -->
-                                
-                              
+                                                           
                               <li><a href="{:U('Plan/openflash')}?id={$cid}" target="_blank">{$c['name']}</a><br />包含以下课件：
                                   <ul>
                                       <foreach name="c['courseware']" item="crw">
@@ -101,6 +98,45 @@
                     <td>&nbsp;</td>
                 </tr>
                 </foreach>
-          </table>      
+          </table>  -->
+          
+          
+          
+          <table width="500" border="0" align="center" cellpadding="0" cellspacing="0">
+              <foreach name="user_clzs" item="uclzs" key="grade">
+                <tr>
+                  <td width="100" align="right">&nbsp;</td>
+                    <td width="100" height="50" align="left" valign="top">{$grade}年级课程</td>
+                    <td valign="top">
+                        <table>
+                            <tr>
+                                <foreach name="uclzs" item="uclz">
+                                    <td>{$uclz['name']}</td>
+                                </foreach>
+                            </tr>
+                            <foreach name="pcs[$grade]" item="c" key="cid">
+                                <tr>
+                                    <foreach name="uclzs" item="uclz">
+                                        <td>
+                                            <a href="{:U('Plan/openflash')}?id={$cid}&cid={$uclz['id']}" target="_blank">{$c['name']}</a><br />包含以下课件：
+                                            <ul>
+                                                <?php
+                                                    foreach($c['courseware'] as $crw){
+                                                        echo '<li>'.$crw['courseware_name'].'</li>';
+                                                    }
+                                                ?>
+                                            </ul>
+                                        </td>
+                                    </foreach>
+                                </tr>
+                            </foreach>
+
+                        </table>
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
+                </foreach>
+          </table> 
+               
     </div>
 </block>

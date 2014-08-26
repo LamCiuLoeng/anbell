@@ -32,6 +32,7 @@ class PlanController extends BaseController {
         $this->plans = $plan;
         $this->display();
     }
+      
     
     public function view()
     {
@@ -46,9 +47,6 @@ class PlanController extends BaseController {
                     p.id as id, p.name as name, p.desc as `desc`,l.full_name as location
                     FROM anbels_master_school s, anbels_logic_plan p,anbels_master_location l
                     WHERE s.id = p.school_id and l.id=s.location_id and p.id = ".$id);
-					
-		//p($p);
-		//die; 
         
         if(!$p || is_null($p)){
             $this->error("该记录不存在！");
@@ -57,7 +55,23 @@ class PlanController extends BaseController {
         if(is_array($p)){
             $p = $p[0];
         }
-		//p($p);
+		//get the user's class
+		$clzs = M()->query("SELECT c.*
+		            FROM anbels_logic_class_user cu,anbels_master_class c
+		            WHERE cu.class_id = c.id and cu.user_id = ".session('user_id'));
+		if(!$clzs || is_null($clzs)){
+		    $this->error("该用户没有相应的班级！");
+		}
+        
+        $user_clzs = array();
+        foreach ($clzs as $c) {
+            if(array_key_exists($c['grade'], $user_clzs)){
+                $user_clzs[$c['grade']][] = $c;
+            }else{
+                $user_clzs[$c['grade']] = array($c);
+            }
+        }
+        $this->user_clzs = $user_clzs;
         
         $Q2 = M();   
         $qs = $Q2->query("SELECT
@@ -72,6 +86,7 @@ class PlanController extends BaseController {
                              and pc.plan_id=".$p['id']." order by grade"); 
         $result = array();
         foreach ($qs as $q) {
+            if(!array_key_exists($q['grade'], $user_clzs)){ continue; } //filter out the course don't in the user's class
             if(array_key_exists($q['grade'], $result)){
                 if(array_key_exists($q['cid'], $result[$q['grade']])){
                     //array_push($result[$q['grade']][$q['cid']]['courseware'],$q);
