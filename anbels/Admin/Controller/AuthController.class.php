@@ -39,7 +39,7 @@ class AuthController extends Controller {
         if(session('?login')){
             session('login',null); 
         }
-        $this->success('',U('login'),2);
+        $this->success('后台退出成功',U('login'),2);
     }
     
 	

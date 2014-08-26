@@ -13,10 +13,14 @@ define('FLAG_NOT_ALLOW', 3);
 define('MSG_NOT_ALLOW', '非法操作！');
 define('FLAG_NO_ACTION_TYPE',4);
 define('MSG_NO_ACTION_TYPE', '没有该操作类型！');
-define('FLAG_WRONG_PW', 5);
-define('MSG_WRONG_PW', '错误的密码！');
-define('FLAG_WRONG_PARAMS', 6);
+define('FLAG_WRONG_PARAMS', 5);
 define('MSG_WRONG_PARAMS', '参数错误！');
+define('FLAG_WRONG_PW', 6);
+define('MSG_WRONG_PW', '密码错误！');
+define('FLAG_EMPTY_PW', 7);
+define('MSG_EMPTY_PW', '请输入密码！');
+define('FLAG_EMPTY_ACCOUNT', 8);
+define('MSG_EMPTY_ACCOUNT', '请输入账号！');
 
 
 
@@ -30,7 +34,7 @@ function login_check($system_no,$password){
 	$m['system_no'] = $system_no;
 	if( !$m['system_no'] || is_null($m['system_no']) )
 	{
-		return array("flag" => FLAG_NOT_ALL_REQUIRED , "msg" => MSG_NOT_ALL_REQUIRED);
+		return array("flag" => FLAG_EMPTY_ACCOUNT , "msg" => MSG_EMPTY_ACCOUNT);
 	}
 	$m['active'] = 0;
 	$User = M("AuthUser");
@@ -39,12 +43,13 @@ function login_check($system_no,$password){
 		return array("flag" => FLAG_NOT_EXIST , "msg" => MSG_NOT_EXIST);
 	}	
 	if(!$password || is_null($password)){
-		return array("flag" => FLAG_NOT_ALL_REQUIRED, "msg" => MSG_NOT_ALL_REQUIRED);
+		return array("flag" => FLAG_EMPTY_PW, "msg" => MSG_EMPTY_PW);
 	}
 	$dbpw = $user['password'];
 	$hashpw = crypt($password,$user['salt']);
 	if($dbpw != $hashpw){
-		return array("flag" => FLAG_WRONG_PARAMS, "msg" => MSG_WRONG_PARAMS);
+		//return array("flag" => FLAG_WRONG_PARAMS, "msg" => MSG_WRONG_PARAMS);
+		return array("flag" => FLAG_WRONG_PW, "msg" => MSG_WRONG_PW);
 	}
 	
 	//log the last login time for the user

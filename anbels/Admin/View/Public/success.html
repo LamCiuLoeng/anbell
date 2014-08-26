@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link href="/Public/css/style.css" rel="stylesheet" type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--<meta http-equiv="refresh" content="6; url='{$jumpUrl}'" />-->
+<title>安贝尔儿童安全乐园教学管理平台</title>
+</head>
+<body>
+<!--<table width="400" border="1" align="center"  cellpadding="3" cellspacing="0">
+  <tr>
+    <th align="center" bgcolor="#cccccc">错误信息提示</th>
+  </tr>
+  <tr>
+    <td>{$message}<br />
+                      成功处理的标题信息：{$msgTitle}<br />
+        <present name="message">
+      自定义成功信息：{$message}<br />
+      </present>
+      <present name="error">
+      自定义错误信息：{$error}<br />
+      </present>
+      跳转页面路径：{$jumpUrl}<br />
+      停留时间：{$waitSecond}<br />
+         {$waitSecond}秒后返回指定页面！<br />
+                       如果浏览器无法跳转，<a href="{$jumpUrl}">请点击此处</a>。</td>
+  </tr>
+</table>-->
+
+<table width="400" border="1" align="center"  cellpadding="3" cellspacing="0" style="margin:100px auto;">
+  <tr>
+    <th align="center" bgcolor="#cccccc" style="padding:10px;">信息提示</th>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF" style="padding:10px; font-size:14px">
+    <br />
+    <span style="font-size:14px; font-weight:bold;">{$msgTitle}</span>
+    <br />
+    <br />
+    <present name="message">
+    成功信息：<span style="font-size:28px; ">{$message}</span><br /><br />
+    </present>
+    <present name="error">
+    错误信息：<span style="font-size:28px; ">{$error}</span><br /><br />	
+    </present>
+    
+    <p class="jump">
+    页面自动 <a id="href" href="{$jumpUrl}">跳转</a> 等待时间： <b id="wait">{$waitSecond}</b>秒后返回指定页面！<br />
+    </p>
+    
+    </td>
+  </tr>
+</table>
+<script type="text/javascript">
+(function(){
+var wait = document.getElementById('wait'),href = document.getElementById('href').href;
+var interval = setInterval(function(){
+	var time = --wait.innerHTML;
+	if(time <= 0) {
+		location.href = href;
+		clearInterval(interval);
+	};
+}, 1000);
+})();
+</script>
+</body>
+</html>
