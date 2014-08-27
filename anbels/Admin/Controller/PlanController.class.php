@@ -245,7 +245,7 @@ class PlanController extends BaseController {
             }
         }
         
-        $this->success('成功修改教学计划！',U('Plan/index'));
+        $this->success('成功修改教学计划！',U('Plan/index'),10);
     }
 
 	public function del()
