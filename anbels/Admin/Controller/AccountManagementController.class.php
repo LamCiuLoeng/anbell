@@ -4,7 +4,7 @@ use Admin\Controller\BaseController;
 class AccountManagementController extends BaseController {
     public function index(){
 		// $search_info=I('post.');
-		// $this->locations = gettoplocation();
+		
 		// if($search_info['location_code'][0]!='') $map['anbels_logic_location.sheng']  = array('eq',$search_info['location_code'][0]);
 		// if($search_info['location_code'][1]!='') $map['anbels_logic_location.shi']  = array('eq',$search_info['location_code'][1]);
 		// if($search_info['location_code'][2]!='') $map['anbels_master_location.code']  = array('eq',$search_info['location_code'][2]);
@@ -51,28 +51,51 @@ class AccountManagementController extends BaseController {
         
         $users = M()->query($sql);
         $this->auth_user = $users;
+		$this->locations = gettoplocation();
         $this->display();
 	}
 	
 	
     private function get_all_account()
     {
+		$search_info=I('post.');
+		echo($search_info['school_id']);
+		if($search_info['school_id']!='') $school_condition="and t.school_id =".$search_info['school_id'];
+		if($search_info['location_code'][0]!='') $sheng_condition="and t.sheng =".$search_info['location_code'][0];
+		if($search_info['location_code'][1]!='') $shi_condition="and t.shi =".$search_info['location_code'][1];
+		if($search_info['location_code'][2]!='') $qu_condition="and t.qu =".$search_info['location_code'][2];
         $sql = "
             SELECT 
-            t.id,t.system_no, t.user_name ,t.gender, 
-            t.location_full_name ,t.school_name , t.last_login_time ,t.role
-            ,GROUP_CONCAT(class_name SEPARATOR ',') as class_names
-            FROM
-            (select u.id as id ,u.system_no as system_no, u.name as user_name ,u.gender as gender, 
-            l.full_name as location_full_name ,s.name as school_name ,c.name as class_name , u.last_login_time as last_login_time
-            , cu.role as role
-            from anbels_logic_class_user cu,  anbels_auth_user u , anbels_master_class c ,anbels_master_school s ,anbels_master_location l
-            where cu.user_id = u.id and cu.class_id = c.id and c.school_id = s.id and s.location_id = l.id and u.active = 0
-            ) t
-            group by 
-            t.id,t.system_no, t.user_name ,t.gender, 
-            t.location_full_name ,t.school_name , t.last_login_time, t.role
-            order by t.system_no
+			t.id, t.system_no, t.user_name, t.gender, 
+			t.location_full_name, t.last_login_time, t.role, t.school_name, t.update_by_id,t.school_id, t.qu, t.shi, t.sheng,
+			GROUP_CONCAT(class_name SEPARATOR '<br>') as class_names
+			FROM
+			(select u.id as id ,u.system_no as system_no, u.name as user_name ,u.gender as gender, u.last_login_time as last_login_time, u.update_by_id as update_by_id,
+			ml.full_name as location_full_name, ll.qu as qu, ll.shi as shi, ll.sheng as sheng, s.name as school_name ,c.name as class_name ,  
+			g.display_name as role, s.id as school_id
+			from anbels_logic_class_user cu,  anbels_auth_user u, 
+			anbels_master_class c,anbels_master_school s,
+			anbels_master_location ml, anbels_logic_location ll,
+			anbels_auth_group g, anbels_auth_group_access ga
+			where cu.user_id = u.id and cu.class_id = c.id and c.school_id = s.id 
+			and s.location_id = ml.id and u.active = 0 and ll.qu = ml.`code`
+			and ga.uid = u.id and ga.group_id = g.id
+			) t
+			where 
+			(t.system_no like '%".$search_info['keyword']."%' 
+			or t.user_name like '%".$search_info['keyword']."%'
+			or t.gender like '%".$search_info['keyword']."%' 
+			or t.role like '%".$search_info['keyword']."%' 
+			or t.location_full_name like '%".$search_info['keyword']."%' 
+			or t.school_name like '%".$search_info['keyword']."%'
+			or t.class_name like '%".$search_info['keyword']."%')
+			".$school_condition."
+			".$sheng_condition."
+			".$shi_condition."
+			".$qu_condition."
+			group by 
+			t.id
+			order by t.system_no
         ";
         return $sql;
     }
@@ -101,10 +124,11 @@ class AccountManagementController extends BaseController {
             FROM
             (select u.id as id ,u.system_no as system_no, u.name as user_name ,u.gender as gender, 
             l.full_name as location_full_name ,s.name as school_name ,c.name as class_name , u.last_login_time as last_login_time
-            ,cu.role as role
-            from anbels_logic_class_user cu,  anbels_auth_user u , anbels_master_class c ,anbels_master_school s ,anbels_master_location l
+            ,g.display_name as role
+            from anbels_logic_class_user cu,  anbels_auth_user u , anbels_master_class c ,anbels_master_school s ,anbels_master_location l,
+			anbels_auth_group g, anbels_auth_group_access ga
             where u.active = 0 and cu.user_id = u.id and cu.class_id = c.id and c.school_id = s.id and s.location_id = l.id
-            and cu.role = 'S' 
+            and cu.role = 'S' and ga.uid = u.id and ga.group_id = g.id
         ";       
         $sql .= $andsql;
         $sql .= "

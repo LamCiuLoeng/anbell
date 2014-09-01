@@ -108,8 +108,7 @@
                     </if>
                 </foreach>
             </select>
-            &nbsp;
-            <input type="button" value="显示" onclick="toShow()"/>
+            <span class="send_btn" onClick="toSearch();">搜索</span>
     </if>
      </form>
 </div>
@@ -129,6 +128,7 @@
                 <td align="center"><strong>所在学校</strong></td>
                 <td align="center">所在班级</td>
                 <td align="center"><strong>用户类型</strong></td>
+                <td align="center">操作人</td>
                 <td align="center"><strong>上次登录时间</strong></td>
                 <td align="center">&nbsp;</td>
             </tr>
@@ -141,12 +141,8 @@
                 <td align="center">{$v.location_full_name}&nbsp;</td>
                 <td align="center">{$v.school_name}&nbsp;</td>
                 <td align="center">{$v.class_names}&nbsp;</td>
-                <td align="center">
-                    <if condition="$v.role eq 'T'">老师
-                    <elseif condition="$v.role eq 'S'"/>学生
-                    <else />&nbsp;
-                    </if>
-                </td>                
+                <td align="center">{$v.role}</td>
+                <td align="center">{$v.update_by_id|show_edit_user}&nbsp;</td>                
                 <td align="center">{$v.last_login_time}&nbsp;</td>
                 <td align="center"><input type="checkbox" name="id[]" value="{$v.id}">&nbsp;</td>
             </tr>
