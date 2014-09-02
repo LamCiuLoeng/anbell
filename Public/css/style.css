@@ -10,6 +10,9 @@ img{
 input{
 	border:#000000 1px solid;
 }
+#checkbox{
+	border:0px;
+}
 textarea{
 	border:#000000 1px solid;
 }

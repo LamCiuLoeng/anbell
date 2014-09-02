@@ -35,7 +35,7 @@ class AccountManagementController extends BaseController {
         // ->select();
        
         if(has_all_rules('account_view_all')){ //admin
-            $sql = $this->get_all_account();
+            $total = $this->get_all_account();
         }elseif(has_all_rules('account_view')){ //teacher
             $this->classes = M()->query("
                     SELECT c.id as id ,c.grade as grade, c.name as name 
@@ -43,12 +43,17 @@ class AccountManagementController extends BaseController {
                     WHERE c.active = 0 and c.id = cu.class_id and cu.user_id = ".session('user_id')." ;");
             
             $class_id = I("class_id",null);
-            $sql = $this->get_account($class_id);
+            $total = $this->get_account($class_id);
             $this->class_id = intval($class_id);
         }else{
             $this->error("没有权限进行该操作！");            
         }
-        
+		
+        $page = new \Think\Page(count(M()->query($total)), 14);
+		$show = $page->show();// 分页显示输出
+		$this->assign('page',$show);// 赋值分页输出
+        $sql = $total.' limit '.$page->firstRow.','.$page->listRows;
+		
         $users = M()->query($sql);
         $this->auth_user = $users;
 		$this->locations = gettoplocation();
@@ -58,12 +63,12 @@ class AccountManagementController extends BaseController {
 	
     private function get_all_account()
     {
-		$search_info=I('post.');
+		$search_info=I('get.');
 		echo($search_info['school_id']);
 		if($search_info['school_id']!='') $school_condition="and t.school_id =".$search_info['school_id'];
-		if($search_info['location_code'][0]!='') $sheng_condition="and t.sheng =".$search_info['location_code'][0];
-		if($search_info['location_code'][1]!='') $shi_condition="and t.shi =".$search_info['location_code'][1];
-		if($search_info['location_code'][2]!='') $qu_condition="and t.qu =".$search_info['location_code'][2];
+		if($search_info['location_code_sheng']!='') $sheng_condition="and t.sheng =".$search_info['location_code_sheng'];
+		if($search_info['location_code_shi']!='') $shi_condition="and t.shi =".$search_info['location_code_shi'];
+		if($search_info['location_code_qu']!='') $qu_condition="and t.qu =".$search_info['location_code_qu'];
         $sql = "
             SELECT 
 			t.id, t.system_no, t.user_name, t.gender, 
