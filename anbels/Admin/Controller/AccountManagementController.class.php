@@ -408,11 +408,11 @@ class AccountManagementController extends BaseController {
         $location_code = I("location_code",null);
         if(!$location_code || is_null($location_code)){ $this->error("请选择需要导入账号的地区！"); }
         
-        $SG = M("MuthGroup");
+        $SG = M("AuthGroup");
         $g = $SG->where(array('title' => 'STUDENT'))->find();
-        if(!g || is_null($g)){
+        if(!$g || is_null($g)){
             $this->error("没有学生的角色，请先创建学生的角色！");
-        }else{
+        }else{	
             $gid = $g['id'];
         }
         
@@ -459,7 +459,9 @@ class AccountManagementController extends BaseController {
                 $tmp['password'] = crypt($p,$tmp['salt']);
                 $M->create($tmp);
                 $user_id = $M->add();
-                
+                //p($user_id);
+				//p($gid);
+				//die;
                 $GU = M("AuthGroupAccess");
                 $GU->create(array("uid" => $user_id, "group_id" => $gid));
                 $GU->add();
