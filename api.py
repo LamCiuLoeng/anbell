@@ -45,6 +45,9 @@ def test():
     assert 'data' in info
     print '---pass get_user_info'
 
+    school_id, grade, class_id, plan_id = \
+    map( unicode, [info['data']['school_id'], info['data']['grade'], info['data']['class_id'], info['data']['plan_id']] )
+
 
     #===========================================================================
     # get user's plan
@@ -113,6 +116,10 @@ def test():
              'data_type' : 'P',
              'obj_id' : 1,
              'begin_or_end' : 'BEGIN',
+             'school_id' : school_id,
+             'class_id' : class_id,
+             'grade' : grade,
+             'plan_id' : plan_id,
              }
     save1 = get_result( action_url, param1 )
     assert save1['flag'] == 0
@@ -126,6 +133,10 @@ def test():
              'obj_id' : 1,
              'score'  : random.randint( 10, 100 ),
              'begin_or_end' : 'END',
+             'school_id' : school_id,
+             'class_id' : class_id,
+             'grade' : grade,
+             'plan_id' : plan_id,
              }
     save1 = get_result( action_url, param2 )
     assert save1['flag'] == 0

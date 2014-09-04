@@ -111,13 +111,28 @@ class V1Controller extends Controller {
 		}else{
 			$data = $this->_f($user,array('id','system_no','name','gender','last_login_time'));
 			
-            $grade = M()->query("SELECT c.grade 
-                FROM anbels_master_class c, anbels_logic_class_user cu
-                where c.id = cu.class_id and  cu.user_id = ".$user['id']);
+            $grade = M()->query("SELECT s.id as school_id , c.grade as grade  ,c.id as class_id
+							from anbels_master_class c , anbels_logic_class_user cu , anbels_master_school s
+							where c.school_id = s.id and c.id = cu.class_id and cu.user_id = ".$user['id']);
 			if($grade && is_array($grade)){
 			    $data['grade'] = $grade[0]['grade'];
+				$data['school_id'] = $grade[0]['school_id'];
+				$data['class_id'] = $grade[0]['class_id'];
+				
+				$plan = M()->query("SELECT p.id as plan_id
+							FROM anbels_master_school s, anbels_logic_plan p
+							WHERE s.active=0 and p.active=0 and s.id = p.school_id and s.id = ".$data['school_id']);
+				
+				if($plan && is_array($plan)){
+					$data['plan_id'] = $plan[0]['plan_id'];
+				}else{
+					$data['plan_id'] = null;
+				}
 			}else{
 			    $data['grade'] = null;
+				$data['school_id'] = null;
+				$data['class_id'] = null;
+				$data['plan_id'] = null;
 			}
 			
 			$this->ajaxReturn(array('flag' => FLAG_OK , 'data' => $data));
@@ -345,7 +360,7 @@ class V1Controller extends Controller {
 	// | 记录用户课件或者游戏相关的数据
 	// +----------------------------------------------------------------------
 	private function save_user_data(){
-		$params = $this->_required('user_id','data_type','begin_or_end','obj_id');
+		$params = $this->_required('user_id','data_type','begin_or_end','obj_id','school_id','grade','class_id','plan_id');
 		if(!$params['flag']){
 			$this->ajaxReturn(array('flag' => FLAG_NOT_ALL_REQUIRED ,'msg' => MSG_NOT_ALL_REQUIRED));
         }
@@ -368,6 +383,10 @@ class V1Controller extends Controller {
                     $dto = mydto();
                     $dto['user_id'] = $params['data']['user_id'];
                     $dto['refer_id'] = $params['data']['obj_id'];
+					$dto['school_id'] = $params['data']['school_id'];
+					$dto['grade'] = $params['data']['grade'];
+					$dto['class_id'] = $params['data']['class_id'];
+					$dto['plan_id'] = $params['data']['plan_id'];	
                     $dto['type'] = $type;
                     $dto['start_time'] = mynow();
                     if($params['data']['data_type'] == 'C'){

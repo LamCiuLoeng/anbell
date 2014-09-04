@@ -232,6 +232,7 @@ class StudyLog( DeclarativeBase, SysMixin ):
     school_id = Column( Integer )
     class_id = Column( Integer )
     grade = Column( Integer )
+    plan_id = Column( Integer )
 
     user_id = Column( Integer, ForeignKey( 'anbels_auth_user.id' ) )
     user = relation( User )
