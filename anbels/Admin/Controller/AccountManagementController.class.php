@@ -196,14 +196,14 @@ class AccountManagementController extends BaseController {
             $SystemNo = M("SystemNo");
             // $SystemNo->create(array('active'=>0));
             $m['system_no'] =$SystemNo->add(array('active'=>0));
-            $m['salt'] = generatepw(10,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-            $m['password'] = crypt($m['password'],$m['salt']); #encrypt the password to save into db
-            $m['salt'] = "dingnigefei";  #salt
+            // $m['salt'] = generatepw(10,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+            //$m['password'] = crypt($m['password'],$m['salt']); #encrypt the password to save into db
+            // $m['salt'] = "dingnigefei";  #salt
+            $m['password'] = authcode($m['password']);
             $User = M('AuthUser');
             $User->create($m);
             $id = $User->add();
-			
-            
+			            
             $role = I('role',null);
             $Group = M('AuthGroup');
             $UserGroup = M('AuthGroupAccess');
@@ -361,7 +361,8 @@ class AccountManagementController extends BaseController {
 	public function pw_edit_handle()
     {
 		$map['id'] = I('post.id');
-		$data['password'] = crypt(I('post.pwc'),"dingnigefei"); #encrypt the password to save into db
+		// $data['password'] = crypt(I('post.pwc'),"dingnigefei"); #encrypt the password to save into db
+		$data['password'] = authcode(I('post.pwc'));
 		$auth_user=M('auth_user');
 		if($auth_user->where($map)->setField($data))
 		{
@@ -454,9 +455,10 @@ class AccountManagementController extends BaseController {
                 $tmp['system_no'] = M("SystemNo")->add(array('active'=>0));
                 $tmp['name'] = $row["D"];
                 $tmp['gender'] = $row["E"];                
-                $tmp['salt'] = generatepw(10,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+                // $tmp['salt'] = generatepw(10,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
                 $p = generatepw(6,"0123456789");
-                $tmp['password'] = crypt($p,$tmp['salt']);
+                // $tmp['password'] = crypt($p,$tmp['salt']);
+                $tmp['password'] = authcode($p);
                 $M->create($tmp);
                 $user_id = $M->add();
                 

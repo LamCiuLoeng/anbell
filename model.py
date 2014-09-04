@@ -285,9 +285,9 @@ def init():
     metadata.create_all( engine )
     print "insert default value"
 
-    admin = User( system_no = '10000000', name = u'超级管理员' , gender = u'男', password = 'dicJp9R3v8xE2' )
-    teacher = User( system_no = '10000001', name = u'老师甲', gender = '女', password = 'dirm.l/sEXGj2' )
-    student = User( system_no = '10000002', name = u'学生甲', gender = u'男', password = 'diOP2PAYn8gE6' )
+    admin = User( system_no = '10000000', name = u'超级管理员' , gender = u'男', password = 'fba7NC+28AGS16D9fujIZ54FdHTrW3ul3I9mqSxoui4' )
+    teacher = User( system_no = '10000001', name = u'老师甲', gender = '女', password = 'a496u3Met9fpuaeFPCXZ/b9Gr2bSHZKoqIORultx+FM' )
+    student = User( system_no = '10000002', name = u'学生甲', gender = u'男', password = 'e314guOw5fMw6p8Gsv3xsabvW1zSh4bAwAnjC1zbT+U' )
 
     rule01 = Rule( name = 'account_view', title = '账号管理', )
     rule02 = Rule( name = 'account_add', title = '账号增加', )

@@ -110,6 +110,16 @@ class V1Controller extends Controller {
 			$this->ajaxReturn(array('flag' => FLAG_NOT_EXIST , 'msg' => MSG_NOT_EXIST));
 		}else{
 			$data = $this->_f($user,array('id','system_no','name','gender','last_login_time'));
+			
+            $grade = M()->query("SELECT c.grade 
+                FROM anbels_master_class c, anbels_logic_class_user cu
+                where c.id = cu.class_id and  cu.user_id = ".$user['id']);
+			if($grade && is_array($grade)){
+			    $data['grade'] = $grade[0]['grade'];
+			}else{
+			    $data['grade'] = null;
+			}
+			
 			$this->ajaxReturn(array('flag' => FLAG_OK , 'data' => $data));
 		}
 	}
