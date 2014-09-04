@@ -22,9 +22,9 @@
   <tr>
     <td width="109" align="left" valign="top"><img src="/anbels/Home/Public/images/home_05.jpg" width="109" height="76"/></td>
     <td width="106"><a href="{:U('index/index')}"><img src="/anbels/Home/Public/images/home_06.jpg" width="106" height="76" alt=""/></a></td>
-    <td width="129"><a href="{:U('news/index')}"><img src="/anbels/Home/Public/images/home_07.jpg" width="129" height="76" alt=""/></a></td>
-    <td width="129"><a href="{:U('news/policy_info')}"><img src="/anbels/Home/Public/images/home_08.jpg" width="129" height="76" alt=""/></a></td>
-    <td width="132"><a href="{:U('aboutus/index')}"><img src="/anbels/Home/Public/images/home_09.jpg" width="132" height="76" alt=""/></a></td>
+    <td width="129"><a href="{:U('news/index')}" target="_blank"><img src="/anbels/Home/Public/images/home_07.jpg" width="129" height="76" alt=""/></a></td>
+    <td width="129"><a href="{:U('news/policy_info')}" target="_blank"><img src="/anbels/Home/Public/images/home_08.jpg" width="129" height="76" alt=""/></a></td>
+    <td width="132"><a href="{:U('aboutus/index')}" target="_blank"><img src="/anbels/Home/Public/images/home_09.jpg" width="132" height="76" alt=""/></a></td>
     <td width="132"><img src="/anbels/Home/Public/images/home_10.jpg" width="132" height="76" alt=""/></td>
     <td width="132"><img src="/anbels/Home/Public/images/home_11.jpg" width="132" height="76" alt=""/></td>
     <td><img src="/anbels/Home/Public/images/home_12.jpg" width="131" height="76" alt=""/></td>
@@ -55,7 +55,7 @@
       <p class="title">·政策动态</p>
       <hr style="border:#ffde06 3px solid">
       <foreach name="web_news" item="n" >
-          <p><a href="{:U('news_page')}?id={$n.id}">[&nbsp;{$n.category}&nbsp;]&nbsp;&nbsp;{$n.title}&nbsp;&nbsp;&nbsp;{$n.date_time}</a></p>
+          <p><a href="{:U('news_page')}?id={$n.id}" class="news_link">[&nbsp;{$n.category}&nbsp;]&nbsp;&nbsp;{$n.title}&nbsp;&nbsp;&nbsp;{$n.date_time}</a></p>
          </foreach>
       </div>
       </td>
@@ -70,7 +70,7 @@
   <tr>
     <td align="center">
     	<img src="/anbels/Home/Public/images/home_26.jpg" width="187" height="44" alt=""/><br>
-		粤ICP备14057194
+		<a href="http://www.miitbeian.gov.cn/publish/query/indexFirst.action" class="a_wt">粤ICP备14057194</a>
     </td>
   </tr>
 </table>

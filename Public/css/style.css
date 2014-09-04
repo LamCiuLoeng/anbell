@@ -4,11 +4,15 @@ ul,li,dd,dt,dl {
 	padding:0; 
 	list-style:none;
 }
+
 img{
 	border:0px;
 }
 input{
 	border:#000000 1px solid;
+}
+#checkbox{
+	border:0px;
 }
 textarea{
 	border:#000000 1px solid;

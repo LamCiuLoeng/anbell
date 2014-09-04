@@ -229,6 +229,10 @@ class StudyLog( DeclarativeBase, SysMixin ):
     __tablename__ = 'anbels_logic_study_log'
 
     id = Column( Integer, autoincrement = True, primary_key = True )
+    school_id = Column( Integer )
+    class_id = Column( Integer )
+    grade = Column( Integer )
+
     user_id = Column( Integer, ForeignKey( 'anbels_auth_user.id' ) )
     user = relation( User )
     type = Column( Unicode( 5 ), )  # G is game , C is courseware P is course
