@@ -59,24 +59,12 @@
 </block>
 
 <block name="btnbar">
-    <div class="edit_menu_b">
-      <ul>
-            <li><a href="{:U('AccountManagement/add')}"><img src="/Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
-            <li><a href="#" onclick="toEdit()"><img src="/Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
-            <li><a href="#" onclick="toDel()"><img src="/Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>
-            <if condition="has_all_rules('account_view_all')">
-                <li><a href="{:U('AccountManagement/imp')}"><img src="/Public/images/master_34.jpg" width="68" height="28" alt=""/></a></li>
-                <li><a href="{:U('AccountManagement/exp_list')}"><img src="/Public/images/master_32.jpg" width="68" height="28" alt=""/></a></li>
-            </if>
-            <li><a href="#" onclick="pwEdit()"><img src="/Public/images/default_12.jpg" width="95" height="28" alt=""/></a></li>
-        </ul>
-    </div>
     <div style="clear:both"></div>
 </block>
 
  <block name="searchbar">
 <div class="search_bar_b">
-	<form action="{:U('AccountManagement/index')}" id="search" name="search" method="get">
+	<form action="{:U('AccountManagement/exp_list')}" id="search" name="search" method="get">
     <label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
     <if condition="has_all_rules('account_view_all')">
         
@@ -128,9 +116,7 @@
                 <td align="center"><strong>所在学校</strong></td>
                 <td align="center">所在班级</td>
                 <td align="center"><strong>用户类型</strong></td>
-                <td align="center">操作人</td>
-                <td align="center"><strong>上次登录时间</strong></td>
-                <td align="center">&nbsp;</td>
+                <td align="center">密码</td>
             </tr>
         </thead>
         <foreach name="auth_user" item="v" >
@@ -142,9 +128,7 @@
                 <td align="center">{$v.school_name}&nbsp;</td>
                 <td align="center">{$v.class_names}&nbsp;</td>
                 <td align="center">{$v.role}</td>
-                <td align="center">{$v.update_by_id|show_edit_user}&nbsp;</td>                
-                <td align="center">{$v.last_login_time}&nbsp;</td>
-                <td align="center"><input id="checkbox" type="checkbox" name="id[]" value="{$v.id}">&nbsp;</td>
+                <td align="center">{$v.password|show_password}&nbsp;</td>
             </tr>
          </foreach>
     </table>

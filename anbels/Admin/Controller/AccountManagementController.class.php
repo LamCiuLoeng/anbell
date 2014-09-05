@@ -72,10 +72,10 @@ class AccountManagementController extends BaseController {
         $sql = "
             SELECT 
 			t.id, t.system_no, t.user_name, t.gender, 
-			t.location_full_name, t.last_login_time, t.role, t.school_name, t.update_by_id,t.school_id, t.qu, t.shi, t.sheng,
+			t.location_full_name, t.last_login_time, t.role, t.school_name, t.update_by_id,t.school_id, t.qu, t.shi, t.sheng, t.password,
 			GROUP_CONCAT(class_name SEPARATOR '<br>') as class_names
 			FROM
-			(select u.id as id ,u.system_no as system_no, u.name as user_name ,u.gender as gender, u.last_login_time as last_login_time, u.update_by_id as update_by_id,
+			(select u.id as id ,u.system_no as system_no, u.name as user_name ,u.gender as gender, u.last_login_time as last_login_time, u.update_by_id as update_by_id,u.password,
 			ml.full_name as location_full_name, ll.qu as qu, ll.shi as shi, ll.sheng as sheng, s.name as school_name ,c.name as class_name ,  
 			g.display_name as role, s.id as school_id
 			from anbels_logic_class_user cu,  anbels_auth_user u, 
@@ -532,6 +532,41 @@ class AccountManagementController extends BaseController {
         $m['role'] = 'S';
         $M->create($m);
         return $M->add();
+    }
+	
+	public function exp_list()
+    {
+        if(has_all_rules('account_view_all')){ //admin
+            $total = $this->get_all_account();
+        }elseif(has_all_rules('account_view')){ //teacher
+            $this->classes = M()->query("
+                    SELECT c.id as id ,c.grade as grade, c.name as name 
+                    FROM anbels_logic_class_user cu , anbels_master_class c
+                    WHERE c.active = 0 and c.id = cu.class_id and cu.user_id = ".session('user_id')." ;");
+            
+            $class_id = I("class_id",null);
+            $total = $this->get_account($class_id);
+            $this->class_id = intval($class_id);
+        }else{
+            $this->error("没有权限进行该操作！");            
+        }
+		
+        $page = new \Think\Page(count(M()->query($total)), 24);
+		$show = $page->show();// 分页显示输出
+		$this->assign('page',$show);// 赋值分页输出
+        $sql = $total.' limit '.$page->firstRow.','.$page->listRows;
+		
+        $users = M()->query($sql);
+        $this->auth_user = $users;
+		$this->locations = gettoplocation();
+        $this->display();
+    }
+	
+	public function export()
+    {
+        $total = $this->get_all_account();
+		$users = M()->query($total);
+		p($users);
     }
     
     

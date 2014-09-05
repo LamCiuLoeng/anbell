@@ -193,6 +193,12 @@ function getUserSchool($user_id){
     }
 }
 
+function show_password($password)
+{	
+$password=authcode($password, 'DECODE');
+return $password;
+}
+
 
 
 
