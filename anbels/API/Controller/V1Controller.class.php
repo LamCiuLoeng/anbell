@@ -13,10 +13,11 @@ class V1Controller extends Controller {
 		if($result['flag'] != FLAG_OK ){
 			$this->ajaxReturn($result);
 		}else{
+			//p($result);
 			$result['user_key'] = generatekey();
 			$CurrentUser =  M('SystemCurrentUser');			
 			$CurrentUser->data(array('user_key' => $result['user_key'],'time_stamp' => mynow() ))->add();
-			$result['user'] = $this->_f($result['user'],array('id','system_no','name','gender','last_login_time'));
+			$result['user'] = $this->_f($result['user'],array('id','system_no','name','gender','last_login_time','school_id','grade','class_id','plan_id'));
 			$this->ajaxReturn($result);
 			
 			

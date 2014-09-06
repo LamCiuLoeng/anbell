@@ -1,5 +1,9 @@
 <?php
-require_once 'PHPExcel/IOFactory.php';
+//require_once 'PHPExcel/IOFactory.php';
+
+require_once 'PHPExcel.php';  
+require_once 'PHPExcel/IOFactory.php';  
+require_once 'PHPExcel/Writer/Excel2007.php'; 
 use Think\Auth;
 
 
@@ -31,14 +35,28 @@ function p($array)
 
 
 function login_check($system_no,$password){
-	$m['system_no'] = $system_no;
-	if( !$m['system_no'] || is_null($m['system_no']) )
+	$m['anbels_auth_user.system_no'] = $system_no;
+	if( !$m['anbels_auth_user.system_no'] || is_null($m['anbels_auth_user.system_no']) )
 	{
 		return array("flag" => FLAG_EMPTY_ACCOUNT , "msg" => MSG_EMPTY_ACCOUNT);
 	}
-	$m['active'] = 0;
-	$User = M("AuthUser");
-	$user = $User->where($m)->find();
+	$m['anbels_auth_user.active'] = 0;
+	
+	$User = M('AuthUser');
+
+	$user=$User
+	->join('left join anbels_logic_class_user ON anbels_logic_class_user.user_id = anbels_auth_user.id')
+	->join('left join anbels_master_class ON anbels_master_class.id = anbels_logic_class_user.class_id')
+	->join('left join anbels_master_school ON anbels_master_school.id = anbels_master_class.school_id')
+	->join('left join anbels_logic_plan ON anbels_logic_plan.school_id = anbels_master_school.id')
+	
+	->field('anbels_auth_user.id as id, anbels_auth_user.system_no as system_no, anbels_auth_user.name as name, anbels_auth_user.gender as gender,
+			anbels_auth_user.last_login_time as last_login_time, anbels_master_school.id as school_id, anbels_master_class.grade as grade,
+			anbels_master_class.id as class_id,anbels_logic_plan.id as plan_id,anbels_auth_user.password
+			')
+	->where($m)
+	->find();
+	
 	if(!$user || is_null($user)){
 		return array("flag" => FLAG_NOT_EXIST , "msg" => MSG_NOT_EXIST);
 	}	
@@ -262,6 +280,8 @@ function authcode($string, $operation = 'ENCODE', $key = '', $expiry = 0) {
         return $keyc.str_replace('=', '', base64_encode($result));  
     }  
 }
+
+
 
 
 ?>

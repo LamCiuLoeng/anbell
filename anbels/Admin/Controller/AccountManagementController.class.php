@@ -564,9 +564,61 @@ class AccountManagementController extends BaseController {
 	
 	public function export()
     {
-        $total = $this->get_all_account();
+        /*$total = $this->get_all_account();
 		$users = M()->query($total);
 		p($users);
+		//新建 
+		$resultPHPExcel = new PHPExcel();
+		//设置参数 
+		
+		//设值 
+		
+		$resultPHPExcel->getActiveSheet()->setCellValue('A1', '季度'); 
+		$resultPHPExcel->getActiveSheet()->setCellValue('B1', '名称'); 
+		$resultPHPExcel->getActiveSheet()->setCellValue('C1', '数量'); 
+		$i = 2; 
+		foreach($users as $item){ 
+		$resultPHPExcel->getActiveSheet()->setCellValue('A' . $i, $item['system_no']); 
+		$resultPHPExcel->getActiveSheet()->setCellValue('B' . $i, $item['user_name']); 
+		$resultPHPExcel->getActiveSheet()->setCellValue('C' . $i, $item['password']); 
+		$i ++; 
+		}
+		
+		//设置导出文件名 
+		$outputFileName = 'total.xls'; 
+		$xlsWriter = new PHPExcel_Writer_Excel5($resultPHPExcel); 
+		//ob_start(); ob_flush(); 
+		header("Content-Type: application/force-download"); 
+		header("Content-Type: application/octet-stream"); 
+		header("Content-Type: application/download"); 
+		header('Content-Disposition:inline;filename="'.$outputFileName.'"'); 
+		header("Content-Transfer-Encoding: binary"); 
+		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
+		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); 
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
+		header("Pragma: no-cache"); 
+		$xlsWriter->save( "./Public/Output" );*/
+		
+		
+$m['anbels_auth_user.system_no'] = 10000011;
+$m['anbels_auth_user.active'] = 0;
+
+
+$Model = M('AuthUser');
+
+$user=$Model
+->join('left join anbels_logic_class_user ON anbels_logic_class_user.user_id = anbels_auth_user.id')
+->join('left join anbels_master_class ON anbels_master_class.id = anbels_logic_class_user.class_id')
+->join('left join anbels_master_school ON anbels_master_school.id = anbels_master_class.school_id')
+->join('left join anbels_logic_plan ON anbels_logic_plan.school_id = anbels_master_school.id')
+
+->field('anbels_auth_user.id as id, anbels_auth_user.system_no as system_no, anbels_auth_user.name as name, anbels_auth_user.gender as gender,
+		anbels_auth_user.last_login_time as last_login_time, anbels_master_school.id as school_id, anbels_master_class.grade as grade,
+		anbels_master_class.id as class_id,anbels_logic_plan.id as plan_id
+		')
+->where($m)
+->find();
+		p($user);
     }
     
     

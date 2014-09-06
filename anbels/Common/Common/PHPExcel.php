@@ -25,7 +25,6 @@
  * @version    1.8.0, 2014-03-02
  */
 
-
 /** PHPExcel root directory */
 if (!defined('PHPEXCEL_ROOT')) {
     define('PHPEXCEL_ROOT', dirname(__FILE__) . '/');
@@ -1135,5 +1134,6 @@ class PHPExcel
     public function getID() {
         return $this->_uniqueID;
     }
+	
 
 }
