@@ -50,28 +50,6 @@
 <br>
 <p style="text-align:center"><strong>数据统计</strong></p>
 <form action="{:U('master/course_list_delete_handle')}" id="form1" name="form1" method="post">
-<!--<table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
-    <thead>
-        <tr>
-            <td align="center" class="first_td">学校名称</td>
-            <td align="center">学校参与人数</td>
-            <td align="center">教学计划完成百分比</td>
-            <td align="center">参与评测人数</td>
-            <td align="center">测试平均分</td>
-            <td align="center">&nbsp;</td>
-        </tr>
-    </thead>
-    <foreach name="school" item="v" >
-      <tr class="odd_tr">
-            <td align="center" class="first_td">{$v.name}</td>
-            <td align="center">1820</td>
-            <td align="center">56</td>
-            <td align="center">698</td>
-            <td align="center">75</td>
-            <td align="center"><input type="checkbox" name="id[]" id="checkbox" value="{$v.id}">&nbsp;</td>
-        </tr>
-     </foreach>
-</table>-->
 <table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
     <thead>
         <tr>
@@ -83,54 +61,18 @@
             <td align="center">&nbsp;</td>
         </tr>
     </thead>
-  <tbody>
-    <tr class="odd_tr">
-      <td align="center" class="first_td">罗湖小学</td>
-      <td align="center">1820</td>
-      <td align="center">36</td>
-      <td align="center">698</td>
-      <td align="center">75</td>
-      <td align="center"><input name="checkbox" id="checkbox2" value="1" type="checkbox">
-      </td>
-    </tr>
-    <tr class="odd_tr">
-      <td align="center" class="first_td">红岭小学</td>
-      <td align="center">865</td>
-      <td align="center">85</td>
-      <td align="center">570</td>
-      <td align="center">80</td>
-      <td align="center"><input name="checkbox" id="checkbox2" value="2" type="checkbox">
-      </td>
-    </tr >
-    <tr class="odd_tr">
-      <td align="center" class="first_td">螺岭小学</td>
-      <td align="center">2430</td>
-      <td align="center">66</td>
-      <td align="center">1568</td>
-      <td align="center">72</td>
-      <td align="center"><input name="checkbox" id="checkbox2" value="3" type="checkbox">
-      </td>
-    </tr>
-    <tr class="odd_tr">
-      <td align="center" class="first_td">福田实验小学</td>
-      <td align="center">934</td>
-      <td align="center">78</td>
-      <td align="center">723</td>
-      <td align="center">90</td>
-      <td align="center"><input name="checkbox" id="checkbox2" value="4" type="checkbox">
-      </td>
-    </tr>
-    <tr class="odd_tr">
-      <td align="center" class="first_td">新洲小学</td>
-      <td align="center">677</td>
-      <td align="center">56</td>
-      <td align="center">398</td>
-      <td align="center">68</td>
-      <td align="center"><input name="checkbox" id="checkbox2" value="5" type="checkbox">
-      </td>
-    </tr>
-  </tbody>
+    <foreach name="school_data" item="v" >
+      <tr class="odd_tr">
+            <td align="center" class="first_td">{$v.school_name}</td>
+            <td align="center">{$v.student_total}</td>
+            <td align="center"></td>
+            <td align="center">{$v.student_involve}</td>
+            <td align="center">{$v.student_average}</td>
+            <td align="center"><input type="checkbox" name="id[]" id="checkbox" value="{$v.id}">&nbsp;</td>
+        </tr>
+     </foreach>
 </table>
+
 </form>
 {$page}
 <br>

@@ -6,11 +6,8 @@ use Admin\Controller\BaseController;
 class StatisticController extends BaseController {
     public function index(){
 		if(has_all_rules('statistic_admin_view')){
-			//$user_id=session('user_id');
-			$master_school = M("master_school"); // 实例化User对象
-			$school = $master_school->select();
-			$this->assign('school',$school);
-			$this->display('statistic_list_admin');
+            $this->statistic_list_admin();
+            
 		}
 		
 		if(has_all_rules('statistic_teacher_view')){
@@ -21,5 +18,61 @@ class StatisticController extends BaseController {
 			$this->display('statistic_list_teacher');
 		}
 	}
+    
+    public function statistic_list_teacher()
+    {
+        $this->display();
+    }
+    
+    public function statistic_list_admin()
+    {
+        
+        $school = $this->get_school();
+        $study = $this->get_study_data();
+        
+        $sl = array();
+        foreach ($school as $s) {
+            $sl[$s['school_id']] = $s;
+        }
+        
+        foreach ($study as $s) {
+            if(array_key_exists($s['school_id'], $sl)){
+                $sl[$s['school_id']]['student_involve'] = $s['student_involve'];
+                $sl[$s['school_id']]['student_average'] = $s['student_average'];
+            }
+        }
+        
+        $this->school_data = $sl;
+        $this->display('statistic_list_admin');
+    }
+    
+    
+    private function get_school()
+    {
+        $sql = "
+            select s.id as school_id,s.name as school_name ,count(ccu.user_id) as student_total
+            from anbels_master_school s 
+            left join ( select c.school_id as school_id , cu.user_id as user_id  
+                        from anbels_master_class c , anbels_logic_class_user cu 
+                        where c.active = 0 and c.id = cu.class_id and cu.role = 'S') ccu
+            on s.id = ccu.school_id
+            group by s.id,s.name
+        ";
+        return M()->query($sql);
+    }
+        
+    
+    private function get_study_data()
+    {
+        $sql = "
+            select s.id as school_id , count(sl.user_id) as student_involve, 
+                   sum(sl.score)/count(sl.user_id) as student_average
+            from anbels_master_school s , anbels_logic_plan p ,anbels_logic_study_log sl
+            where s.active = 0 and p.active = 0 and sl.active = 0 and s.id = p.school_id and p.id = sl.plan_id
+            group by s.id
+        ";
+        return M()->query($sql);
+    }     
+        
 
 }
