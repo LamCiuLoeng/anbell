@@ -564,10 +564,11 @@ class AccountManagementController extends BaseController {
 	
 	public function export()
     {
-        /*$total = $this->get_all_account();
+       /* $total = $this->get_all_account();
 		$users = M()->query($total);
 		p($users);
 		//新建 
+		vendor("PHPExcel.PHPExcel");
 		$resultPHPExcel = new PHPExcel();
 		//设置参数 
 		
@@ -600,26 +601,50 @@ class AccountManagementController extends BaseController {
 		$xlsWriter->save( "./Public/Output" );*/
 		
 		
-$m['anbels_auth_user.system_no'] = 10000011;
-$m['anbels_auth_user.active'] = 0;
+		//$m['anbels_auth_user.system_no'] = 10000011;
+//		$m['anbels_auth_user.active'] = 0;
+//		
+//		
+//		$Model = M('AuthUser');
+//		
+//		$user=$Model
+//		->join('left join anbels_logic_class_user ON anbels_logic_class_user.user_id = anbels_auth_user.id')
+//		->join('left join anbels_master_class ON anbels_master_class.id = anbels_logic_class_user.class_id')
+//		->join('left join anbels_master_school ON anbels_master_school.id = anbels_master_class.school_id')
+//		->join('left join anbels_logic_plan ON anbels_logic_plan.school_id = anbels_master_school.id')
+//		
+//		->field('anbels_auth_user.id as id, anbels_auth_user.system_no as system_no, anbels_auth_user.name as name, anbels_auth_user.gender as gender,
+//				anbels_auth_user.last_login_time as last_login_time, anbels_master_school.id as school_id, anbels_master_class.grade as grade,
+//				anbels_master_class.id as class_id,anbels_logic_plan.id as plan_id
+//				')
+//		->where($m)
+//		->find();
+//		p($user);
 
-
-$Model = M('AuthUser');
-
-$user=$Model
-->join('left join anbels_logic_class_user ON anbels_logic_class_user.user_id = anbels_auth_user.id')
-->join('left join anbels_master_class ON anbels_master_class.id = anbels_logic_class_user.class_id')
-->join('left join anbels_master_school ON anbels_master_school.id = anbels_master_class.school_id')
-->join('left join anbels_logic_plan ON anbels_logic_plan.school_id = anbels_master_school.id')
-
-->field('anbels_auth_user.id as id, anbels_auth_user.system_no as system_no, anbels_auth_user.name as name, anbels_auth_user.gender as gender,
-		anbels_auth_user.last_login_time as last_login_time, anbels_master_school.id as school_id, anbels_master_class.grade as grade,
-		anbels_master_class.id as class_id,anbels_logic_plan.id as plan_id
-		')
-->where($m)
-->find();
-		p($user);
+      $xlsName  = "User";
+        $xlsCell  = array(
+            array('id','账号序列'),
+            array('system_no','登录账户'),
+            array('name','账户昵称'),
+			array('password','密码')
+        );
+        $xlsModel = M('auth_user');
+        $xlsData  = $xlsModel->Field('id,system_no,name,password')->select();
+		//p($xlsData);
+        
+		 //$this->redirect(exportExcel($xlsName,$xlsCell,$xlsData));
+		 
+		 Header("HTTP/1.1 303 See Other"); 
+			Header("Location:".exportExcel($xlsName,$xlsCell,$xlsData)); 
+			exit; //from www.w3sky.com 
+		//$url="http://www.jb51.net"; 
+//		echo "<!--<scrīpt LANGUAGE='Javascrīpt'>"; 
+//		echo "location.href=".$url; 
+//		echo "</scrīpt>-->"; 
+		//p(login_check('10000038','999'));
     }
     
-    
+ 
+ 
+       
 }
