@@ -64,6 +64,10 @@ class AccountManagementController extends BaseController {
     private function get_all_account()
     {
 		$search_info=I('get.');
+		foreach($search_info as $key=>$val){
+			$search_info[$key]=urldecode($val);
+		}
+		//P($search_info);
 		echo($search_info['school_id']);
 		if($search_info['school_id']!='') $school_condition="and t.school_id =".$search_info['school_id'];
 		if($search_info['location_code_sheng']!='') $sheng_condition="and t.sheng =".$search_info['location_code_sheng'];
