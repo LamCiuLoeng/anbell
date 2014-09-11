@@ -620,31 +620,31 @@ class AccountManagementController extends BaseController {
 //		->where($m)
 //		->find();
 //		p($user);
-
-      $xlsName  = "User";
+		$sql = $this->get_all_account();
+		$xlsData = M()->query($sql);
+        $xlsName  = "Account";
         $xlsCell  = array(
-            array('id','账号序列'),
+            array('role','用户类型'),
             array('system_no','登录账户'),
-            array('name','账户昵称'),
+            array('user_name','账户昵称'),
+			array('gender','性别'),
+			array('location_full_name','地区'),
+			array('school_name','学校'),
+			array('class_names','班级'),
 			array('password','密码')
         );
-        $xlsModel = M('auth_user');
-        $xlsData  = $xlsModel->Field('id,system_no,name,password')->select();
+        //$xlsModel = M('auth_user');
+        //$xlsData  = $xlsModel->Field('id,system_no,name,password')->select();
+		
+		foreach($xlsData as $key => $val){
+					$xlsData[$key][password]=show_password($val[password]);
+					//p($key);
+			};
 		//p($xlsData);
         
-		 //$this->redirect(exportExcel($xlsName,$xlsCell,$xlsData));
-		 
-		 Header("HTTP/1.1 303 See Other"); 
-			Header("Location:".exportExcel($xlsName,$xlsCell,$xlsData)); 
-			exit; //from www.w3sky.com 
-		//$url="http://www.jb51.net"; 
-//		echo "<!--<scrīpt LANGUAGE='Javascrīpt'>"; 
-//		echo "location.href=".$url; 
-//		echo "</scrīpt>-->"; 
-		//p(login_check('10000038','999'));
+		//$this->redirect(exportExcel($xlsName,$xlsCell,$xlsData));
+		Header("Location:".exportExcel($xlsName,$xlsCell,$xlsData)); 
+		exit; 
     }
-    
- 
- 
-       
+
 }
