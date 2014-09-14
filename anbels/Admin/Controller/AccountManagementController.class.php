@@ -64,6 +64,10 @@ class AccountManagementController extends BaseController {
     private function get_all_account()
     {
 		$search_info=I('get.');
+		foreach($search_info as $key=>$val){
+			$search_info[$key]=urldecode($val);
+		}
+		//P($search_info);
 		echo($search_info['school_id']);
 		if($search_info['school_id']!='') $school_condition="and t.school_id =".$search_info['school_id'];
 		if($search_info['location_code_sheng']!='') $sheng_condition="and t.sheng =".$search_info['location_code_sheng'];
@@ -564,10 +568,11 @@ class AccountManagementController extends BaseController {
 	
 	public function export()
     {
-        /*$total = $this->get_all_account();
+       /* $total = $this->get_all_account();
 		$users = M()->query($total);
 		p($users);
 		//新建 
+		vendor("PHPExcel.PHPExcel");
 		$resultPHPExcel = new PHPExcel();
 		//设置参数 
 		
@@ -600,26 +605,50 @@ class AccountManagementController extends BaseController {
 		$xlsWriter->save( "./Public/Output" );*/
 		
 		
-$m['anbels_auth_user.system_no'] = 10000011;
-$m['anbels_auth_user.active'] = 0;
-
-
-$Model = M('AuthUser');
-
-$user=$Model
-->join('left join anbels_logic_class_user ON anbels_logic_class_user.user_id = anbels_auth_user.id')
-->join('left join anbels_master_class ON anbels_master_class.id = anbels_logic_class_user.class_id')
-->join('left join anbels_master_school ON anbels_master_school.id = anbels_master_class.school_id')
-->join('left join anbels_logic_plan ON anbels_logic_plan.school_id = anbels_master_school.id')
-
-->field('anbels_auth_user.id as id, anbels_auth_user.system_no as system_no, anbels_auth_user.name as name, anbels_auth_user.gender as gender,
-		anbels_auth_user.last_login_time as last_login_time, anbels_master_school.id as school_id, anbels_master_class.grade as grade,
-		anbels_master_class.id as class_id,anbels_logic_plan.id as plan_id
-		')
-->where($m)
-->find();
-		p($user);
+		//$m['anbels_auth_user.system_no'] = 10000011;
+//		$m['anbels_auth_user.active'] = 0;
+//		
+//		
+//		$Model = M('AuthUser');
+//		
+//		$user=$Model
+//		->join('left join anbels_logic_class_user ON anbels_logic_class_user.user_id = anbels_auth_user.id')
+//		->join('left join anbels_master_class ON anbels_master_class.id = anbels_logic_class_user.class_id')
+//		->join('left join anbels_master_school ON anbels_master_school.id = anbels_master_class.school_id')
+//		->join('left join anbels_logic_plan ON anbels_logic_plan.school_id = anbels_master_school.id')
+//		
+//		->field('anbels_auth_user.id as id, anbels_auth_user.system_no as system_no, anbels_auth_user.name as name, anbels_auth_user.gender as gender,
+//				anbels_auth_user.last_login_time as last_login_time, anbels_master_school.id as school_id, anbels_master_class.grade as grade,
+//				anbels_master_class.id as class_id,anbels_logic_plan.id as plan_id
+//				')
+//		->where($m)
+//		->find();
+//		p($user);
+		$sql = $this->get_all_account();
+		$xlsData = M()->query($sql);
+        $xlsName  = "Account";
+        $xlsCell  = array(
+            array('role','用户类型'),
+            array('system_no','登录账户'),
+            array('user_name','账户昵称'),
+			array('gender','性别'),
+			array('location_full_name','地区'),
+			array('school_name','学校'),
+			array('class_names','班级'),
+			array('password','密码')
+        );
+        //$xlsModel = M('auth_user');
+        //$xlsData  = $xlsModel->Field('id,system_no,name,password')->select();
+		
+		foreach($xlsData as $key => $val){
+					$xlsData[$key][password]=show_password($val[password]);
+					//p($key);
+			};
+		//p($xlsData);
+        
+		//$this->redirect(exportExcel($xlsName,$xlsCell,$xlsData));
+		Header("Location:".exportExcel($xlsName,$xlsCell,$xlsData)); 
+		exit; 
     }
-    
-    
+
 }
