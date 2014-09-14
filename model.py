@@ -236,6 +236,7 @@ class StudyLog( DeclarativeBase, SysMixin ):
 
     user_id = Column( Integer, ForeignKey( 'anbels_auth_user.id' ) )
     user = relation( User )
+    user_type = Column( Unicode( 10 ),default="S")  #S is student, T is teacher
     type = Column( Unicode( 5 ), )  # G is game , C is courseware P is course
     refer_id = Column( Integer )
     refer_name = Column( Unicode( 1000 ) )

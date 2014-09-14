@@ -360,17 +360,8 @@ class V1Controller extends Controller {
 	// +----------------------------------------------------------------------
 	// | 记录用户课件或者游戏相关的数据
 	// +----------------------------------------------------------------------
-	private function save_user_data(){
-		$params = $this->_required('user_id','data_type','begin_or_end','obj_id','school_id','grade','class_id','plan_id');
-		if(!$params['flag']){
-			$this->ajaxReturn(array('flag' => FLAG_NOT_ALL_REQUIRED ,'msg' => MSG_NOT_ALL_REQUIRED));
-        }
-        
-        if($params['data']['begin_or_end'] != 'BEGIN' && $params['data']['begin_or_end'] != 'END'){
-            $this->ajaxReturn(array('flag' => FLAG_NO_ACTION_TYPE ,'msg' => MSG_NO_ACTION_TYPE));
-        }
-
-        if($params['data']['data_type'] == 'C' || $params['data']['data_type'] == 'G' || $params['data']['data_type'] == 'P'){
+	private function _save_student_data($params){
+		if($params['data']['data_type'] == 'C' || $params['data']['data_type'] == 'G' || $params['data']['data_type'] == 'P'){
             $type = $params['data']['data_type'];
             $condition = array('active' => 0 , 'user_id' => $params['data']['user_id'] , 
                                 'type' => $type , 'refer_id' => $params['data']['obj_id'] ,
@@ -431,6 +422,80 @@ class V1Controller extends Controller {
             $this->ajaxReturn(array('flag' => FLAG_NO_ACTION_TYPE ,'msg' => MSG_NO_ACTION_TYPE)); 
         }
 	}
+
+	private function _save_teacher_data($params){
+		if($params['data']['data_type'] == 'C'){ // teacher could only open a course
+            $type = $params['data']['data_type'];
+            // to be update here 
+            $condition = array('active' => 0 , 'user_type' => 'T',
+                                'type' => $type , 'refer_id' => $params['data']['obj_id'] ,
+                                );
+            $LogicStudyLog = M('LogicStudyLog');
+            $before = $LogicStudyLog->where($condition)->find();
+            
+            if($params['data']['begin_or_end'] == 'BEGIN'){
+
+                if(!$before || is_null($before)){ //no play the game before
+                    $dto = mydto();
+                    $dto['user_id'] = $params['data']['user_id'];
+                    $dto['refer_id'] = $params['data']['obj_id'];
+					$dto['school_id'] = $params['data']['school_id'];
+					$dto['grade'] = $params['data']['grade'];
+					$dto['class_id'] = $params['data']['class_id'];
+					$dto['plan_id'] = $params['data']['plan_id'];	
+                    $dto['type'] = $type;
+                    $dto['user_type'] = 'T';
+                    $dto['start_time'] = mynow();
+
+                    $Q = M('MasterCourse');
+                    $q = $Q->where(array('id'=>intval($params['data']['obj_id'])))->find();
+                    if($q){
+                        $dto['refer_name'] = $q['name'];
+                    }
+
+                    $LogicStudyLog->data($dto)->add();
+                }else{
+                    $update['start_time'] = mynow();
+                    $update['complete_time'] = null;
+                    $LogicStudyLog->where($condition)->data($update)->save();
+                }
+                $this->ajaxReturn(array('flag' => FLAG_OK ,'msg' => MSG_OK));
+            }else{
+                if($before){ //get the record before
+                    $update['complete_time'] = mynow();
+                    $LogicStudyLog->where($condition)->data($update)->save();                            
+                }
+            }
+            $this->ajaxReturn(array('flag' => FLAG_OK ,'msg' => MSG_OK));
+        }else{
+            $this->ajaxReturn(array('flag' => FLAG_NO_ACTION_TYPE ,'msg' => MSG_NO_ACTION_TYPE)); 
+        }
+	}
+
+
+	private function save_user_data(){
+		$params = $this->_required('user_id','data_type','begin_or_end','obj_id','school_id','grade','class_id','plan_id');
+		if(!$params['flag']){
+			$this->ajaxReturn(array('flag' => FLAG_NOT_ALL_REQUIRED ,'msg' => MSG_NOT_ALL_REQUIRED));
+        }
+        
+        if($params['data']['begin_or_end'] != 'BEGIN' && $params['data']['begin_or_end'] != 'END'){
+            $this->ajaxReturn(array('flag' => FLAG_NO_ACTION_TYPE ,'msg' => MSG_NO_ACTION_TYPE));
+        }
+
+
+        if( in_any_groups("STUDENT",$params['data']['user_id']) ){
+        	$this->_save_student_data($params);
+        }elseif ( in_any_groups("TEACHER",$params['data']['user_id']) ) {
+        	$this->_save_teacher_data($params);
+        }else{
+        	$this->ajaxReturn(array('flag' => FLAG_NOT_ALLOW ,'msg' => MSG_NOT_ALLOW));
+        }
+
+	}
+
+
+        
 
 	
 	// +----------------------------------------------------------------------
