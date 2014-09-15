@@ -118,7 +118,8 @@
                                 <tr>
                                     <foreach name="uclzs" item="uclz">
                                         <td>
-                                            <a href="{:U('Plan/openflash')}?id={$cid}&cid={$uclz['id']}" target="_blank">{$c['name']}</a><br />包含以下课件：
+
+                                            <a href="{:U('Plan/openflash',array('id' => $cid, 'cid' => $uclz['id']) )}" target="_blank">{$c['name']}</a><br />包含以下课件：
                                             <ul>
                                                 <?php
                                                     foreach($c['courseware'] as $crw){

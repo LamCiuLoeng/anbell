@@ -235,14 +235,15 @@ class V1Controller extends Controller {
                               crw.id as courseware_id, 
                               crw.name as courseware_name,
                               crw.url as courseware_url
-                       FROM anbels_logic_plan p, anbels_logic_plan_course pcr ,anbels_master_course cr,anbels_master_courseware crw
+                       FROM anbels_logic_plan p, anbels_logic_plan_course pcr ,anbels_master_course cr,anbels_master_courseware crw,
+                       		anbels_master_class c, anbels_logic_class_user cu
                        WHERE 
                             cr.active = 0 and crw.active = 0 and p.active = 0 and pcr.active = 0 and
-                            
                             p.id = pcr.plan_id and
                             pcr.course_id = cr.id and
                             crw.course_id = cr.id and
-                            p.school_id ='.$school['id']);        
+                            c.id = cu.class_id and c.school_id = p.school_id and c.grade = pcr.grade and 
+                            p.school_id ='.$school['id'].' and cu.user_id = '.$params['data']['user_id']);        
         $result = array();
         foreach ($rows as $row) {
             if(array_key_exists($row['course_id'], $result)){

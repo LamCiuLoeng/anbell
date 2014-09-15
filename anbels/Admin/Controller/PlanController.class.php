@@ -156,9 +156,23 @@ class PlanController extends BaseController {
 		if(!$id || is_null($id)){
 			$this->error("没有提供ID!");
 		}
-		$this->id = $id;
-		$this->display();
-	}
+
+        $cid = I('cid',null);
+        if(!$cid || is_null($cid)){
+            $this->error("没有提供班级的ID!");   
+        }
+        $school = getUserSchool(session('user_id'));
+        $plan = M("LogicPlan")->where(array('active' => 0 ,'school_id' => $school['id']))->find();
+        $clz = M('MasterClass')->where(array('id' => $cid))->find();
+
+        $this->school_id = $school['id'];
+        $this->plan_id = $plan['id'];
+        $this->class_id = $clz['id'];
+        $this->grade = $clz['grade'];
+        $this->id = $id;
+        $this->display();
+    }
+
     
     public function edit()
     {
