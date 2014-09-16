@@ -425,7 +425,7 @@ class V1Controller extends Controller {
 	}
 
 	private function _save_teacher_data($params){
-		if($params['data']['data_type'] == 'C'){ // teacher could only open a course
+		if($params['data']['data_type'] == 'P'){ // teacher could only open a course
             $type = $params['data']['data_type'];
             // to be update here 
             $condition = array('active' => 0 , 'user_type' => 'T',
