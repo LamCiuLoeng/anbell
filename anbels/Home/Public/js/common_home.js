@@ -16,6 +16,18 @@ $(document).ready(function(){
 		); 
 	}
 	
+	function switch_background(current_img,replace_img) 
+	{
+		$("img[src='"+folder_path+current_img+"']").hover(
+		  function () {
+			$(this).attr("src",folder_path+replace_img); 
+		  },
+		  function () {
+			$(this).attr("src",folder_path+current_img); 
+		  }
+		); 
+	}
+	
 	switch_image('home_06.jpg','home_06_h.jpg');
 	switch_image('home_07.jpg','home_07_h.jpg');
 	switch_image('home_08.jpg','home_08_h.jpg');

@@ -54,6 +54,25 @@ a.news_link:active{
 	text-decoration: underline;
 }
 
+a.class_menu:link{
+	font-size:12px;
+	font-weight:bold;
+	color: #0d5ed6;
+	text-decoration: none;
+}
+a.class_menu:visited{
+	color:#0d5ed6;
+	text-decoration: none;
+}
+a.class_menu:hover{
+	color:#aa8400;
+	text-decoration: none;
+}
+a.class_menu:active{
+	color:#aa8400;
+	text-decoration: none;
+}
+
 ul,li,dd,dt,dl {
 	margin:0; 
 	padding:0; 
