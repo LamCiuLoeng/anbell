@@ -129,7 +129,7 @@ class WebsiteController extends BaseController {
 		if($info) {
 		
 			// 上传成功             
-			$path =  '/public/'.$info['savepath'].$info['savename']; 
+			$path =  '/Public/'.$info['savepath'].$info['savename']; 
 			$data['img_path'] = $path;                        
 		}else{
 			if($upload->getError() != '没有文件被上传！'){
@@ -196,7 +196,7 @@ class WebsiteController extends BaseController {
 		if($info) {
 		
 			// 上传成功             
-			$path =  '/public/'.$info['savepath'].$info['savename'];   
+			$path =  '/Public/'.$info['savepath'].$info['savename'];   
 			$data['img_path'] = $path;  
 			
 			                
@@ -308,7 +308,7 @@ class WebsiteController extends BaseController {
 		if($info) {
 		
 			// 上传成功             
-			$path =  '/public/'.$info['savepath'].$info['savename'];  
+			$path =  '/Public/'.$info['savepath'].$info['savename'];  
 			$data['img_path'] = $path;                      
 		}else{
 			if($upload->getError() != '没有文件被上传！'){
