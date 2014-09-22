@@ -63,68 +63,27 @@
           <li style="width: 105px; height: 19px; background: url(/anbels/Home/Public/images/safe_resource_08.jpg); padding: 10px 5px 5px 50px; margin: 0px 0px 0px 10px; text-align: left;"><a href="{:U('grade_category_page')}?grade=初二" class="class_menu">初二</a></li>
           <li style="width: 105px; height: 19px; background: url(/anbels/Home/Public/images/safe_resource_08.jpg); padding: 10px 5px 5px 50px; margin: 0px 0px 0px 10px; text-align: left;"><a href="{:U('grade_category_page')}?grade=初三" class="class_menu">初三</a></li>
         </ul>
-      </div>
-      </td>
+      </div></td>
       <td width="20">&nbsp;</td>
       <td valign="top">
       <div class="sub_content">
-      <p class="title">·安全资源中心</p>
+      <p class="title">·{$grade_category}</p>
       <hr style="border:#ffde06 3px solid">
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td class="saferesource_s_title">热门知识</td>
-  </tr>
-  <tr>
-    <td class="saferesource_s_title" style="color:#ffde06">---------------------------------------------------------------------------------------</td>
-  </tr>
-  <tr>
-    <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tr>
-      <foreach name="web_safe_resource" item="v" >
-        <td width="33%" align="center"><a href="{:U('saferesource_page')}?id={$v.id}"><img src="{$v.img_path}" width="214" alt=""/></a></td>
+        <tr>
+          <td align="center">&nbsp;</td>
+        </tr>
+        <tr>
+          <foreach name="web_safe_resource" item="v" >
+            <td width="33%" align="center"><a href="{:U('saferesource_page')}?id={$v.id}"><img src="{$v.img_path}" width="214" alt=""/></a></td>
+          </foreach>
+        </tr>
+      </table>
+      <br>
+      <br>
+      <foreach name="all_data" item="d" >
+        <p>&nbsp;&nbsp;&nbsp;<a href="{:U('saferesource_page')}?id={$d.id}" class="news_link">{$d.title}&nbsp;&nbsp;&nbsp;{$d.date_time}</a></p>
       </foreach>
-
-      </tr>
-    </table></td>
-  </tr>
-</table>
-      <br>
-      <br>
-      
-      <foreach name="all_data" item="v" >
-          <table width="100%" border="0" cellspacing="0" cellpadding="0">
-            <tr>
-              <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                  <td class="saferesource_s_title">{$v.name}</td>
-                  <td width="100"><a href="{:U('knowledge_category_page')}?id={$v.id}"><img src="/anbels/Home/Public/images/safe_resource_13.jpg" width="46" height="20" alt=""/></a></td>
-                </tr>
-              </table></td>
-            </tr>
-            <tr>
-              <td class="saferesource_s_title" style="color:#ffde06">---------------------------------------------------------------------------------------</td>
-            </tr>
-            <tr>
-              <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                  
-                    <td width="280" align="center"><img src="{$v.img_path}" width="264" alt=""/></td>
-                    <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                        <foreach name="v.data_info" item="d" >
-                          <tr>
-                            <td height="30"><a href="{:U('saferesource_page')}?id={$d.id}" class="news_link"><php>echo getstr($d['title'],38);
-</php>...</a></td>
-                          </tr>
-                        </foreach> 
-                    </table></td>
-                  
-                </tr>
-              </table></td>
-            </tr>
-        </table>
-        <br>
-		<br>
-	</foreach>
       </div>
       </td>
       <td width="50">&nbsp;</td>

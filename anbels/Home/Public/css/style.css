@@ -132,5 +132,10 @@ body {
 	border-radius: 15px 15px; 
 	padding:30px 20px; 
 	border:#0042a3 3px solid;
-}.main_content table tr td .sub_content php {
+}
+.saferesource_s_title{
+	font-size:14px;
+	font-weight:bold;
+	color: #0d5ed6;
+	text-decoration: none;
 }

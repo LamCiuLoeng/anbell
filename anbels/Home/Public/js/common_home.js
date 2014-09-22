@@ -34,6 +34,8 @@ $(document).ready(function(){
 	switch_image('home_09.jpg','home_09_h.jpg');
 	switch_image('home_10.jpg','home_10_h.jpg');
 	switch_image('home_11.jpg','home_11_h.jpg');
+	
+	switch_image('safe_resource_13.jpg','safe_resource_13_h.jpg');
 
 	
 	$("img[src='/anbels/Home/Public/images/guanyuanbeier_06.jpg']").hover(
