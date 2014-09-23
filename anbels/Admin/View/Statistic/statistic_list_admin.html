@@ -5,25 +5,7 @@
 <block name="extJS">
 <script type="text/javascript" language="JavaScript">
     //<![CDATA[
-        function toEdit(){
-            var c = $("[name='id[]']:checked");
-            if(c.length != 1){
-                alert("请选择一条记录进行修改！");
-            }else(
-                window.location.href = "/index.php/Admin/master/course_edit" + '?id=' + c.val()
-            )
-        }
         
-        function toDel(){
-            var c = $("[name='id[]']:checked");
-            if(c.length < 1){
-                alert("请选择一条或多条记录进行删除！");
-            }else{
-                if(confirm("你确定要删除选中的课程吗？")){
-                    $('form').submit();
-                }
-            }
-        }
     //]]>
 </script>
 </block>
@@ -49,7 +31,6 @@
 <div class="show_content_b">
 <br>
 <p style="text-align:center"><strong>数据统计</strong></p>
-<form action="{:U('master/course_list_delete_handle')}" id="form1" name="form1" method="post">
 <table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
     <thead>
         <tr>
@@ -72,8 +53,6 @@
         </tr>
      </foreach>
 </table>
-
-</form>
 {$page}
 <br>
   <br>

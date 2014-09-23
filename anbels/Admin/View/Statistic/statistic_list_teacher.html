@@ -5,25 +5,46 @@
 <block name="extJS">
 <script type="text/javascript" language="JavaScript">
     //<![CDATA[
-        function toEdit(){
-            var c = $("[name='id[]']:checked");
-            if(c.length != 1){
-                alert("请选择一条记录进行修改！");
-            }else(
-                window.location.href = "/index.php/Admin/master/course_edit" + '?id=' + c.val()
-            )
+        function toGetCourse(){
+          var class_id = $("#class_id").val();
+
+          if(!class_id){
+            var html = '<option value=""></option>';
+            $("#course_id").html(html);
+          }else{
+            var params = {
+              "class_id" : class_id,
+              "t" : $.now()
+            };
+            var url = "{:U('Statistic/ajaxGetCourse')}";
+            $.getJSON(url,params,function(r){
+              var html = '<option value=""></option>';  
+              if(r.flag != 0 ){
+                  $("#course_id").html();
+                  alert(r.msg);
+              }else{
+                  for(var i=0;i<r.data.length;i++){
+                    html += '<option value="'+ r.data[i]['id'] + '">' + r.data[i]['name'] + '</option>';
+                  }
+              }
+              $("#course_id").html(html);
+            });
+
+          }
         }
-        
-        function toDel(){
-            var c = $("[name='id[]']:checked");
-            if(c.length < 1){
-                alert("请选择一条或多条记录进行删除！");
-            }else{
-                if(confirm("你确定要删除选中的课程吗？")){
-                    $('form').submit();
-                }
-            }
+
+
+        function toSubmit(){
+          var class_id = $("#class_id").val();
+          var course_id = $("#course_id").val();
+
+          if(!class_id || !course_id){
+            alert("请选择班级以及课程！");
+          }else{
+            $("#srhfrm").submit();
+          }
         }
+          
     //]]>
 </script>
 </block>
@@ -36,42 +57,39 @@
 </div>
 <div style="clear:both"></div>
 </block>
-<block name="searchbar">
-<div class="search_bar_b">
-<label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
-<input type="text">
-</div>
-</block>
-<block name="pathline">
-<div class="div_path_content">数据统计</div>
-</block>
+
 <block name="content">
 <div class="show_content_b">
 <br>
 <p style="text-align:center"><strong>数据统计</strong></p>
-<form action="{:U('master/course_list_delete_handle')}" id="form1" name="form1" method="post">
-<!--<table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
-    <thead>
-        <tr>
-            <td align="center" class="first_td">年级班级</td>
-            <td align="center">学生账号</td>
-            <td align="center">学生姓名</td>
-            <td align="center">测试次数</td>
-            <td align="center">测试最高得分</td>
-            <td align="center">&nbsp;</td>
-        </tr>
-    </thead>
-    <foreach name="school" item="v" >
-      <tr class="odd_tr">
-            <td align="center" class="first_td">{$v.name}</td>
-            <td align="center">10000002</td>
-            <td align="center">学生甲</td>
-            <td align="center">50</td>
-            <td align="center">3500</td>
-            <td align="center"><input type="checkbox" name="id[]" id="checkbox" value="{$v.id}">&nbsp;</td>
-        </tr>
-     </foreach>
-</table>-->
+<form action="{:U('Statistic/Index')}" id="srhfrm" method="POST">
+  <p>
+  班级&nbsp;:&nbsp;
+  <select name="class_id" id="class_id" onchange="toGetCourse()">
+    <option value=""></option>
+    <foreach name="classes" item="c" >
+      <if condition="$c['id'] eq $class_id ">
+        <option value="{$c['id']}" selected="selected">{$c['name']}</option>
+      <else />
+        <option value="{$c['id']}">{$c['name']}</option>
+      </if>
+    </foreach>
+  </select>
+  &nbsp;&nbsp;课程&nbsp;:&nbsp;
+  <select name="course_id" id="course_id">
+    <option value=""></option>
+    <foreach name="courses" item="c" >
+      <if condition="$c['id'] eq $course_id ">
+        <option value="{$c['id']}" selected="selected">{$c['name']}</option>
+      <else />
+        <option value="{$c['id']}">{$c['name']}</option>
+      </if>
+    </foreach>
+
+  </select>
+  &nbsp;&nbsp;<input type="button" value="搜索" onclick="toSubmit()">
+  </p>
+</form>
 <table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
   <thead>
     <tr>
@@ -84,51 +102,17 @@
     </tr>
   </thead>
   <tbody>
-    <tr class="odd_tr">
-      <td align="center" class="first_td">三年级一班</td>
-      <td align="center">10000008</td>
-      <td align="center">张清</td>
-      <td align="center">2</td>
-      <td align="center">58</td>
-      <td align="center"><input name="checkbox" id="checkbox2" value="1" type="checkbox"></td>
-    </tr>
-    <tr class="odd_tr">
-      <td align="center" class="first_td">三年级一班</td>
-      <td align="center">10000009</td>
-      <td align="center">陈秋梅</td>
-      <td align="center">5</td>
-      <td align="center">60</td>
-      <td align="center"><input name="checkbox" id="checkbox2" value="2" type="checkbox"></td>
-    </tr >
-    <tr class="odd_tr">
-      <td align="center" class="first_td">三年级一班</td>
-      <td align="center">10000010</td>
-      <td align="center">李好</td>
-      <td align="center">13</td>
-      <td align="center">95</td>
-      <td align="center"><input name="checkbox" id="checkbox2" value="3" type="checkbox"></td>
-    </tr>
-    <tr class="odd_tr">
-      <td align="center" class="first_td">三年级一班</td>
-      <td align="center">10000011</td>
-      <td align="center">吴世荣</td>
-      <td align="center">0</td>
-      <td align="center">0</td>
-      <td align="center"><input name="checkbox" id="checkbox2" value="4" type="checkbox"></td>
-    </tr>
-    <tr class="odd_tr">
-      <td align="center" class="first_td">三年级一班</td>
-      <td align="center">10000012</td>
-      <td align="center">李全贵</td>
-      <td align="center">1</td>
-      <td align="center">37</td>
-      <td align="center"><input name="checkbox" id="checkbox2" value="5" type="checkbox"></td>
-    </tr>
+    <foreach name="result" item="v" >
+      <tr class="odd_tr">
+        <td align="center" class="first_td">{$v['class_name']}</td>
+        <td align="center">{$v['system_no']}</td>
+        <td align="center">{$v['user_name']}</td>
+        <td align="center">{$v['times']}</td>
+        <td align="center">{$v['score']}</td>
+        <td align="center"><input name="id[]" value="{$v['user_id']}" type="checkbox"></td>
+      </tr>
+    </foreach>
   </tbody>
 </table>
-</form>
-{$page}
-<br>
-  <br>
 </div>
 </block>

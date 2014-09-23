@@ -244,6 +244,7 @@ class StudyLog( DeclarativeBase, SysMixin ):
     complete_time = Column( DateTime )
     score = Column( Float )
     remark = Column( Text )
+    times = Column(Integer,default=1)
 
 
 #===============================================================================

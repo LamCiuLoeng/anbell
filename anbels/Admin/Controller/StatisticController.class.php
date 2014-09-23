@@ -11,17 +11,58 @@ class StatisticController extends BaseController {
 		}
 		
 		if(has_all_rules('statistic_teacher_view')){
-			$user_id=session('user_id');
-			$master_school = M("master_school"); // 实例化User对象
-			$school = $master_school->select();
-			$this->assign('school',$school);
-			$this->display('statistic_list_teacher');
+			// $user_id=session('user_id');
+			// $master_school = M("master_school"); // 实例化User对象
+			// $school = $master_school->select();
+			// $this->assign('school',$school);
+			// $this->display('statistic_list_teacher');
+			$this->statistic_list_teacher();
 		}
 	}
     
     public function statistic_list_teacher()
     {
-        $this->display();
+    	$this->classes = M()->query("
+				select c.*
+				from anbels_logic_class_user cu, anbels_master_class c
+				where c.active = 0 and cu.class_id = c.id and cu.role = 'T' and cu.user_id = 
+    	".session("user_id")." order by c.grade, c.name");
+
+    	$class_id = I("class_id",null);
+    	$course_id = I("course_id",null);
+    	if(!$class_id || !$course_id){
+    		// $this->error("没有提供班级ID或者课程ID！");
+    		$this->display("statistic_list_teacher");
+    	}
+
+    	$this->class_id = $class_id;
+    	$this->course_id = $course_id;
+
+		if($course_id){
+			$this->courses = $this->get_course_by_class($class_id);
+		}else{
+			$this->courses = array();
+		} 	
+
+		if($class_id && $course_id){
+	    	$sql = "
+				select t1.* ,t2.score ,t2.times
+				from 
+				(SELECT u.id as user_id, u.`name` as user_name ,u.system_no as system_no ,c.`name` as class_name
+				from anbels_logic_class_user cu , anbels_master_class c ,anbels_auth_user u
+				where cu.user_id = u.id and  cu.role = 'S' and cu.class_id = c.id and cu.class_id = ".$class_id." ) t1
+				left join 
+				(select sl.user_id as user_id, sl.score as score ,sl.times as times
+				from anbels_logic_study_log sl 
+				where sl.active = 0 and sl.user_type = 'S' and sl.type = 'P' and sl.class_id = ".$class_id." and sl.refer_id = ".$course_id."
+				) t2 on  t1.user_id = t2.user_id
+	    	";    	
+	    	$this->result = M()->query($sql);
+		}else{
+
+			
+		}
+        $this->display("statistic_list_teacher");
     }
     
     public function statistic_list_admin()
@@ -141,5 +182,28 @@ class StatisticController extends BaseController {
         }
         return $sb;
     }   
+
+
+    private function get_course_by_class($class_id){
+    	$clz = M("MasterClass")->where(array('active' => 0 ,'id' => intval($class_id)))->find();
+    	return M()->query("
+			select cr.* 
+			from anbels_logic_plan p, anbels_logic_plan_course pc ,anbels_master_course cr 
+			where p.active = 0 and cr.active = 0 and 
+				  cr.id = pc.course_id and p.id = pc.plan_id and pc.grade = 
+    	".$clz['grade']." and p.school_id = ".$clz['school_id']." order by  cr.name ");
+    }
+
+
+    public function ajaxGetCourse(){
+    	$class_id = I("class_id",null);
+    	$courses = $this->get_course_by_class($class_id);
+
+    	if($courses){
+    		$this->ajaxReturn(array('flag' => 0 ,'data' => $courses));
+    	}else{
+    		$this->ajaxReturn(array('flag' => 1 , 'msg' => '没有该班级的课程！'));
+    	}
+    }
 
 }
