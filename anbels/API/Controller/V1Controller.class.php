@@ -415,6 +415,7 @@ class V1Controller extends Controller {
                             $update['score'] = $s;
                         }
                     }
+                    $update['times'] = $before['times'] + 1;
                     $LogicStudyLog->where($condition)->data($update)->save();                            
                 }
             }
