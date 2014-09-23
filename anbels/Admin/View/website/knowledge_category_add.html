@@ -1,0 +1,102 @@
+<extend name="Public:base" />
+<block name="extCSS">
+    <link href="/Public/css/style.css" rel="stylesheet" type="text/css">
+    
+    <link type="text/css" href="/Public/css/jquery-ui-1.8.17.custom.css" rel="stylesheet" />
+	<link type="text/css" href="/Public/css/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+</block>
+<block name="extJS">
+	
+    <script type="text/javascript" src="/Public/js/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="/Public/js/jquery-ui-1.10.4.custom.min.js"></script>
+	<script type="text/javascript" src="/Public/js/jquery-ui-timepicker-addon.js"></script>
+    <script type="text/javascript" src="/Public/js/jquery-ui-timepicker-zh-CN.js"></script>
+    <script type="text/javascript">
+    $(function () {
+		var now=new Date();
+		var year=now.getFullYear();
+		var month=now.getMonth();
+		var day=now.getDate();
+		var hours=now.getHours();
+		var minutes=now.getMinutes();
+		var seconds=now.getSeconds(); 
+		var now=year+'-'+(month+1)+'-'+day+' '+hours+':'+minutes+':'+seconds;
+		$("#ui_timepicker").val(now);
+        $("#ui_timepicker").datetimepicker({
+            //showOn: "button",
+            //buttonImage: "./css/images/icon_calendar.gif",
+            //buttonImageOnly: true,
+            showSecond: true,
+            timeFormat: 'hh:mm:ss',
+            stepHour: 1,
+            stepMinute: 1,
+            stepSecond: 1
+        })
+    })
+    </script>
+    
+    
+    <script charset="utf-8" src="/Public/kindeditor-4.1.10/kindeditor.js"></script>
+	<script charset="utf-8" src="/Public/kindeditor-4.1.10/lang/zh_CN.js"></script>
+	<script charset="utf-8" src="/Public/kindeditor-4.1.10/plugins/code/prettify.js"></script>
+	<script>
+	$(function(){
+		$('#news_send_btn').click(function(){	
+			var name=$("input[name='name']");
+			if(name.val()==''){
+				alert('类型名称不能为空！');
+				name.focus();
+				return;
+			}
+			var desc=$("input[name='desc']");
+			if(desc.val()==''){
+				alert('说明不能为空！');
+				content.focus();
+				return;
+			}
+			$('#form1').submit();
+		});
+	});
+	
+	</script>
+</block>
+<block name="pathline">
+<div class="div_path_content">系统设置 -> <a href="{:U('knowledge_category_list')}">知识分类管理</a> -> 知识分类添加</div>
+</block>
+<block name="content">
+<div class="show_content_b"><br>
+<p style="text-align:center"><strong>知识分类添加</strong></p>
+<form action="{:U('knowledge_category_add_handle')}" id="form1" name="form1" method="post" enctype="multipart/form-data">
+<table width="650" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+      <td width="130" height="50" align="right">配图：</td>
+      <td width="20">&nbsp;</td>
+      <td><input type="file" name="pic" id="fileField">
+        支持（jpg,&nbsp;jpge,&nbsp;png,&nbsp;gif）,&nbsp;大小不超过5M</td>
+    </tr>
+    <tr>
+      <td height="50" align="right">类型名称：</td>
+      <td>&nbsp;</td>
+      <td>
+        <input name="name" type="text" id="textfield" size="50">&nbsp;*
+        </td>
+    </tr>
+    <tr>
+      <td height="50" align="right">说明：</td>
+      <td>&nbsp;</td>
+      <td><input name="desc" type="text" id="textfield2" size="50">
+        &nbsp;* </td>
+    </tr>
+    <tr>
+      <td height="50" align="right">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>
+        <span class="send_btn" id="news_send_btn">添加</span>
+        <span class="send_btn" id="reset_btn">重置</span> 
+        </td>
+    </tr>
+</table>
+</form>
+
+</div>
+</block>
