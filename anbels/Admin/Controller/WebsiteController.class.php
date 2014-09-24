@@ -334,6 +334,22 @@ class WebsiteController extends BaseController {
 
 	}
 	
+	public function safe_resource_edit()
+	{
+		$id = I('id',null);
+        if(!$id || is_null($id)){
+            $this->error("没有提供ID！");
+        }
+        $map['active']=0;
+		$map['id']=intval($id);
+        $web_knowledge_category=M('web_knowledge_category')->where($map)->find();
+        if(!$web_knowledge_category || is_null($web_knowledge_category)){
+            $this->error("该记录不存在！");
+        }
+		$this->assign('web_knowledge_category',$web_knowledge_category);
+		$this->display();
+	}
+	
 	public function safe_resource_delete_handle()
     {
 		$ids = I("id",null);

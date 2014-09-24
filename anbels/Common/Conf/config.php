@@ -14,7 +14,7 @@ return array(
 	 
      'TMPL_TEMPLATE_SUFFIX' => '.html',
 	 'URL_HTML_SUFFIX' => '',
-	 'URL_MODEL'=> 1 ,
+	 'URL_MODEL'=> 2 ,
 	 
 	 //默认错误跳转对应的模板文件
 	 'TMPL_ACTION_ERROR' => 'Public:error',
