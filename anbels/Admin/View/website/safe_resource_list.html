@@ -10,7 +10,7 @@
             if(c.length != 1){
                 alert("请选择一条记录进行修改！");
             }else(
-                window.location.href = "{:U('news_edit')}" + '?id=' + c.val()
+                window.location.href = "{:U('safe_resource_edit',I('get.'))}" + '?id=' + c.val()
             )
         }
         
@@ -35,7 +35,7 @@
     	<li><a href="{:U('safe_resource_add')}"><img src="/Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
       </if>
       <if condition="has_all_rules('school_edit')">
-        <li><a href="#"><img src="/Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
+        <li><a href="#" onClick="toEdit()"><img src="/Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
       </if>
       <if condition="has_all_rules('school_del')">
         <li><a href="#" onClick="toDel()"><img src="/Public/images/master_30.jpg" width="68" height="28" alt=""/></a></li>

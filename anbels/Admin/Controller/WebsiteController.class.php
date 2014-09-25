@@ -217,7 +217,7 @@ class WebsiteController extends BaseController {
 		} 
 		else 
 		{
-			$this->error('知识分修改失败，请重试...');	
+			$this->error('知识分类修改失败，请重试...');	
 		}
 
 	}
@@ -246,6 +246,8 @@ class WebsiteController extends BaseController {
 	
 	public function safe_resource_list()
 	{
+		//p(I('get.p'));
+		//die;
 		if(!isset($_GET['p']))
 			{
 				$_GET['p'] = 1;
@@ -257,7 +259,7 @@ class WebsiteController extends BaseController {
 				anbels_web_safe_resource.img_path as img_path,anbels_web_safe_resource.id as id,
 				anbels_web_knowledge_category.name as knowledge_category')
 		->where($map)
-		->page($_GET['p'].',4')
+		->page($_GET['p'].',6')
 		->select();
 		$this->assign('web_safe_resource',$web_safe_resource);// 赋值数据集
 		
@@ -265,7 +267,7 @@ class WebsiteController extends BaseController {
 		->where($map)
 		->count();// 查询满足要求的总记录数
 		
-		$Page = new \Think\Page($count,4);// 实例化分页类 传入总记录数和每页显示的记录数
+		$Page = new \Think\Page($count,6);// 实例化分页类 传入总记录数和每页显示的记录数
 		$show = $Page->show();// 分页显示输出
 		$this->assign('page',$show);// 赋值分页输出
 		//p($web_safe_resource);
@@ -275,6 +277,7 @@ class WebsiteController extends BaseController {
 	
 	public function safe_resource_add()
 	{
+		$map=array();
 		$map['active']=0;
 		$web_knowledge_category = M("web_knowledge_category")->where($map)->select();
 		$this->assign('web_knowledge_category',$web_knowledge_category);
@@ -340,14 +343,79 @@ class WebsiteController extends BaseController {
         if(!$id || is_null($id)){
             $this->error("没有提供ID！");
         }
+		$map=array();
+		$map['active']=0;
+		$web_knowledge_category = M("web_knowledge_category")->where($map)->select();
+		$this->assign('web_knowledge_category',$web_knowledge_category);
+		
+		$map=array();
         $map['active']=0;
 		$map['id']=intval($id);
-        $web_knowledge_category=M('web_knowledge_category')->where($map)->find();
-        if(!$web_knowledge_category || is_null($web_knowledge_category)){
+        $web_safe_resource=M('web_safe_resource')->where($map)->find();
+        if(!$web_safe_resource || is_null($web_safe_resource)){
             $this->error("该记录不存在！");
         }
-		$this->assign('web_knowledge_category',$web_knowledge_category);
+		$this->assign('web_safe_resource',$web_safe_resource);
+		
+		foreach($web_knowledge_category as $val){
+			if($val['id']==$web_safe_resource['knowledge_category_id']){
+				$current_knowledge_category=$val;
+			}
+		}
+		$this->assign('current_knowledge_category',$current_knowledge_category);
+		
 		$this->display();
+	}
+	
+	public function safe_resource_edit_handle()
+	{
+		$data=mydto_edit();
+		$config = array(    				
+					'maxSize'    =>    5242880,
+					'rootPath'   =>    './Public/',
+					'savePath'   =>    'Upload/pic/',
+					'saveName'   =>    array('uniqid','pic'),
+					'exts'       =>    array('jpg', 'gif', 'png', 'jpeg'),
+					'autoSub'    =>    true,
+					'subName'    =>    array('date','Ymd'),
+				 );
+				 
+		$upload = new \Think\Upload($config);// 实例化上传类
+		if(!file_exists($upload->savePath)){
+			mkdir($upload->savePath);
+		}    
+		$info   =   $upload->uploadOne($_FILES["pic"]);  
+		if($info) {
+		
+			// 上传成功             
+			$path =  '/Public/'.$info['savepath'].$info['savename'];   
+			$data['img_path'] = $path;  
+			
+			                
+		}else{
+			if($upload->getError() != '没有文件被上传！'){
+				$this->error($upload->getError()); 
+			}
+		}
+		
+		
+		$web_safe_resource = M("web_safe_resource"); // 实例化User对象
+		$map['id'] = I('post.id');
+		$data['knowledge_category_id'] = I('knowledge_category');
+		$data['grade_category'] = I('grade_category');
+		$data['title'] = I('resource_title');
+		$data['date_time'] = I('date_time');
+		$data['content'] = I('content1');
+		
+		if($web_safe_resource->where($map)->setField($data))
+		{
+			$this->success('安全知识修改成功！',U('safe_resource_list',I('get.')));
+		} 
+		else 
+		{
+			$this->error('安全知识修改失败，请重试...');	
+		}
+
 	}
 	
 	public function safe_resource_delete_handle()
