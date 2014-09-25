@@ -58,13 +58,11 @@
 <div style="clear:both"></div>
 </block>
 
-<block name="content">
-<div class="show_content_b">
-<br>
-<p style="text-align:center"><strong>数据统计</strong></p>
+ <block name="searchbar">
+<div class="search_bar_b">
 <form action="{:U('Statistic/Index')}" id="srhfrm" method="POST">
-  <p>
-  班级&nbsp;:&nbsp;
+ 
+  &nbsp;&nbsp;&nbsp;班级&nbsp;:&nbsp;
   <select name="class_id" id="class_id" onchange="toGetCourse()">
     <option value=""></option>
     <foreach name="classes" item="c" >
@@ -88,8 +86,15 @@
 
   </select>
   &nbsp;&nbsp;<input type="button" value="搜索" onclick="toSubmit()">
-  </p>
+  
 </form>
+</div>
+</block> 
+<block name="content">
+<div class="show_content_b">
+<br>
+<p style="text-align:center"><strong>数据统计</strong></p>
+
 <table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
   <thead>
     <tr>

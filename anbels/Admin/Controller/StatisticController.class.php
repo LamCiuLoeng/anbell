@@ -33,6 +33,7 @@ class StatisticController extends BaseController {
     	if(!$class_id || !$course_id){
     		// $this->error("没有提供班级ID或者课程ID！");
     		$this->display("statistic_list_teacher");
+			return;
     	}
 
     	$this->class_id = $class_id;
