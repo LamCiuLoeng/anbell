@@ -186,10 +186,11 @@ class StatisticController extends BaseController {
 
     private function get_course_by_class($class_id){
     	$clz = M("MasterClass")->where(array('active' => 0 ,'id' => intval($class_id)))->find();
+
     	return M()->query("
 			select cr.* 
 			from anbels_logic_plan p, anbels_logic_plan_course pc ,anbels_master_course cr 
-			where p.active = 0 and cr.active = 0 and 
+			where p.active = 0 and cr.active = 0 and pc.active = 0 and 
 				  cr.id = pc.course_id and p.id = pc.plan_id and pc.grade = 
     	".$clz['grade']." and p.school_id = ".$clz['school_id']." order by  cr.name ");
     }
