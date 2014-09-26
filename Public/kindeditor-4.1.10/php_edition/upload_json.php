@@ -139,3 +139,5 @@ function alert($msg) {
 	echo $json->encode(array('error' => 1, 'message' => $msg));
 	exit;
 }
+//header('Content-type: text/html; charset=UTF-8');
+//echo('这里是echo出来的');
