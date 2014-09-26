@@ -9,9 +9,11 @@
 	<script>
 		KindEditor.ready(function(K) {
 			var editor1 = K.create('textarea[name="content1"]', {
+				filterMode : false,
+				filterMode : false,
 				cssPath : '/Public/kindeditor-4.1.10/plugins/code/prettify.css',
-				uploadJson : '/Public/kindeditor-4.1.10/php/upload_json.php',
-				fileManagerJson : '/Public/kindeditor-4.1.10/php/file_manager_json.php',
+				uploadJson : '/Public/kindeditor-4.1.10/php_edition/upload_json.php',
+				fileManagerJson : '/Public/kindeditor-4.1.10/php_edition/file_manager_json.php',
 				allowFileManager : true,
 				afterCreate : function() {
 					var self = this;

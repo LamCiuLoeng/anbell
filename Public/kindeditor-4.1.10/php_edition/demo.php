@@ -21,6 +21,7 @@
 	<script>
 		KindEditor.ready(function(K) {
 			var editor1 = K.create('textarea[name="content1"]', {
+				filterMode : false,
 				cssPath : '../plugins/code/prettify.css',
 				uploadJson : '../php/upload_json.php',
 				fileManagerJson : '../php/file_manager_json.php',

@@ -12,7 +12,7 @@
             if(cs.length != 1){
                 alert("请只选择一条记录进行修改！");
             }else{
-                window.location.href = "{:U('AccountManagement/edit')}" + '?id=' + cs.val(); 
+                window.location.href = "{:U('AccountManagement/edit',I('get.'))}" + '?id=' + cs.val(); 
             }
         }
         
@@ -117,7 +117,7 @@
     <div class="show_content_b">
     <br>
 	<p style="text-align:center"><strong>账号列表</strong></p>
-    <form action="{:U('AccountManagement/del')}" id="dataform" name="dataform" method="post">        
+    <form action="{:U('AccountManagement/del',I('get.'))}" id="dataform" name="dataform" method="post">        
     <table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
         <thead>
             <tr>

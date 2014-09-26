@@ -318,7 +318,7 @@ class AccountManagementController extends BaseController {
             }
         }
         
-        $this->success('成功修改账号！',U('AccountManagement/index'));
+        $this->success('成功修改账号！',U('AccountManagement/index',I('get.')));
         
         
         // try{
@@ -399,7 +399,7 @@ class AccountManagementController extends BaseController {
 		//p($master_school->where($map)->setField('active',1));
 		if($auth_user->where($map)->setField($data))
 		{
-			$this->success(count($checkbox_array).'条记录删除成功！',U('AccountManagement/index'));
+			$this->success(count($checkbox_array).'条记录删除成功！',U('AccountManagement/index',I('get.')));
 		} 
 		else
 		{

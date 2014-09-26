@@ -67,7 +67,7 @@
 <block name="content">
     <div class="show_content_b"><br>
 		<p style="text-align:center"><strong>账号修改</strong></p>
-        <form action="{:U('AccountManagement/edit_handle')}" id="form1" name="form1" method="post">
+        <form action="{:U('AccountManagement/edit_handle',I('get.'))}" id="form1" name="form1" method="post">
           <table width="650" border="0" align="center" cellpadding="0" cellspacing="0">
               
               <if condition="$role eq 'T'">
