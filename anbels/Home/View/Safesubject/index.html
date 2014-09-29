@@ -31,37 +31,39 @@
   </tr>
 </table>
 <div class="main_content">
-  <table width="100%" border="0" cellspacing="0" cellpadding="0">
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td width="183" valign="top">
-      <div class="left_navi_menu">
-          <ul>
-          <li><a href="{:U('index')}"><img src="/anbels/Home/Public/images/news_03.jpg" width="160" height="41" alt=""/></a></li>
-          <!--<li><a href="{:U('anbels_info')}"><img src="/anbels/Home/Public/images/news_08.jpg" width="160" height="34" alt=""/></a></li>-->
-          <li><a href="{:U('news_info')}"><img src="/anbels/Home/Public/images/news_06.jpg" width="160" height="34" alt=""/></a></li>
-          <li><a href="{:U('policy_info')}"><img src="/anbels/Home/Public/images/news_10.jpg" width="160" height="34" alt=""/></a></li>
-          </ul>
-      </div>
-      </td>
-      <td width="20">&nbsp;</td>
-      <td valign="top">
-      <div class="sub_content">
-      <p class="title">·安贝尔动态</p>
-      <hr style="border:#ffde06 3px solid">
-      <foreach name="web_news" item="n" >
-          <p><a href="{:U('news_page')}?id={$n.id}" class="news_link">[&nbsp;{$n.category}&nbsp;]&nbsp;&nbsp;{$n.title}&nbsp;&nbsp;&nbsp;{$n.date_time}</a></p>
-         </foreach>
-      </div>
-      </td>
-      <td width="50">&nbsp;</td>
-    </tr>
-  </table>
+  <div class="sub_content_subject">
+    <foreach name="all_data" item="v" >
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td class="saferesource_s_title">安全专题·{$v.name}</td>
+              </tr>
+          </table></td>
+        </tr>
+        <tr>
+          <td class="saferesource_s_title" style="color:#ffde06">---------------------------------------------------------------------------------------------------------------------</td>
+        </tr>
+        <tr>
+          <td><img src="{$v.img_path}" width="940" alt=""/></td>
+        </tr>
+        <tr>
+          <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td>{$v.desc}</td>
+              <td width="200"><a href="{:U('safe_subject_page')}?id={$v.id}"><img src="/anbels/Home/Public/images/btn_subject.jpg" width="200" height="50" alt=""/></a></td>
+            </tr>
+          </table></td>
+        </tr>
+      </table>
+      <br>
+      <br>
+    </foreach>
+  </div>
 </div>
 <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>

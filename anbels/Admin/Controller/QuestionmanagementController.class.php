@@ -73,7 +73,7 @@ class QuestionmanagementController extends BaseController {
 		} 
 		else 
 		{
-			$this->error('请选择所要修改的学校，重试...','',2);	
+			$this->error('请选择所要修改的题目，重试...','',2);	
 		}
 	}
 	public function question_edit_handle(){
@@ -116,7 +116,7 @@ class QuestionmanagementController extends BaseController {
 		} 
 		else
 		{
-			$this->error('删除失败，请勾选需要删除的学校...');	
+			$this->error('删除失败，请勾选需要删除的题目...');	
 		}
 	}
 	

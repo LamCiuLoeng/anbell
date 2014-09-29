@@ -32,23 +32,24 @@
 	<script charset="utf-8" src="/Public/kindeditor-4.1.10/lang/zh_CN.js"></script>
 	<script charset="utf-8" src="/Public/kindeditor-4.1.10/plugins/code/prettify.js"></script>
 	<script>
-		$(function(){
-			$('#news_send_btn').click(function(){	
-				var name=$("input[name='name']");
-				if(name.val()==''){
-					alert('类型名称不能为空！');
-					name.focus();
-					return;
-				}
-				var desc=$("input[name='desc']");
-				if(desc.val()==''){
-					alert('说明不能为空！');
-					content.focus();
-					return;
-				}
-				$('#form1').submit();
-			});
+	$(function(){
+		$('#news_send_btn').click(function(){	
+			var name=$("input[name='name']");
+			if(name.val()==''){
+				alert('专题名称不能为空！');
+				name.focus();
+				return;
+			}
+			var desc=$("textarea[name='desc']");
+			if(desc.val()==''){
+				alert('说明不能为空！');
+				content.focus();
+				return;
+			}
+			$('#form1').submit();
 		});
+	});
+	
 	</script>
 </block>
 <block name="pathline">
@@ -57,24 +58,24 @@
 <block name="content">
 <div class="show_content_b"><br>
 <p style="text-align:center"><strong>知识分类修改</strong></p>
-<form action="{:U('knowledge_category_edit_handle')}" id="form1" name="form1" method="post" enctype="multipart/form-data">
+<form action="{:U('safe_subject_edit_handle')}" id="form1" name="form1" method="post" enctype="multipart/form-data">
   <table width="650" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
       <td height="50" align="right">配图：</td>
       <td>&nbsp;</td>
-      <td><img src="{$web_knowledge_category.img_path}" height="100" alt="" align="absbottom"/><input type="file" name="pic" id="fileField"></td>
+      <td><img src="{$web_safe_subject.img_path}" height="100" alt="" align="absbottom"/><input type="file" name="pic" id="fileField"></td>
     </tr>
     <tr>
-      <td width="130" height="50" align="right">类型名称：</td>
+      <td width="130" height="50" align="right">专题名称：</td>
       <td width="20">&nbsp;</td>
-      <td><input name="name" type="text" id="textfield" size="50" value="{$web_knowledge_category.name}">
-        <input type="hidden" name="id" value="{$web_knowledge_category.id}"/>
+      <td><input name="name" type="text" id="textfield" size="50" value="{$web_safe_subject.name}">
+        <input type="hidden" name="id" value="{$web_safe_subject.id}"/>
         &nbsp;* </td>
     </tr>
     <tr>
       <td height="50" align="right">说明：</td>
       <td>&nbsp;</td>
-      <td><input name="desc" type="text" id="textfield" size="50" value="{$web_knowledge_category.desc}">
+      <td><textarea name="desc" cols="55" rows="8">{$web_safe_subject.desc}</textarea>
         &nbsp;* </td>
     </tr>
     <tr>
