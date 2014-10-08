@@ -172,6 +172,19 @@
         </select></td>
     </tr>
     <tr>
+      <td height="50" align="right">所属专题：</td>
+      <td>&nbsp;</td>
+      <td><select name="safe_subject" id="safe_subject">
+     	<if condition="$current_safe_subject">
+        	<option value="{$current_safe_subject.id}">{$current_safe_subject.name}</option>
+        </if>
+        <option value="">无</option>
+        <foreach name="web_safe_subject" item="v" >
+          <option value="{$v.id}">{$v.name}</option>
+        </foreach>
+      </select></td>
+    </tr>
+    <tr>
       <td height="50" align="right">配图：</td>
       <td>&nbsp;</td>
       <td><img src="{$web_safe_resource.img_path}" height="100" alt="" align="absbottom"/>

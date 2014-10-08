@@ -8,9 +8,9 @@
         function toEdit(){
             var c = $("[name='id[]']:checked");
             if(c.length != 1){
-                alert("请选择一条记录进行修改！");
+                alert("请只选择一条记录进行修改！");
             }else(
-                window.location.href = "{:U('safe_resource_edit',I('get.'))}" + '?id=' + c.val()
+                window.location.href = "{:U('safe_subject_edit')}" + '?id=' + c.val()
             )
         }
         
@@ -24,10 +24,6 @@
                 }
             }
         }
-		
-		function toSearch(){
-        	$("form[name='search']").submit();
-        }   
     //]]>
 </script>
 </block>
@@ -36,7 +32,7 @@
 <div class="edit_menu_b">
   <ul>
       <if condition="has_all_rules('school_add')">
-    	<li><a href="{:U('safe_resource_add')}"><img src="/Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
+    	<li><a href="{:U('safe_subject_add')}"><img src="/Public/images/master_26.jpg" width="68" height="28" alt=""/></a></li>
       </if>
       <if condition="has_all_rules('school_edit')">
         <li><a href="#" onClick="toEdit()"><img src="/Public/images/master_28.jpg" width="68" height="28" alt=""/></a></li>
@@ -46,47 +42,35 @@
       </if>
   </ul>
 </div>
-
 <div style="clear:both"></div>
 </block>
-<block name="searchbar">
-  <div class="search_bar_b">
-    <form action="{:U('safe_resource_list')}" id="search" name="search" method="get">
-      <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
-        <input name="keyword" type="text" id="keyword" size="40"/>
-        <span class="send_btn" onClick="toSearch();">搜索</span>
-    </form>
-  </div>
+<div class="search_bar_b">
+<label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
+<input type="text">
+</div>
 </block>
-
 <block name="pathline">
-<div class="div_path_content">系统设置 ->安全资源中心</div>
+<div class="div_path_content">系统设置 ->&nbsp;安全专题管理</div>
 </block>
 <block name="content">
 <div class="show_content_b">
 <br>
-<p style="text-align:center"><strong>安全资源列表</strong></p>
-<form action="{:U('safe_resource_delete_handle',I('get.'))}" id="form1" name="form1" method="post">
+<p style="text-align:center"><strong>安全专题列表</strong></p>
+<form action="{:U('safe_subject_delete_handle')}" id="form1" name="form1" method="post">
 <table width="98%" border="0" cellspacing="0" cellpadding="0" class="list_table">
     <thead>
         <tr>
             <td align="center" class="first_td"><strong>标题</strong></td>
-            <td align="center">知识分类</td>
-            <td align="center">年级分类</td>
-            <td align="center">所属专题</td>
             <td align="center">配图</td>
-            <td align="center"><strong>时间</strong></td>
+            <td align="center"><strong>说明</strong></td>
             <td align="center">&nbsp;</td>
         </tr>
     </thead>
-    <foreach name="web_safe_resource" item="v" >
+    <foreach name="web_safe_subject" item="v" >
       <tr class="odd_tr">
-            <td align="center" class="first_td">{$v.title}</td>
-            <td align="center">{$v.knowledge_category}&nbsp;</td>
-            <td align="center">{$v.grade_category}&nbsp;</td>
-            <td align="center">{$v.safe_subject}&nbsp;</td>
-            <td align="center"><a href="{$v.img_path}"><img src="{$v.img_path}" height="100" alt="" align="absbottom"/></a></td>
-            <td align="center">{$v.date_time}&nbsp;</td>
+            <td align="center" class="first_td">{$v.name}</td>
+            <td align="center"><img src="{$v.img_path}" height="100" alt="" align="absbottom"/></td>
+            <td align="center">{$v.desc}&nbsp;</td>
             <td align="center"><input type="checkbox" name="id[]" id="checkbox" value="{$v.id}">&nbsp;</td>
         </tr>
      </foreach>

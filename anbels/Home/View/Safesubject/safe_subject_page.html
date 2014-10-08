@@ -31,37 +31,15 @@
   </tr>
 </table>
 <div class="main_content">
-  <table width="100%" border="0" cellspacing="0" cellpadding="0">
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td width="183" valign="top">
-      <div class="left_navi_menu">
-          <ul>
-          <li><a href="{:U('index')}"><img src="/anbels/Home/Public/images/news_03.jpg" width="160" height="41" alt=""/></a></li>
-          <!--<li><a href="{:U('anbels_info')}"><img src="/anbels/Home/Public/images/news_08.jpg" width="160" height="34" alt=""/></a></li>-->
-          <li><a href="{:U('news_info')}"><img src="/anbels/Home/Public/images/news_06.jpg" width="160" height="34" alt=""/></a></li>
-          <li><a href="{:U('policy_info')}"><img src="/anbels/Home/Public/images/news_10.jpg" width="160" height="34" alt=""/></a></li>
-          </ul>
-      </div>
-      </td>
-      <td width="20">&nbsp;</td>
-      <td valign="top">
-      <div class="sub_content">
-      <p class="title">·安贝尔动态</p>
-      <hr style="border:#ffde06 3px solid">
-      <foreach name="web_news" item="n" >
-          <p><a href="{:U('news_page')}?id={$n.id}" class="news_link">[&nbsp;{$n.category}&nbsp;]&nbsp;&nbsp;{$n.title}&nbsp;&nbsp;&nbsp;{$n.date_time}</a></p>
-         </foreach>
-      </div>
-      </td>
-      <td width="50">&nbsp;</td>
-    </tr>
-  </table>
+  <div class="sub_content_subject">
+    <p class="title" style="text-align:center">安全专题·{$web_safe_subject_one.name}</p>
+    <hr style="border:#ffde06 3px solid">
+    <br>
+    <br>
+    <foreach name="all_data" item="d" >
+      <p>&nbsp;&nbsp;&nbsp;<a href="{:U('Saferesource/saferesource_page')}?id={$d.id}" class="news_link">{$d.title}&nbsp;&nbsp;&nbsp;{$d.date_time}</a></p>
+    </foreach>
+  </div>
 </div>
 <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
