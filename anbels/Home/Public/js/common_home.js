@@ -1,7 +1,11 @@
 $(document).ready(function(){
-	if($('.sub_content').height()<500){
-		$('.sub_content').height(500)
+	function setheight(){
+		if($('.sub_content').height()<500){
+			$('.sub_content').height(500)
+		}
 	}
+	setTimeout('setheight()',1000);
+	
 	
 	var folder_path = '/anbels/Home/Public/images/';
 	function switch_image(current_img,replace_img) 
