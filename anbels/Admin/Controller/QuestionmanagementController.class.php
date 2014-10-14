@@ -72,7 +72,7 @@ class QuestionmanagementController extends BaseController {
 			$checkbox_array=I('post.checkbox');
 			$map['id'] = $checkbox_array[0];
 			//p($checkbox_array[0]);die;
-			$master_question=M('master_question')->where($map)->select();
+			$master_question=M('master_question')->where($map)->find();
 			$this->assign('master_question',$master_question);
 			$this->display();
 		} 
