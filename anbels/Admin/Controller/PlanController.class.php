@@ -4,16 +4,27 @@ use Admin\Controller\BaseController;
 class PlanController extends BaseController {
     public function index()
     {	
+	$search_info=I('get.');
+	if($search_info['location_code_sheng']!='') $sheng_condition="and ll.sheng =".$search_info['location_code_sheng'];
+	if($search_info['location_code_shi']!='') $shi_condition="and ll.shi =".$search_info['location_code_shi'];
+	if($search_info['location_code_qu']!='') $qu_condition="and ll.qu =".$search_info['location_code_qu'];
+	
 		$Q = M();
         $sql = "SELECT 
-                   anbels_master_school.name as school_name,anbels_logic_plan.id as id,
+                   anbels_master_school.name as school_name,anbels_logic_plan.id as id,ll.qu as qu, ll.shi as shi, ll.sheng as sheng,
                    anbels_logic_plan.name as name
                    FROM 
-                   anbels_master_school ,anbels_logic_plan
+                   anbels_master_school ,anbels_logic_plan ,anbels_master_location ml ,anbels_logic_location ll
                    WHERE
                    anbels_master_school.active = 0 and
                    anbels_logic_plan.active = 0 and
-                   anbels_master_school.id = anbels_logic_plan.school_id ";
+                   anbels_master_school.id = anbels_logic_plan.school_id and
+				   ml.id = anbels_master_school.location_id and
+				   ll.qu = ml.`code`
+					".$sheng_condition."
+					".$shi_condition."
+					".$qu_condition."
+				   ";
 
         if(!has_all_rules("plan_view_all")){
             $user_id = session('user_id');
@@ -29,7 +40,10 @@ class PlanController extends BaseController {
         }
 
 		$plan = $Q->query($sql);
+		//p($plan);
+		//die;
         $this->plans = $plan;
+		$this->locations = gettoplocation();
         $this->display();
     }
       

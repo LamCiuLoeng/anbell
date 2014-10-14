@@ -4,25 +4,30 @@ use Admin\Controller\BaseController;
 
 class QuestionmanagementController extends BaseController {
     public function index(){
+		$search_info=I('get.');
 		if(!isset($_GET['p']))
 			{
 				$_GET['p'] = 1;
 			}
 			
-		$master_question = M('master_question')->where('active=0')->order('create_time')->page($_GET['p'].',7')->select(); // 实例化User对象
+		if($search_info['course']!='') $map['course_id'] = array('eq',$search_info['course']);
+		$map['active']=0;
+
+		$master_question = M('master_question')
+		->where($map)
+		->order('create_time')->page($_GET['p'].',7')->select(); // 实例化User对象
 		// 进行分页数据查询 注意page方法的参数的前面部分是当前的页数使用 $_GET[p]获取
-		//p($master_question);
 		$this->assign('master_question',$master_question);// 赋值数据集
-		$count = M('master_question')->where('active=0')->count();// 查询满足要求的总记录数
+		$count = M('master_question')->where($map)->count();// 查询满足要求的总记录数
 		$Page = new \Think\Page($count,7);// 实例化分页类 传入总记录数和每页显示的记录数
 		$show = $Page->show();// 分页显示输出
 		//p($show);
 		$this->assign('page',$show);// 赋值分页输出
 		$this->display('question_list');
 		die();
-		$master_question=M('master_question')->where('active=0')->select();
-		$this->assign('master_question',$master_question);
-        $this->display('question_list');
+		//$master_question=M('master_question')->where('active=0')->select();
+		//$this->assign('master_question',$master_question);
+        //$this->display('question_list');
 	}
 
 	public function question_add(){

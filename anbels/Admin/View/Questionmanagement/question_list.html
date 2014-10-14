@@ -3,7 +3,13 @@
     <link href="/Public/css/style.css" rel="stylesheet" type="text/css">
 </block>
 <block name="extJS"> 
-    
+    <script language="JavaScript" type="text/javascript">
+    //<![CDATA[
+		function toSearch(){
+        	$("form[name='search']").submit();
+        }       
+    //]]>
+   </script>
 </block>
 
 <block name="btnbar">
@@ -19,10 +25,13 @@
 </block>
 <block name="searchbar">
 <div class="search_bar_b">
-<label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
+<form action="{:U('Questionmanagement/index')}" id="search" name="search" method="get">
+    <label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
 <select name="course" id="select_course">
 <option value="">请选择</option>
 </select>
+<span class="send_btn" onClick="toSearch();">搜索</span>
+</form>
 </div>
 </block>
 <block name="content">

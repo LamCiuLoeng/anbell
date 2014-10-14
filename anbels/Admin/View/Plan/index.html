@@ -34,7 +34,11 @@
 	                window.location.href = "{:U('Plan/del')}" + '?id=' + cs.val(); 
             	}
             }
-        }               
+        }        
+		
+		function toSearch(){
+        	$("form[name='search']").submit();
+        }       
     //]]>
    </script>
 </block>
@@ -59,10 +63,20 @@
 </block>
 <block name="searchbar">
 <div class="search_bar_b">
-<label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
-    <select id="select_province"><option value="预设值">请选择</option></select>
-    <select id="select_city"><option value="预设值">请选择</option></select>
-    <select id="select_area"><option value="预设值">请选择</option></select>
+<form action="{:U('Plan/index')}" id="search" name="search" method="get">
+    <label>&nbsp;&nbsp;搜索&nbsp;&nbsp;</label>
+<select id="lev1" name="location_code_sheng" onchange="getlocationchildren(this,'#lev2')">
+  <option value="">请选择</option>
+  <foreach name="locations" item="l" >
+    <option value="{$l.code}">{$l.name}</option>
+  </foreach>
+</select>
+<select id="lev2" name="location_code_shi" onchange="getlocationchildren(this,'#lev3')">
+</select>
+<select id="lev3" name="location_code_qu" onchange="getlocationchildren(this,'','#school_id')">
+</select>
+<span class="send_btn" onClick="toSearch();">搜索</span>
+</form>
 </div>
 </block>
 <block name="content">

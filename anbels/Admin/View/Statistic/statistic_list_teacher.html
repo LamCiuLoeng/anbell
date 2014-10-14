@@ -9,7 +9,7 @@
           var class_id = $("#class_id").val();
 
           if(!class_id){
-            var html = '<option value=""></option>';
+            var html = '';
             $("#course_id").html(html);
           }else{
             var params = {
@@ -18,7 +18,7 @@
             };
             var url = "{:U('Statistic/ajaxGetCourse')}";
             $.getJSON(url,params,function(r){
-              var html = '<option value=""></option>';  
+              var html = '';  
               if(r.flag != 0 ){
                   $("#course_id").html();
                   alert(r.msg);
@@ -64,7 +64,7 @@
  
   &nbsp;&nbsp;&nbsp;班级&nbsp;:&nbsp;
   <select name="class_id" id="class_id" onchange="toGetCourse()">
-    <option value=""></option>
+    <option value="">请选择</option>
     <foreach name="classes" item="c" >
       <if condition="$c['id'] eq $class_id ">
         <option value="{$c['id']}" selected="selected">{$c['name']}</option>
@@ -75,7 +75,6 @@
   </select>
   &nbsp;&nbsp;课程&nbsp;:&nbsp;
   <select name="course_id" id="course_id">
-    <option value=""></option>
     <foreach name="courses" item="c" >
       <if condition="$c['id'] eq $course_id ">
         <option value="{$c['id']}" selected="selected">{$c['name']}</option>
